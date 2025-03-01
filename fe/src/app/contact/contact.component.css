@@ -1,0 +1,48 @@
+.banner .img {
+    width: 100%;
+    height: 250px;
+    background-image: url('../../assets/img/4.jpg');
+    padding: 0px;
+    margin: 0px;
+}
+
+.img .box {
+    height: 250px;
+    background-color: rgb(41, 41, 41, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: white;
+    padding-top: 70px;
+}
+
+.box a {
+    color: #0066FF;
+}
+
+.box a:hover {
+    text-decoration: none;
+    color: rgb(6, 87, 209);
+}
+
+/* content */
+.row {
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 6px;
+}
+
+.row>[class^="col"] {
+    padding-left: 3px;
+    padding-right: 3px;
+}
+
+textarea {
+    width: 100%;
+}
+
+#googleMap {
+    width: 100%;
+    height: 350px;
+}

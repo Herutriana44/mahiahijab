@@ -1,0 +1,55 @@
+<app-navbar></app-navbar>
+
+<!-- Banner -->
+<div class="banner mb-3">
+    <div class="container-fluid img">
+        <div class="container-fluid box">
+            <h3>BLOG</h3>
+            <p>Home > <a href="#" class="text-primary">Blog</a></p>
+        </div>
+    </div>
+</div>
+
+<!-- Kontainer Utama -->
+<div class="container bg-white rounded pt-4">
+
+    <!-- 🔹 Bagian Atas (3 Artikel) -->
+    <div class="row text-center mb-5">
+        <div *ngFor="let article of articles" class="col-md-4 col-sm-12">
+            <div class="imgup mb-2">
+                <img [src]="'../../assets/admin/assets/images/foto_pos/' + article.gambar" alt="...">
+            </div>
+            <div class="article-content">
+                <h5 class="article-title">
+                    <a [href]="'blog/' + article.id_pos" class="font-weight-bold">
+                        {{ article.judul }}
+                    </a>
+                </h5>
+                <hr>
+                <p class="article-date"><i class="fa fa-calendar"></i> {{ article.tgl | date: 'MMMM d, y' }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 🔹 Bagian Tengah (Artikel Favorit) -->
+    <div class="row text-left mb-5" *ngIf="favoriteArticle">
+        <div class="col-md-8 col-sm-12">
+            <h4 class="font-weight-bold"><span class="text-success">ARTIKEL</span> FAVORIT</h4>
+            <hr>
+            <div class="imgup mb-2">
+                <img [src]="'../../assets/admin/assets/images/foto_pos/' + favoriteArticle.gambar" alt="...">
+            </div>
+            <div class="article-content">
+                <h5 class="article-title">
+                    <a [href]="'blog/' + favoriteArticle.id_pos" class="font-weight-bold">
+                        {{ favoriteArticle.judul }}
+                    </a>
+                </h5>
+                <hr>
+                <p class="article-date"><i class="fa fa-calendar"></i> {{ favoriteArticle.tgl | date: 'MMMM d, y' }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-footer></app-footer>

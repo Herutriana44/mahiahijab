@@ -1,0 +1,253 @@
+.carousel li {
+    margin-bottom: 80px;
+}
+
+.carousel-caption {
+    margin-bottom: 250px;
+}
+
+.filters {
+    margin-top: -50px;
+}
+
+.filters .filter-box {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    background-color: rgb(231, 231, 231);
+    box-shadow: 0 4px 8px 0 rgba(98, 98, 98, 0.8), 0 6px 20px 0 rgba(100, 100, 100, 0.6);
+    position: relative;
+}
+
+.row {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.row>[class^="col-"] {
+    padding-left: 3px;
+    padding-right: 3px;
+    margin-bottom: 6px;
+}
+
+.banner .img {
+    width: 100%;
+    padding: 0px;
+    margin: 0px;
+}
+
+.img .box {
+    background-color: rgb(41, 41, 41, 0.7);
+}
+
+#box,
+#box-b {
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+#box::after {
+    background-color: black;
+    opacity: 0.8;
+    position: absolute;
+    top: 100%;
+    bottom: 0;
+    left: 3px;
+    right: 3px;
+    padding: 15px;
+    content: attr(data-text);
+    text-align: center;
+    font-size: 14px;
+    color: white;
+    transition: 0.9s ease;
+}
+
+#box-b::after {
+    background-color: black;
+    opacity: 0.8;
+    position: absolute;
+    top: 100%;
+    bottom: 0;
+    left: 3px;
+    right: 3px;
+    padding: 25px;
+    content: attr(data-text);
+    text-align: center;
+    font-size: 14px;
+    color: white;
+    transition: 0.9s ease;
+}
+
+#box:hover::after,
+#box-b:hover::after {
+    top: 75%;
+}
+
+.item:hover {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5), 0 3px 10px 0 rgba(0, 0, 0, 0.4);
+}
+
+.latest-articles-section {
+    padding: 50px 0;
+    background-color: #f8f9fa;
+}
+
+.article-card {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.article-card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.article-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.card-body {
+    padding: 15px;
+}
+
+.card-title {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.card-text {
+    font-size: 14px;
+    color: #6c757d;
+}
+
+.banner .img {
+    width: 100%;
+    height: auto;
+    background-image: url('../../assets/img/4.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+.img .box {
+    height: auto;
+    background-color: rgba(41, 41, 41, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: white;
+    padding: 30px 0;
+}
+
+.box a {
+    color: #0066FF;
+}
+
+.box a:hover {
+    text-decoration: none;
+    color: rgb(6, 87, 209);
+}
+
+.atas .card {
+    padding: 1px;
+    border: 1px solid silver;
+}
+
+.atas .card:hover {
+    border: none;
+}
+
+.item {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.item:hover {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5), 0 6px 20px 0 rgba(0, 0, 0, 0.4);
+}
+
+.card-body {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+.thumnail {
+    position: relative;
+    height: 200px;
+    /* Fixed height for image container */
+    overflow: hidden;
+}
+
+.thumnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Crop and cover the image container */
+}
+
+.star-rating {
+    position: absolute;
+    top: 7px;
+    right: 10px;
+    font-size: 10px;
+}
+
+@media (max-width: 768px) {
+    .img .box {
+        padding-top: 50px;
+    }
+
+    .container {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .card-body {
+        padding-bottom: 10px;
+    }
+
+    .text-secondary {
+        font-size: 14px;
+    }
+
+    .star-rating {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 576px) {
+    .banner .img {
+        height: 150px;
+    }
+
+    .img .box {
+        padding-top: 20px;
+    }
+
+    .col-md-12,
+    .col-lg-4,
+    .col-lg-8,
+    .col-xl-3,
+    .col-xl-9 {
+        padding: 0;
+    }
+
+    .card-body {
+        padding-bottom: 5px;
+    }
+
+    .text-secondary {
+        font-size: 12px;
+    }
+}

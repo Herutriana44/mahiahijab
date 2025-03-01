@@ -1,0 +1,39 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 80%;
+    margin: auto;
+    overflow: hidden;
+}
+
+.btn {
+    background: #333;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background: #555;
+}
+
+.product {
+    float: left;
+    width: 30%;
+    padding: 15px;
+    margin: 10px;
+    background: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    text-align: center;
+}
+
+.product img {
+    width: 100%;
+    height: auto;
+}

@@ -11,31 +11,49 @@ import { FooterComponent } from '../footer/footer.component';
   standalone: true,
   imports: [CommonModule, NavbarComponent, FooterComponent],
 })
-export class BlogComponent {
-  articles: any[] = [];  // Untuk bagian atas (3 artikel pertama)
-  favoriteArticle: any;  // Untuk bagian tengah (artikel kategori "Desain Ruang Tamu")
+export class BlogComponent implements OnInit {
+  articles: any[] = [];
+  filteredArticles: any[] = [];
+  categories: string[] = [];
+  favoriteArticle: any;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
+    this.fetchCategories();
     this.fetchArticles();
     this.fetchFavoriteArticle();
   }
 
-  // Ambil 3 artikel pertama
   fetchArticles(): void {
     this.http.get<any>('http://localhost/mahiahijab/api/article/getArticles.php')
-      .subscribe(data => {
-        this.articles = data['data'];
-        console.log(this.articles);
+      .subscribe(response => {
+        this.articles = response.data;
+        this.filteredArticles = [...this.articles]; // Awalnya tampil semua
       });
   }
 
-  // Ambil artikel berdasarkan kategori "Desain Ruang Tamu"
   fetchFavoriteArticle(): void {
     this.http.get<any>('http://localhost/mahiahijab/api/article/getArticlesByCategory.php?category=diskon')
-      .subscribe(data => {
-        this.favoriteArticle = data.length ? data[0] : null;
+      .subscribe(response => {
+        this.favoriteArticle = response.length ? response[0] : null;
       });
+  }
+
+  fetchCategories(): void {
+    this.http.get<any>('http://localhost/mahiahijab/api/article/getCategories.php')
+      .subscribe(response => {
+        this.categories = response.data.map((cat: any) => cat.nm_kategori);
+      });
+  }
+
+  filterByCategory(event: any): void {
+    const selectedCategory = event.target.value;
+
+    if (selectedCategory) {
+      this.filteredArticles = this.articles.filter(article => article.nm_kategori === selectedCategory);
+    } else {
+      this.filteredArticles = [...this.articles]; // Semua artikel
+    }
   }
 }

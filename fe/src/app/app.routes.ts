@@ -7,9 +7,9 @@ import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, FormControl }
 import { NavbarComponent } from './navbar/navbar.component';
 import { FooterComponent } from './footer/footer.component';
 import { IndexComponent } from './index/index.component';
-import { AboutComponent } from './about/about.component';
+
 import { LoginComponent } from './login/login.component';
-import { ContactComponent } from './contact/contact.component';
+
 import { GalleryComponent } from './gallery/gallery.component';
 import { NotaOrderComponent } from './nota-order/nota-order.component';
 import { BlogComponent } from './blog/blog.component';
@@ -27,10 +27,10 @@ import { RincianProdukComponent } from './rincian-produk/rincian-produk.componen
 
 export const routes: Routes = [
     { path: '', component: IndexComponent },
-    { path: 'about', component: AboutComponent },
+    
     { path: 'login', component: LoginComponent },
     { path: 'lupa-password', component: LupaPasswordComponent },
-    { path: 'contact', component: ContactComponent },
+   
     { path: 'gallery', component: GalleryComponent },
     { path: 'blog', component: BlogComponent },
     { path: 'signup', component: SignupComponent },

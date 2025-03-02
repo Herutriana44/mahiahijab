@@ -5,13 +5,15 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from '../app.routes';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   imports: [
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    CommonModule
   ],
   styleUrls: ['./login.component.css']
 })
@@ -19,7 +21,7 @@ export class LoginComponent {
   u: string = '';
   p: string = '';
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient, public router: Router) { }
 
   onLogin() {
     const body = new URLSearchParams();

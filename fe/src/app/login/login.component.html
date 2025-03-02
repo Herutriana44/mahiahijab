@@ -16,11 +16,14 @@
             </div>
         </div>
         <div class="form-group text-right">
-            <label class="forget"><a (onclick)="router.navigate(['/lupa-password'])">Forget Password?</a></label>
+            <label class="forget"><a class="nav-link" (click)="router.navigate(['/lupa-password'])">Forget
+                    Password?</a></label>
         </div>
         <button class="btn btn-primary btn-lg" type="submit">Login</button>
         <div class="form-group text-right down">
-            <label class="forget">Don't have an account? <a (onclick)="router.navigate(['/signup'])">Sign Up</a></label>
+            <label class="forget">Don't have an account?
+                <a class="nav-link" (click)="router.navigate(['/signup'])">Sign Up</a>
+            </label>
         </div>
     </form>
 </div>

@@ -54,4 +54,8 @@ export class NotaOrderComponent implements OnInit {
       }
     );
   }
+
+  printOrder() {
+    window.print();
+  }
 }

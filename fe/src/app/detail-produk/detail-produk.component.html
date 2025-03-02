@@ -1,23 +1,12 @@
 <app-navbar></app-navbar>
-<div class="container bg-white rounded pt-4 pb-4" id="containt" ngIf="product">
+<div class="container bg-white rounded pt-4 pb-4" id="containt" *ngIf="product">
     <div class="row">
         <div class="col-md-5 col-sm-12">
-            <div class="itemBig">
-                <img src="../../assets/admin/assets/images/foto_produk/{{ product.gambar}}" height="400px" width="100%"
-                    alt="Product Image">
-            </div>
+            <img src="../../assets/admin/assets/images/foto_produk/{{ product.gambar }}" height="400px" width="100%" alt="Product Image">
         </div>
 
         <div class="col-md-7 col-sm-12 pt-3 pl-5">
             <h3>{{ product.nm_produk }}</h3>
-            <div class="star-rating">
-                <ul class="list-inline">
-                    <li class="list-inline-item m-0" ngFor="let star of [1, 2, 3, 4, 5]; let i = index">
-                        <i class="fa" ngClass="i < 4 ? 'fa-star' : 'fa-star-o'"></i>
-                    </li>
-                </ul>
-            </div>
-
             <hr>
             <h3 class="text-danger">
                 <span class="text-secondary" style="font-size: 15px">Harga :</span> Rp. {{ product.harga }}
@@ -25,7 +14,6 @@
             <p class="text-secondary font-weight-bold">
                 <i class="fa fa-stop-circle-o text-success" aria-hidden="true"></i> Stok Tersedia
             </p>
-            <p class="text-danger">Tersisa {{ product.stok }} Unit (segera lakukan pembelian)</p>
 
             <div class="row">
                 <div class="col-3">
@@ -34,13 +22,15 @@
                         <button type="button" class="btn btn-primary btn-number pl-2 pr-2" (click)="decreaseQuantity()">
                             <i class="fa fa-minus"></i>
                         </button>
-                        <input type="text" class="form-control input-number text-center" (ngModel)="quantity">
+                        <input type="text" class="form-control input-number text-center" [(ngModel)]="quantity" readonly>
                         <button type="button" class="btn btn-primary btn-number pl-2 pr-2" (click)="increaseQuantity()">
                             <i class="fa fa-plus"></i>
                         </button>
                     </div>
+                    <p class="text-muted mt-2">Sisa Stok: <strong>{{ remainingStock }}</strong></p>
                 </div>
             </div>
+            
 
             <div class="row mt-4">
                 <div class="col-md-5">
@@ -52,25 +42,6 @@
                     <button class="btn btn-primary btn-block ml-3" (click)="buyNow()">
                         <i class="fa fa-shopping-cart" aria-hidden="true"></i> Beli Sekarang
                     </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <br>
-    <hr>
-
-    <div class="ProdukDesc">
-        <div class="row">
-            <div class="col-md-2">
-                <button class="btn" id="btnDesc1">DESCRIPTIONS</button>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12 bg-light">
-                <div class="dec pt-5 pl-5 pr-5 text-justify">
-                    <h5>Spesifikasi Dan Deskripsi Produk :</h5>
-                    <div [innerHTML]="product.deskripsi"></div>
                 </div>
             </div>
         </div>

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { ProductService } from './product.service';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { FooterComponent } from '../footer/footer.component';
@@ -8,11 +10,13 @@ import { FooterComponent } from '../footer/footer.component';
   selector: 'app-product-detail',
   templateUrl: './detail-produk.component.html',
   styleUrls: ['./detail-produk.component.css'],
-  imports: [NavbarComponent, FooterComponent]
+  standalone: true,
+  imports: [CommonModule, FormsModule, NavbarComponent, FooterComponent]
 })
-export class DetailProdukComponent {
+export class DetailProdukComponent implements OnInit {
   product: any;
   quantity: number = 1;
+  remainingStock: number = 0;
 
   constructor(
     private route: ActivatedRoute,
@@ -25,7 +29,7 @@ export class DetailProdukComponent {
       this.productService.getProductById(+productId).subscribe(response => {
         if (response.status === 'success') {
           this.product = response.data;
-          console.log(response.data);
+          this.remainingStock = this.product.stok - this.quantity; // Hitung sisa stok saat pertama kali dimuat
         }
       });
     }
@@ -34,13 +38,19 @@ export class DetailProdukComponent {
   increaseQuantity(): void {
     if (this.product && this.quantity < this.product.stok) {
       this.quantity++;
+      this.updateRemainingStock();
     }
   }
 
   decreaseQuantity(): void {
     if (this.quantity > 1) {
       this.quantity--;
+      this.updateRemainingStock();
     }
+  }
+
+  updateRemainingStock(): void {
+    this.remainingStock = this.product.stok - this.quantity;
   }
 
   addToCart(): void {

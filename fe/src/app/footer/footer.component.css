@@ -97,8 +97,8 @@ footer {
     }
 
     .footer-container .col-md-2,
-    .footer-container .col-md-2.5,
-    .footer-container .col-md-1.5 {
+    .footer-container .col-md-3,
+    .footer-container .col-md-2{
         margin-bottom: 20px;
     }
 

@@ -1,33 +1,30 @@
 <div class="signup-form">
     <form (ngSubmit)="signup()">
         <h2>Sign Up</h2>
-        <p>Please fill in this form to create an account!</p>
+        <p>Silakan isi data berikut untuk mendaftar.</p>
         <hr>
 
         <!-- Nama Lengkap -->
         <div class="form-group">
             <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                <input type="text" class="form-control" (ngModel)="nama" name="nama" placeholder="Nama Lengkap"
-                    required>
+                <input type="text" class="form-control" placeholder="Nama Lengkap" [(ngModel)]="nama" name="nama" required>
             </div>
         </div>
 
         <!-- Username -->
         <div class="form-group">
             <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                <input type="text" class="form-control" (ngModel)="username" name="username" placeholder="Username"
-                    required>
+                <span class="input-group-addon"><i class="fa fa-user-circle"></i></span>
+                <input type="text" class="form-control" placeholder="Username" [(ngModel)]="username" name="username" required>
             </div>
         </div>
 
-        <!-- Email -->
+        <!-- Email Address -->
         <div class="form-group">
             <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-paper-plane email"></i></span>
-                <input type="email" class="form-control" (ngModel)="email" name="email" placeholder="Email Address"
-                    required>
+                <span class="input-group-addon"><i class="fa fa-paper-plane"></i></span>
+                <input type="email" class="form-control" placeholder="Email Address" [(ngModel)]="email" name="email" required>
             </div>
         </div>
 
@@ -35,28 +32,18 @@
         <div class="form-group">
             <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                <input type="password" class="form-control" (ngModel)="password" name="password" placeholder="Password"
-                    required>
+                <input type="password" class="form-control" placeholder="Password" [(ngModel)]="password" name="password" required>
             </div>
         </div>
 
-        <!-- Terms and Conditions -->
-        <div class="form-group">
-            <label class="checkbox-inline">
-                <input type="checkbox" required> I accept the <a href="#">Terms of Use</a> &amp; <a href="#">Privacy
-                    Policy</a>
-            </label>
-        </div>
-
         <!-- Submit Button -->
-        <button class="btn btn-success btn-lg" type="submit">Sign Up</button>
-
-        <!-- Login Link -->
-        <div class="form-group text-right down">
-            <label class="checkbox-inline">Already have an account? <a href="/login">Log In</a></label>
+        <div class="form-group">
+            <button type="submit" class="btn btn-success btn-lg">Sign Up</button>
         </div>
 
-        <!-- Success Message -->
-        <div *ngIf="successMessage" class="alert alert-success mt-3">{{ successMessage }}</div>
+        <!-- Already have account? -->
+        <div class="text-center down">
+            <label>Sudah punya akun? <a href="/login">Login di sini</a></label>
+        </div>
     </form>
 </div>

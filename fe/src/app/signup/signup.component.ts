@@ -1,24 +1,24 @@
 import { Component } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-signup',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
   templateUrl: './signup.component.html',
-  styleUrls: ['./signup.component.css'],
-  imports: [CommonModule]
+  styleUrl: './signup.component.css'
 })
 export class SignupComponent {
   nama: string = '';
   username: string = '';
   email: string = '';
   password: string = '';
-  successMessage: string = '';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   signup(): void {
-    // Data dalam format x-www-form-urlencoded
     const body = new URLSearchParams();
     body.set('nama', this.nama);
     body.set('username', this.username);
@@ -29,14 +29,17 @@ export class SignupComponent {
 
     this.http.post('http://localhost/mahiahijab/api/auth/signup.php', body.toString(), { headers })
       .subscribe(
-        response => {
-          this.successMessage = 'Selamat, Anda Sudah Terdaftar!';
-          setTimeout(() => {
-            window.location.href = '/login';  // Redirect ke halaman login
-          }, 1000);
+        (response: any) => {
+          if (response.status === 'success') {
+            alert(response.message);
+            window.location.href = '/login';
+          } else {
+            alert(response.message);
+          }
         },
         error => {
-          console.error('Signup gagal:', error);
+          console.error('Error:', error);
+          alert('Terjadi kesalahan saat signup.');
         }
       );
   }

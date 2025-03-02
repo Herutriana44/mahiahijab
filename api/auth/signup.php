@@ -1,60 +1,35 @@
 <?php
-session_start();
-include "../koneksi.php";
-
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: POST, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type");
 header('Content-Type: application/json');
 
-// Menangkap data input dari form
-$nama = mysqli_real_escape_string($db, $_POST['nama']);
-$username = mysqli_real_escape_string($db, $_POST['username']);
-$email = mysqli_real_escape_string($db, $_POST['email']);
-$password = mysqli_real_escape_string($db, $_POST['password']);
+include "../koneksi.php";
 
-// Hash password untuk keamanan
-// $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-$hashed_password = $password;
+$nama = $_POST['nama'];
+$username = $_POST['username'];
+$email = $_POST['email'];
+$password = $_POST['password'];
 
-// Query untuk mengecek apakah username atau email sudah terdaftar
-$checkQuery = "SELECT * FROM tbl_pelanggan WHERE username = '$username' OR email = '$email'";
-$checkResult = mysqli_query($db, $checkQuery);
+$response = [];
 
-// Jika username atau email sudah ada
-if (mysqli_num_rows($checkResult) > 0) {
-    $response = [
-        'status' => 'error',
-        'message' => 'Username atau Email sudah terdaftar!'
-    ];
-    echo json_encode($response);
-    exit();
-}
-
-// Query untuk insert data pelanggan baru
-$query = "INSERT INTO tbl_pelanggan (nm_pelanggan, username, email, password) 
-            VALUES (?, ?, ?, ?)";
-
-// Prepare statement untuk mencegah SQL injection
-$stmt = mysqli_prepare($db, $query);
-mysqli_stmt_bind_param($stmt, 'ssss', $nama, $username, $email, $hashed_password);
-
-// Eksekusi query
-if (mysqli_stmt_execute($stmt)) {
-    $response = [
-        'status' => 'success',
-        'message' => 'Pendaftaran berhasil! Silakan login.'
-    ];
+$cek = $db->prepare("SELECT * FROM tbl_pelanggan WHERE email = ? OR username = ?");
+$cek->bind_param("ss", $email, $username);
+$cek->execute();
+if ($cek->get_result()->num_rows > 0) {
+    $response['status'] = 'error';
+    $response['message'] = 'Email atau Username sudah terdaftar!';
 } else {
-    $response = [
-        'status' => 'error',
-        'message' => 'Terjadi kesalahan. Silakan coba lagi.'
-    ];
+    $stmt = $db->prepare("INSERT INTO tbl_pelanggan (nm_pelanggan, username, email, password) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("ssss", $nama, $username, $email, $password);
+    if ($stmt->execute()) {
+        $response['status'] = 'success';
+        $response['message'] = 'Pendaftaran berhasil!';
+    } else {
+        $response['status'] = 'error';
+        $response['message'] = 'Terjadi kesalahan.';
+    }
 }
 
-// Kembalikan respons JSON
 echo json_encode($response);
-
-// Menutup statement dan koneksi
-// mysqli_stmt_close($stmt);
-mysqli_close($db);
-exit();
-
 ?>

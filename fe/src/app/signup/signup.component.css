@@ -15,7 +15,6 @@ body {
 .form-control,
 .btn {
     border-radius: 5px;
-
 }
 
 .signup-form {
@@ -71,11 +70,8 @@ body {
     width: 42px;
 }
 
-
-
 .signup-form input[type="checkbox"] {
     margin-top: 2px;
-
 }
 
 .signup-form .btn {

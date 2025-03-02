@@ -25,7 +25,8 @@ button.btn.o {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
     background-color: white;
-    color: #007bff; /* Button text color */
+    color: #007bff;
+    /* Button text color */
     cursor: pointer;
 }
 
@@ -42,7 +43,8 @@ footer {
 
 .footer-container {
     padding: 10px;
-    background-color: #007bff; /* Footer background color */
+    background-color: #007bff;
+    /* Footer background color */
     color: white;
 }
 
@@ -78,11 +80,13 @@ footer {
 .footer-copyright {
     padding: 10px 0;
     background-color: #ffffff;
-    color: #007bff; /* Footer copyright text color */
+    color: #007bff;
+    /* Footer copyright text color */
 }
 
 .footer-copyright a {
-    color: #007bff; /* Link color */
+    color: #007bff;
+    /* Link color */
     text-decoration: underline;
 }
 
@@ -97,8 +101,8 @@ footer {
     }
 
     .footer-container .col-md-2,
-    .footer-container .col-md-2.5,
-    .footer-container .col-md-1.5 {
+    .footer-container .col-md-3,
+    .footer-container .col-md-2 {
         margin-bottom: 20px;
     }
 

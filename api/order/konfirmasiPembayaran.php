@@ -2,85 +2,98 @@
 // Include file koneksi ke database
 require_once "../koneksi.php";
 
+// Set header agar bisa diakses oleh client
 header('Content-Type: application/json');
-header("Access-Control-Allow-Origin: *"); // Mengizinkan akses dari semua domain
-header("Access-Control-Allow-Methods: GET, POST, OPTIONS"); // Izinkan metode GET dan POST
-header("Access-Control-Allow-Headers: Content-Type, Authorization"); // Izinkan header tertentu
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: POST");
+header("Access-Control-Allow-Headers: Content-Type");
 
-// Menyiapkan response array
+// Response array awal
 $response = array();
 
-// Ambil ID order dari URL
-$id = $_POST['id'];
-
-// Query untuk mengambil total_order berdasarkan id_order
-$query = "SELECT total_order FROM tbl_order WHERE id_order='$id'";
-$result = mysqli_query($db, $query);
-$data = mysqli_fetch_assoc($result);
-
-// Proses konfirmasi pembayaran
-
-$nama = $_POST['nama'];
-$bank = $_POST['nmBank'];
-$jml = $_POST['jml_transfer'];
-$tgl = date('Y-m-d');
-
-// Pastikan gambar Base64 ada
-if (isset($_POST['gambar']) && !empty($_POST['gambar'])) {
-    $gambarBase64 = $_POST['gambar'];  // Gambar yang diterima dalam format Base64
-
-    // Validasi jumlah pembayaran
-    if ($jml != $data['total_order']) {
-        // Mengirimkan respon gagal jika jumlah pembayaran tidak sesuai
-        $response['status'] = 'error';
-        $response['message'] = 'Jumlah Yang Anda Bayarkan Tidak Sesuai';
-    } else {
-        // Mengonversi Base64 ke file gambar
-        $fileName = uniqid() . '.png';  // Nama file gambar yang unik
-        $uploadDir = "../assets/img/bukti-transfer/";
-        $filePath = $uploadDir . $fileName;
-
-        // Menghapus prefix 'data:image/png;base64,' jika ada
-        if (preg_match('/^data:image\/(\w+);base64,/', $gambarBase64, $type)) {
-            $gambarBase64 = substr($gambarBase64, strpos($gambarBase64, ',') + 1);
-        }
-
-        // Mengubah Base64 menjadi file gambar
-        if (file_put_contents($filePath, base64_decode($gambarBase64))) {
-            // Menyimpan data pembayaran ke tabel tbl_pembayaran
-            $queryInsert = "INSERT INTO tbl_pembayaran (id_order, nm_pembayar, nm_bank, jml_pembayaran, tgl_bayar, bukti_transfer)
-                                VALUES ('$id', '$nama', '$bank', '$jml', '$tgl', '$fileName')";
-            $exec = mysqli_query($db, $queryInsert);
-
-            if ($exec) {
-                // Mengubah status order menjadi 'Sudah Dibayar'
-                $queryUpdate = "UPDATE tbl_order SET status='Sudah Dibayar' WHERE id_order='$id'";
-                mysqli_query($db, $queryUpdate);
-
-                // Mengirimkan respon sukses
-                $response['status'] = 'success';
-                $response['message'] = 'Produk Segera Kami Persiapkan Untuk Dikirim';
-            } else {
-                // Jika insert pembayaran gagal
-                $response['status'] = 'error';
-                $response['message'] = 'Terjadi kesalahan saat memproses pembayaran.';
-            }
-        } else {
-            // Jika Base64 gagal dikonversi ke file
-            $response['status'] = 'error';
-            $response['message'] = 'Gagal menyimpan gambar bukti transfer.';
-        }
-    }
-} else {
-    // Jika gambar Base64 tidak ditemukan
+// Pastikan metode adalah POST
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     $response['status'] = 'error';
-    $response['message'] = 'Gambar bukti transfer tidak ditemukan.';
+    $response['message'] = 'Invalid request method';
+    echo json_encode($response);
+    exit();
 }
 
+// Ambil data POST
+$id = $_POST['id'] ?? '';
+$nama = $_POST['nama'] ?? '';
+$bank = $_POST['nmBank'] ?? '';
+$jml = $_POST['jml_transfer'] ?? '';
+$gambarBase64 = $_POST['gambar'] ?? '';
 
-// Menutup koneksi database
+// Validasi awal
+if (!$id || !$nama || !$bank || !$jml || !$gambarBase64) {
+    $response['status'] = 'error';
+    $response['message'] = 'Data tidak lengkap, mohon lengkapi semua field.';
+    echo json_encode($response);
+    exit();
+}
+
+// Ambil total order dari database
+$query = "SELECT total_order FROM tbl_order WHERE id_order='$id'";
+$result = mysqli_query($db, $query);
+
+if (!$result || mysqli_num_rows($result) === 0) {
+    $response['status'] = 'error';
+    $response['message'] = 'Order tidak ditemukan.';
+    echo json_encode($response);
+    exit();
+}
+
+// Ambil data order
+$data = mysqli_fetch_assoc($result);
+$totalOrder = $data['total_order'];
+
+// Validasi jumlah transfer
+if ((int)$jml !== (int)$totalOrder) {
+    $response['status'] = 'error';
+    $response['message'] = 'Jumlah yang Anda transfer tidak sesuai dengan total order.';
+    echo json_encode($response);
+    exit();
+}
+
+// Proses penyimpanan bukti transfer (base64 ke file)
+$fileName = uniqid('bukti_', true) . '.png';
+$uploadDir = '../assets/img/bukti-transfer/';
+$filePath = $uploadDir . $fileName;
+
+// Pastikan folder tujuan ada
+if (!is_dir($uploadDir)) {
+    mkdir($uploadDir, 0755, true);
+}
+
+// Konversi base64 ke file
+if (!file_put_contents($filePath, base64_decode($gambarBase64))) {
+    $response['status'] = 'error';
+    $response['message'] = 'Gagal menyimpan bukti transfer.';
+    echo json_encode($response);
+    exit();
+}
+
+// Insert data pembayaran ke database
+$tgl = date('Y-m-d');
+$queryInsert = "INSERT INTO tbl_pembayaran (id_order, nm_pembayar, nm_bank, jml_pembayaran, tgl_bayar, bukti_transfer)
+                VALUES ('$id', '$nama', '$bank', '$jml', '$tgl', '$fileName')";
+
+if (mysqli_query($db, $queryInsert)) {
+    // Update status order jadi "Sudah Dibayar"
+    $queryUpdate = "UPDATE tbl_order SET status='Sudah Dibayar' WHERE id_order='$id'";
+    mysqli_query($db, $queryUpdate);
+
+    $response['status'] = 'success';
+    $response['message'] = 'Pembayaran berhasil dikonfirmasi. Pesanan Anda segera diproses.';
+} else {
+    $response['status'] = 'error';
+    $response['message'] = 'Terjadi kesalahan saat menyimpan data pembayaran.';
+}
+
+// Tutup koneksi database
 mysqli_close($db);
 
-// Mengirimkan respon dalam format JSON
+// Kirim response JSON
 echo json_encode($response);
-?>

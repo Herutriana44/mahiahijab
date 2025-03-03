@@ -8,7 +8,13 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-konfirmasi-pembayaran',
-  imports: [NavbarComponent, FooterComponent, CommonModule, ReactiveFormsModule],
+  standalone: true,
+  imports: [
+    CommonModule,
+    NavbarComponent,
+    FooterComponent,
+    ReactiveFormsModule // ✅ WAJIB ada agar formGroup dikenali
+  ],
   templateUrl: './konfirmasi-pembayaran.component.html',
   styleUrl: './konfirmasi-pembayaran.component.css'
 })
@@ -27,25 +33,19 @@ export class KonfirmasiPembayaranComponent implements OnInit {
     this.paymentForm = this.fb.group({
       nama: ['', Validators.required],
       nmBank: ['', Validators.required],
-      jml_transfer: ['', [Validators.required, Validators.min(1)]],
-      gambar: ['', Validators.required]
+      jml_transfer: ['', [Validators.required, Validators.min(1)]]
     });
-
-    // console.log(this.paymentForm);
   }
 
   ngOnInit(): void {
     this.orderId = this.route.snapshot.paramMap.get('id');
-
     if (this.orderId) {
       this.getTotalOrder(this.orderId);
     }
   }
 
-  // Ambil total pembayaran berdasarkan ID order
   getTotalOrder(id: string): void {
     const apiUrl = `http://localhost/mahiahijab/api/order/totalOrder.php?id=${id}`;
-
     this.http.get<any>(apiUrl).subscribe(response => {
       if (response.status === 'success') {
         this.totalOrder = response.total_order;
@@ -55,24 +55,26 @@ export class KonfirmasiPembayaranComponent implements OnInit {
     });
   }
 
-  // Konversi gambar ke format Base64
   onFileSelected(event: any): void {
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = () => {
-        this.base64Image = reader.result as string;
-        this.paymentForm.patchValue({ gambar: this.base64Image });
+        const base64String = (reader.result as string).split(',')[1]; // Buang "data:image/png;base64,"
+        this.base64Image = base64String;
       };
     }
   }
 
-  // Kirim data ke API
   submitPayment(): void {
+    if (!this.base64Image) {
+      alert('❌ Silakan upload bukti transfer terlebih dahulu!');
+      return;
+    }
+
     const formData = this.paymentForm.value;
 
-    // Format data menjadi x-www-form-urlencoded
     const body = new URLSearchParams();
     body.set('nama', formData.nama);
     body.set('nmBank', formData.nmBank);
@@ -86,13 +88,11 @@ export class KonfirmasiPembayaranComponent implements OnInit {
 
     this.http.post<any>('http://localhost/mahiahijab/api/order/konfirmasiPembayaran.php', body.toString(), { headers })
       .subscribe(response => {
-        // console.log(response);
         if (response.status === 'success') {
           alert('✅ Produk Segera Kami Persiapkan Untuk Dikirim');
-          // this.router.navigate(['/orderan']); // Redirect ke halaman orderan
+          this.router.navigate(['/orderan']);
         } else {
           alert(response.message);
-          // alert('❌ Gagal mengkonfirmasi pembayaran');
         }
       }, error => {
         console.error('Error:', error);

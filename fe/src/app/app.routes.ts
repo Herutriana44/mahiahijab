@@ -34,7 +34,7 @@ export const routes: Routes = [
     { path: 'gallery', component: GalleryComponent },
     { path: 'blog', component: BlogComponent },
     { path: 'signup', component: SignupComponent },
-    { path: 'shop', component: ShopComponent },
+    { path: 'index', component: IndexComponent },
     { path: 'product/:id', component: DetailProdukComponent },
     { path: 'nota-order/:id', component: NotaOrderComponent },
     { path: 'payment/:id', component: PembayaranComponent },
@@ -44,6 +44,7 @@ export const routes: Routes = [
     { path: 'cart', component: CartComponent },
     { path: 'blog/:id', component: DetailBlogComponent },
     { path: 'rincian-produk/:id', component: RincianProdukComponent },
+    
 ];
 
 @NgModule({

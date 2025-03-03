@@ -1,77 +1,84 @@
 <app-navbar></app-navbar>
-<br><br><br>
+
+<div class="banner mb-3">
+  <div class="container-fluid img">
+    <div class="container-fluid box">
+      
+    </div>
+  </div>
+</div>
+
 <div class="container">
-    <h3>Checkout</h3>
-    <form [formGroup]="checkoutForm" (ngSubmit)="placeOrder()">
+  <form [formGroup]="checkoutForm" (ngSubmit)="placeOrder()">
+    <div class="row">
+      <div class="col-md-6">
+        <h4>Informasi Pembeli</h4>
         <div class="form-group">
-            <label>Nama</label>
-            <input type="text" class="form-control" formControlName="nama" required />
+          <label>Nama Lengkap</label>
+          <input type="text" class="form-control" formControlName="nama" placeholder="Masukkan nama" required />
         </div>
-
         <div class="form-group">
-            <label>No Telp</label>
-            <input type="text" class="form-control" formControlName="no_telp" required />
+          <label>Nomor Telepon</label>
+          <input type="text" class="form-control" formControlName="no_telp" placeholder="Masukkan nomor telepon" required />
         </div>
-
         <div class="form-group">
-            <label>Provinsi</label>
-            <select class="form-control" formControlName="province_destination"
-                (change)="getCities($any($event.target).value)">
-                <option value="" disabled selected>Pilih Provinsi</option>
-                <option *ngFor="let prov of provinces" [value]="prov.province_id">{{ prov.province }}</option>
-            </select>
+          <label>Pilih Provinsi</label>
+          <select class="form-control" formControlName="province_destination" (change)="getCities($any($event.target).value)">
+            <option value="" disabled selected>Pilih Provinsi</option>
+            <option *ngFor="let prov of provinces" [value]="prov.province_id">{{ prov.province }}</option>
+          </select>
         </div>
-
         <div class="form-group">
-            <label>Kota</label>
-            <select class="form-control" formControlName="city_destination"
-                (change)="setPostalCodeAndOngkir($any($event.target).value)">
-                <option value="" disabled selected>Pilih Kota</option>
-                <option *ngFor="let city of cities" [value]="city.city_id">{{ city.city_name }}</option>
-            </select>
+          <label>Pilih Kota</label>
+          <select class="form-control" formControlName="city_destination" (change)="setPostalCodeAndOngkir($any($event.target).value)">
+            <option value="" disabled selected>Pilih Kota</option>
+            <option *ngFor="let city of cities" [value]="city.city_id">{{ city.city_name }}</option>
+          </select>
         </div>
-
         <div class="form-group">
-            <label>Kode Pos</label>
-            <input type="text" class="form-control" formControlName="kodePos" required readonly />
+          <label>Kode Pos</label>
+          <input type="text" class="form-control" formControlName="kodePos" readonly />
         </div>
-
         <div class="form-group">
-            <label>Alamat Lengkap</label>
-            <textarea class="form-control" formControlName="alamat" required></textarea>
+          <label>Alamat Lengkap</label>
+          <textarea class="form-control" formControlName="alamat" placeholder="Masukkan alamat lengkap" required></textarea>
         </div>
-
         <div class="form-group">
-            <label>Catatan</label>
-            <textarea class="form-control" formControlName="catatan"></textarea>
+          <label>Catatan Tambahan</label>
+          <textarea class="form-control" formControlName="catatan" placeholder="Masukkan catatan tambahan"></textarea>
         </div>
+      </div>
 
-        <h5>Keranjang Belanja</h5>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Nama Produk</th>
-                    <th>Jumlah</th>
-                    <th>Harga</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let item of cartItems">
-                    <td>{{ item.nm_produk }}</td>
-                    <td>{{ item.quantity }}</td>
-                    <td>Rp. {{ item.subtotal | number }}</td>
-                </tr>
-            </tbody>
+      <div class="col-md-6">
+        <h4>Ringkasan Belanja</h4>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Produk</th>
+              <th>Jumlah</th>
+              <th>Harga</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of cartItems">
+              <td>{{ item.nm_produk }}</td>
+              <td>{{ item.quantity }}</td>
+              <td>Rp. {{ item.subtotal | number }}</td>
+            </tr>
+          </tbody>
         </table>
 
-        <h5>Rincian Pembayaran</h5>
+        <h5>Total Pembayaran</h5>
         <p>Subtotal: <strong>Rp. {{ subtotal | number }}</strong></p>
-        <p>Ongkir: <strong *ngIf="ongkir > 0">Rp. {{ ongkir | number }}</strong>
-            <span *ngIf="ongkir === 0">Sedang menghitung...</span>
+        <p>Ongkos Kirim: <strong *ngIf="ongkir > 0">Rp. {{ ongkir | number }}</strong>
+          <span *ngIf="ongkir === 0">Sedang menghitung...</span>
         </p>
         <p><strong>Total: Rp. {{ subtotal + ongkir | number }}</strong></p>
 
-        <button class="btn btn-primary" type="submit" [disabled]="ongkir === 0">Buat Pesanan</button>
-    </form>
+        <button class="btn btn-primary btn-block" type="submit" [disabled]="ongkir === 0">Proses Pesanan</button>
+      </div>
+    </div>
+  </form>
 </div>
+
 <app-footer></app-footer>

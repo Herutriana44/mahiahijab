@@ -1,7 +1,9 @@
+// checkout.component.ts
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RajaOngkirService } from '../service/rajaongkir.service';
 import { OrderService } from './order.service';
+import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { FooterComponent } from '../footer/footer.component';
@@ -23,12 +25,12 @@ export class CheckoutComponent implements OnInit {
   ongkir: number = 0;
   id_pelanggan: number = 0;
 
-
   constructor(
     private fb: FormBuilder,
     private rajaOngkirService: RajaOngkirService,
     private orderService: OrderService,
-    private productService: ProductService
+    private productService: ProductService,
+    private router: Router
   ) {
     this.checkoutForm = this.fb.group({
       nama: ['', Validators.required],
@@ -39,7 +41,8 @@ export class CheckoutComponent implements OnInit {
       alamat: ['', Validators.required],
       catatan: [''],
       ongkir: [0, Validators.required],
-      subtotal: [0, Validators.required]
+      subtotal: [0, Validators.required],
+      total_order: [0, Validators.required]
     });
   }
 
@@ -54,59 +57,45 @@ export class CheckoutComponent implements OnInit {
     });
   }
 
-  // Load daftar kota berdasarkan provinsi yang dipilih
-  loadCities() {
-    const provinceId = this.checkoutForm.value.province_destination;
-    if (!provinceId) return;
-
+  getCities(provinceId: string) {
     this.rajaOngkirService.getCities(provinceId).subscribe(response => {
       this.cities = response.rajaongkir.results;
     });
   }
 
-  // Set kode pos berdasarkan kota yang dipilih
   setPostalCodeAndOngkir(cityId: string) {
     const selectedCity = this.cities.find(city => city.city_id === cityId);
-    console.log(selectedCity);
     if (selectedCity) {
       this.checkoutForm.patchValue({ kodePos: selectedCity.postal_code });
-      this.calculateOngkir(cityId); // Hitung ongkir setelah memilih kota
+      this.calculateOngkir(cityId);
     }
-  }
-  getProvinces() {
-    this.rajaOngkirService.getProvinces().subscribe(data => {
-      this.provinces = data.rajaongkir.results;
-      // console.log();
-    });
-  }
-
-  getCities(provinceId: string) {
-    this.rajaOngkirService.getCities(provinceId).subscribe(data => {
-      this.cities = data.rajaongkir.results;
-    });
   }
 
   calculateSubtotal() {
-    this.subtotal = this.cartItems.reduce((total, item) => total + (item.harga * item.jumlah), 0);
+    this.subtotal = this.cartItems.reduce((total, item) => total + (item.harga * item.quantity), 0);
+    this.calculateTotal();
   }
 
   calculateOngkir(destinationCityId: string) {
-    const origin = '171'; // Kota asal (kode kota pengirim)
-    const weight = 2; // Berat dalam gram (1 produk = 200 gram)
+    const origin = '171';
+    const weight = this.cartItems.reduce((total, item) => total + (item.quantity * 200), 0);
     const courier = 'jne';
 
     if (!destinationCityId || weight <= 0) return;
 
     this.rajaOngkirService.calculateOngkir(origin, destinationCityId, weight, courier).subscribe(response => {
-      console.log(response.rajaongkir);
-      if (response.rajaongkir && response.rajaongkir.results.length > 0) {
-        const ongkirValue = response.rajaongkir.results[0].costs[0].cost[0].value;
-        this.ongkir = ongkirValue;
-        this.totalHarga = this.subtotal + this.ongkir; // Update total harga
+      if (response.rajaongkir?.results?.[0]?.costs?.[0]?.cost?.[0]?.value) {
+        this.ongkir = response.rajaongkir.results[0].costs[0].cost[0].value;
+        this.checkoutForm.patchValue({ ongkir: this.ongkir });
+        this.calculateTotal();
       }
-
-
     });
+  }
+
+  calculateTotal() {
+    const totalOrder = this.subtotal + this.ongkir;
+    this.totalHarga = totalOrder;
+    this.checkoutForm.patchValue({ total_order: totalOrder });
   }
 
   loadCart() {
@@ -117,7 +106,7 @@ export class CheckoutComponent implements OnInit {
       return;
     }
 
-    const cartData = JSON.parse(storedCart); // Format { 'id_produk': jumlah }
+    const cartData = JSON.parse(storedCart);
     this.cartItems = [];
     this.subtotal = 0;
 
@@ -131,22 +120,15 @@ export class CheckoutComponent implements OnInit {
           this.cartItems.push({
             id_produk: product.id_produk,
             nm_produk: product.nm_produk,
-            gambar: product.gambar,
             harga: parseFloat(product.harga),
             quantity: quantity,
             subtotal: itemSubtotal
           });
 
-
-          this.subtotal += itemSubtotal; // Hitung subtotal langsung di sini
-          this.totalHarga = this.subtotal + this.ongkir; // Update total harga
+          this.calculateSubtotal();
         }
       });
     });
-  }
-
-  calculateTotal() {
-    this.totalHarga = this.cartItems.reduce((sum, item) => sum + item.harga * item.jumlah, 0);
   }
 
   placeOrder() {
@@ -162,7 +144,7 @@ export class CheckoutComponent implements OnInit {
     }
 
     const orderData = {
-      id_pelanggan: this.id_pelanggan, // ID pelanggan statis, ganti dengan dynamic jika ada sistem login
+      id_pelanggan: this.id_pelanggan,
       no_telp: this.checkoutForm.value.no_telp,
       province_destination: this.checkoutForm.value.province_destination,
       city_destination: this.checkoutForm.value.city_destination,
@@ -170,19 +152,24 @@ export class CheckoutComponent implements OnInit {
       alamat: this.checkoutForm.value.alamat,
       catatan: this.checkoutForm.value.catatan,
       ongkir: this.ongkir,
-      subtotal: this.totalHarga,
-      id_produk: this.cartItems.map(item => item.id_produk),
-      jumlah: this.cartItems.map(item => item.jumlah)
+      subtotal: this.subtotal,
+      total_order: this.totalHarga,
+      items: this.cartItems.map(item => ({
+        id_produk: item.id_produk,
+        jumlah: item.quantity
+      }))
     };
 
-    console.log(orderData);
+    console.log('Order data:', orderData);
 
-    // this.orderService.placeOrder(orderData).subscribe(response => {
-    //   alert('Pesanan berhasil dibuat!');
-    //   localStorage.removeItem('cart'); // Hapus keranjang setelah checkout
-    // }, error => {
-    //   // alert('Terjadi kesalahan saat melakukan pemesanan.');
-    //   alert(error.status);
-    // });
+    this.orderService.placeOrder(orderData).subscribe(response => {
+      console.log('Response:', response);
+      alert('Pesanan berhasil dibuat!');
+      localStorage.removeItem('cart');
+      this.router.navigate(['/pembayaran'], { queryParams: { order_id: response.order_id, total: this.totalHarga } });
+    }, error => {
+      console.error('Error:', error);
+      alert('Terjadi kesalahan saat melakukan pemesanan.');
+    });
   }
 }

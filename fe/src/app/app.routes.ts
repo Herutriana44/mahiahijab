@@ -44,6 +44,7 @@ export const routes: Routes = [
     { path: 'cart', component: CartComponent },
     { path: 'blog/:id', component: DetailBlogComponent },
     { path: 'rincian-produk/:id', component: RincianProdukComponent },
+    { path: 'pembayaran', component: RincianProdukComponent },
     
 ];
 

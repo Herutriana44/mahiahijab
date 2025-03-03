@@ -20,8 +20,7 @@
                             <td>{{ i + 1 }}</td>
                             <td>{{ order.tanggal }}</td>
                             <td>
-                                {{ order.jumlah_produk }} Produk |
-                                <a [href]="'rincian-produk/' + order.id_order" class="badge badge-info">Lihat</a>
+                                {{ order.jumlah_produk }} Produk
                             </td>
                             <td class="text-center">
                                 <span [class]="getBadgeClass(order.status)">{{ order.status }}</span>

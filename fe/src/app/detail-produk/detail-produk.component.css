@@ -4,7 +4,7 @@
 }
 
 .row > [class^="col-"] {
-    padding: 5px; /* Biar ada sedikit jarak antar kolom */
+    padding: 5px;
 }
 
 /* Container Utama */
@@ -21,7 +21,7 @@
 
 .star-rating i {
     font-size: 17px;
-    color: #ffc000; /* Gold color */
+    color: #ffc000;
 }
 
 /* Deskripsi Box */
@@ -42,16 +42,14 @@
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Responsive (Optional Tambahan) */
+/* Responsive */
 @media (max-width: 768px) {
     #containt {
         margin-top: 50px;
     }
-
     .star-rating i {
         font-size: 15px;
     }
-
     .dec {
         font-size: 13px;
         padding: 8px;

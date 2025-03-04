@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { FooterComponent } from '../footer/footer.component';
 import { FormsModule } from '@angular/forms';
@@ -22,36 +22,28 @@ export class IndexComponent implements OnInit {
   constructor(private http: HttpClient, public router: Router) { }
 
   ngOnInit(): void {
-    this.fetchProducts();
-    this.fetchCategories();
-    
+    this.fetchData();
   }
 
-
-  fetchProducts(category: string = '', search: string = ''): void {
+  fetchData(category: string = '', search: string = ''): void {
     let url = 'http://localhost/mahiahijab/api/product/categoryProduct.php';
     if (category) {
       url += `?kategori=${category}`;
     } else if (search) {
-      url += `?search=${search}`;
+      url += `?select=${search}`;
     }
+    
     this.http.get<any>(url).subscribe(data => {
-      this.products = data['products'];
-      this.categories = data['categories'];
+      this.products = data.products;
+      this.categories = data.categories;
     });
-    // console.log(this.products);
-  }
-
-  fetchCategories(): void {
-    this.http.get<any[]>('http://localhost/mahiahijab/api/admin/product/Category.php')
-      .subscribe(data => this.categories = data);
   }
 
   onSearch(): void {
-    this.fetchProducts('', this.searchQuery);
+    this.fetchData('', this.searchQuery);
   }
 
   onSelectCategory(category: string): void {
-    this.fetchProducts(category);
+    this.fetchData(category);
   }
 }

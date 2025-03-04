@@ -15,35 +15,19 @@ export class BlogComponent implements OnInit {
   articles: any[] = [];
   filteredArticles: any[] = [];
   categories: string[] = [];
-  favoriteArticle: any;
-
+  
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
-    this.fetchCategories();
-    this.fetchArticles();
-    this.fetchFavoriteArticle();
+    this.fetchData();
   }
 
-  fetchArticles(): void {
+  fetchData(): void {
     this.http.get<any>('http://localhost/mahiahijab/api/article/getArticles.php')
       .subscribe(response => {
-        this.articles = response.data;
+        this.categories = response.categories.map((cat: any) => cat.nm_kategori);
+        this.articles = response.articles;
         this.filteredArticles = [...this.articles]; // Awalnya tampil semua
-      });
-  }
-
-  fetchFavoriteArticle(): void {
-    this.http.get<any>('http://localhost/mahiahijab/api/article/getArticlesByCategory.php?category=diskon')
-      .subscribe(response => {
-        this.favoriteArticle = response.length ? response[0] : null;
-      });
-  }
-
-  fetchCategories(): void {
-    this.http.get<any>('http://localhost/mahiahijab/api/article/getCategories.php')
-      .subscribe(response => {
-        this.categories = response.data.map((cat: any) => cat.nm_kategori);
       });
   }
 

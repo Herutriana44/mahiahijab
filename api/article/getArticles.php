@@ -3,15 +3,24 @@ header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json");
 include_once '../koneksi.php';
 
-$query = "SELECT a.id_pos, a.judul, a.gambar, a.tgl, m.nm_kategori
-          FROM tbl_pos a
-          JOIN tbl_kat_pos m ON a.id_kategori = m.id_kategori
-          ORDER BY a.judul ASC";
+// Mengambil kategori
+$kategori_query = "SELECT DISTINCT nm_kategori FROM tbl_kat_pos";
+$kategori_result = mysqli_query($db, $kategori_query);
 
-$result = mysqli_query($db, $query);
+$categories = [];
+while ($row = mysqli_fetch_assoc($kategori_result)) {
+    $categories[] = $row;
+}
+
+// Mengambil artikel
+$artikel_query = "SELECT a.id_pos, a.judul, a.gambar, a.tgl, m.nm_kategori
+                  FROM tbl_pos a
+                  JOIN tbl_kat_pos m ON a.id_kategori = m.id_kategori
+                  ORDER BY a.judul ASC";
+$artikel_result = mysqli_query($db, $artikel_query);
 
 $articles = [];
-while ($data = mysqli_fetch_array($result)) {
+while ($data = mysqli_fetch_array($artikel_result)) {
     $articles[] = [
         'id_pos' => $data['id_pos'],
         'judul' => $data['judul'],
@@ -21,5 +30,6 @@ while ($data = mysqli_fetch_array($result)) {
     ];
 }
 
-echo json_encode(['status' => 'success', 'data' => $articles]);
+echo json_encode(['status' => 'success', 'categories' => $categories, 'articles' => $articles]);
 mysqli_close($db);
+?>

@@ -26,7 +26,7 @@ export class IndexComponent implements OnInit {
   }
 
   fetchData(category: string = '', search: string = ''): void {
-    let url = 'http://localhost/mahiahijab/api/product/categoryProduct.php';
+    let url = 'http://localhost/mahiahijab/api/product/product.php';
     if (category) {
       url += `?kategori=${category}`;
     } else if (search) {

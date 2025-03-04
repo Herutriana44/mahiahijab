@@ -14,8 +14,7 @@ import { Router } from '@angular/router';
   standalone: true,
 })
 export class IndexComponent implements OnInit {
-  posts: any[] = [];
-  latestPosts: any[] = [];
+  
   searchQuery: string = '';
   products: any[] = [];
   categories: any[] = [];
@@ -25,33 +24,9 @@ export class IndexComponent implements OnInit {
   ngOnInit(): void {
     this.fetchProducts();
     this.fetchCategories();
-    this.fetchPosts();
-    this.fetchLatestPosts();
+    
   }
 
-  fetchPosts(): void {
-    const searchParam = this.searchQuery ? `?select=${this.searchQuery}` : '';
-    this.http.get<any>(`http://localhost/mahiahijab/api/article/getArticleByTitle.php${searchParam}`)
-      .subscribe(data => {
-        this.posts = data;
-      });
-  }
-
-  fetchLatestPosts(): void {
-    this.http.get<any>('http://localhost/mahiahijab/api/article/getArticles.php')
-      .subscribe(data => {
-        this.latestPosts = data['data'];
-        // console.log(this.latestPosts);
-      });
-  }
-
-  truncateText(text: string, length: number): string {
-    return text.length > length ? text.substring(0, length) + '...' : text;
-  }
-
-  searchPosts(): void {
-    this.fetchPosts();
-  }
 
   fetchProducts(category: string = '', search: string = ''): void {
     let url = 'http://localhost/mahiahijab/api/product/categoryProduct.php';

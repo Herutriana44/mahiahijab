@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
 })
 export class IndexComponent implements OnInit {
   
-  searchQuery: string = '';
+  
   products: any[] = [];
   categories: any[] = [];
 
@@ -39,9 +39,6 @@ export class IndexComponent implements OnInit {
     });
   }
 
-  onSearch(): void {
-    this.fetchData('', this.searchQuery);
-  }
 
   onSelectCategory(category: string): void {
     this.fetchData(category);

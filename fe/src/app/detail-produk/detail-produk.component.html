@@ -5,7 +5,7 @@
             <img src="../../assets/admin/assets/images/foto_produk/{{ product.gambar }}" height="400px" width="100%" alt="Product Image">
             <div class="mt-3 dec p-3">
                 <h5>Deskripsi Produk:</h5>
-                <p>{{ product.deskripsi }}</p>
+                <div class="isi text-justify" [innerHTML]="product.deskripsi"></div>
             </div>
         </div>
 

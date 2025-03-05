@@ -13,6 +13,6 @@ export class LogoutService {
         sessionStorage.clear();
 
         // Redirect ke halaman login
-        this.router.navigate(['/login']);
+        this.router.navigate(['/index']);
     }
 }

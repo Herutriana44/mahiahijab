@@ -25,7 +25,7 @@
                             <td class="text-center">
                                 <span [class]="getBadgeClass(order.status)">{{ order.status }}</span>
                                 <div *ngIf="order.status === 'Produk Dikirim'" style="font-size: small;">
-                                    Resi: {{ order.no_resi }}
+                                    Resi: {{ order.no_resi }} (Pos Indonesia)
                                 </div>
                             </td>
                             <td>Rp. {{ order.total_harga }}</td>

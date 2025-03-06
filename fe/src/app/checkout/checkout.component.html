@@ -70,10 +70,10 @@
 
         <h5>Total Pembayaran</h5>
         <p>Subtotal: <strong>Rp. {{ subtotal | number }}</strong></p>
-        <p>Ongkos Kirim: <strong *ngIf="ongkir > 0">Rp. {{ ongkir | number }}</strong>
+        <p>Ongkos Kirim : <strong *ngIf="ongkir > 0">Rp. {{ ongkir | number }}</strong> (Pos Indonesia) 
           <span *ngIf="ongkir === 0">Sedang menghitung...</span>
         </p>
-        <p><strong>Total: Rp. {{ subtotal + ongkir | number }}</strong></p>
+        <p><strong>Total: Rp. {{ subtotal + ongkir | number }} </strong></p>
 
         <button class="btn btn-primary btn-block" type="submit" [disabled]="ongkir === 0">Proses Pesanan</button>
       </div>

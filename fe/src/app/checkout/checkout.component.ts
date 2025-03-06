@@ -166,7 +166,7 @@ export class CheckoutComponent implements OnInit {
       console.log('Response:', response);
       alert('Pesanan berhasil dibuat!');
       localStorage.removeItem('cart');
-      this.router.navigate(['/pembayaran'], { queryParams: { order_id: response.order_id, total: this.totalHarga } });
+      this.router.navigate(['/orderan'], { queryParams: { order_id: response.order_id } });
     }, error => {
       console.error('Error:', error);
       alert('Terjadi kesalahan saat melakukan pemesanan.');

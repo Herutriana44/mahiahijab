@@ -1,7 +1,7 @@
 /* General Body */
 body {
     color: #fff;
-    background: url(../../../assets/img/bg-login-customer.jpg) no-repeat center center fixed;
+    background: cornsilk;
     background-size: cover;
     font-family: 'Source Sans Pro', sans-serif;
     margin: 0;
@@ -13,11 +13,9 @@ body {
     width: 380px;
     margin: 60px auto;
     padding: 30px 25px;
-    background: rgba(255, 255, 255, 0.9);
-    /* Lebih cerah */
+    background: rgba(255, 255, 255, 0.9); /* Lebih cerah */
     border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    /* Efek soft shadow */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Efek soft shadow */
 }
 
 /* Form Header */

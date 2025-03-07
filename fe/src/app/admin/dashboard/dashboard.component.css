@@ -1,0 +1,61 @@
+.container {
+    margin-top: 20px;
+  }
+  
+  .mini-stat {
+    padding: 20px;
+    border-radius: 10px;
+    color: white;
+    text-align: center;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Pusatkan isi mini-stat */
+  }
+  
+  .mini-stat .icon {
+    font-size: 40px;
+  }
+  
+  .mini-stat .info {
+    text-align: center; /* Pusatkan teks info */
+  }
+  
+  .bg-orange {
+    background-color: orange;
+  }
+  
+  .bg-primary {
+    background-color: blue;
+  }
+  
+  .bg-success {
+    background-color: green;
+  }
+  
+  .bg-purple {
+    background-color: purple;
+  }
+  
+  .stok {
+    margin-top: 30px;
+  }
+  
+  .card {
+    padding: 15px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  canvas {
+    width: 100% !important;
+    height: 300px !important;
+  }
+  
+  .app-footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #f1f1f1;
+    margin-top:20px;
+
+
+}

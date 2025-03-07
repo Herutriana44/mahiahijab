@@ -1,26 +1,54 @@
+
+<br>
+<br>
 <div class="container">
     <div class="row">
-        <div class="col-md-6 col-xl-3" *ngFor="let stat of stats">
-            <div class="mini-stat clearfix" [ngClass]="stat.color">
-                <span class="font-40 text-white mr-0 float-right"><i [class]="stat.icon"></i></span>
-                <div class="mini-stat-info mt-3 float-left">
-                    <span class="text-white">{{ stat.title }}</span>
+        <div class="col-md-6 col-xl-3">
+            <div class="mini-stat bg-orange">
+                <span class="icon"><i class="mdi mdi-cart-outline"></i></span>
+                <div class="info">
+                    <span>Total Pendapatan</span>
+                    <h4>Rp. {{ totalPendapatan.toLocaleString('id-ID') }}</h4>
                 </div>
-                <div class="clearfix"></div>
-                <p class="mb-0 m-t-10 text-muted">
-                <h4 class="counter font-light mt-0 text-white">{{ stat.value }}</h4>
-                </p>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-3">
+            <div class="mini-stat bg-primary">
+                <span class="icon"><i class="mdi mdi-account-multiple"></i></span>
+                <div class="info">
+                    <span>Total Member</span>
+                    <h4>{{ totalMember.toLocaleString('id-ID') }} Orang</h4>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-3">
+            <div class="mini-stat bg-success">
+                <span class="icon"><i class="mdi mdi-gift"></i></span>
+                <div class="info">
+                    <span>Total Produk</span>
+                    <h4>{{ totalProduk.toLocaleString('id-ID') }} Unit</h4>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-3">
+            <div class="mini-stat bg-purple">
+                <span class="icon"><i class="mdi mdi-lead-pencil"></i></span>
+                <div class="info">
+                    <span>Total Artikel</span>
+                    <h4>{{ totalArtikel.toLocaleString('id-ID') }} Artikel</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="stok">
+        <div class="container">
+            <div class="card">
+                <div class="card-body">
+                    <canvas id="myChart"></canvas>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="stok">
-    <div class="container">
-        <div class="card pr-4">
-            <div class="card-body">
-                <canvas #myChart></canvas>
-            </div>
-        </div>
-    </div>
-</div>
+

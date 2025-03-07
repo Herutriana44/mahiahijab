@@ -1,46 +1,45 @@
 import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
-import Swal from 'sweetalert2';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+    selector: 'app-login',
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.css'],
+    standalone: true,
+    imports: [FormsModule, CommonModule]
 })
 export class AdminLoginComponent {
-  u: string = ''; // Username
-  p: string = ''; // Password
-  apiUrl = 'http://localhost/mahiahijab/api/admin/auth/login.php';
+    u: string = '';
+    p: string = '';
 
-  constructor(private http: HttpClient, public router: Router) { }
+    constructor(private http: HttpClient, private router: Router) {}
 
-  onLogin() {
-    if (!this.u || !this.p) {
-      Swal.fire('Error', 'Harap isi semua kolom!', 'error');
-      return;
+    onLogin(): void {
+        const body = new URLSearchParams();
+        body.set('u', this.u);
+        body.set('p', this.p);
+
+        const headers = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
+
+        this.http.post<any>('http://localhost/mahiahijab/api/admin/auth/login.php', body.toString(), {
+            headers,
+            withCredentials: true  // Penting agar cookie `PHPSESSID` terbawa
+        }).subscribe(
+            response => {
+                if (response.status === 'success') {
+                    alert('Login berhasil!');
+                    this.router.navigate(['/admin/dashboard']);
+                } else {
+                    alert('Login gagal: ' + response.message);
+                }
+            },
+            error => {
+                alert('Gagal menghubungi server!');
+                console.error('Login error:', error);
+            }
+        );
     }
-
-    // Menggunakan metode GET dengan parameter di URL
-    const url = `${this.apiUrl}?username=${this.u}&password=${this.p}`;
-
-    this.http.get<any>(url).subscribe(
-      (response) => {
-        alert(response);
-        if (response.success) {
-          localStorage.setItem('user', JSON.stringify(response.data));
-          Swal.fire('Success', 'Login Berhasil', 'success').then(() => {
-            this.router.navigate(['/dashboard']);
-          });
-        } else {
-          Swal.fire('Error', 'Username atau Password salah!', 'error');
-          alert('Username atau Password salah!');
-        }
-      },
-      (error) => {
-        Swal.fire('Error', 'Terjadi kesalahan server!', 'error');
-        alert('Terjadi kesalahan server!');
-      }
-    );
-  }
 }

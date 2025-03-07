@@ -1,45 +1,40 @@
 <?php
-// Memulai sesi dan menghubungkan ke database
+header("Access-Control-Allow-Origin: http://localhost:4200");
+header("Access-Control-Allow-Credentials: true");
+header("Access-Control-Allow-Methods: POST, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type");
+header('Content-Type: application/json');
+
 session_start();
 include "../../koneksi.php";
 
-// Mengatur header untuk JSON
-header('Content-Type: application/json');
+$username = $_POST['u'] ?? '';
+$password = $_POST['p'] ?? '';
 
-// Mengecek apakah parameter GET `username` dan `password` tersedia
-if (isset($_GET['username']) && isset($_GET['password'])) {
-    $username = $_GET['username'];
-    $password = $_GET['password'];
+$response = [];
 
-    // Menjalankan query untuk mencari username dan password yang cocok
-    $stmt = $db->prepare("SELECT * FROM tbl_admin WHERE username = ? AND password = ?");
-    $stmt->bind_param("ss", $username, $password);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $user = $result->fetch_assoc();
+$ambil = $db->prepare("SELECT * FROM tbl_admin WHERE username = ? AND password = ?");
+$ambil->bind_param("ss", $username, $password);
+$ambil->execute();
+$result = $ambil->get_result();
 
-    // Mengecek hasil dari query
-    if ($user) {
-        $_SESSION['tbl_admin'] = $user;
+if ($result->num_rows === 1) {
+    $akun = $result->fetch_assoc();
+    $_SESSION['admin'] = $akun['username'];
+    $_SESSION['email'] = $akun['email'];
 
-        // Mengirimkan response sukses dalam format JSON
-        echo json_encode([
-            "success" => true,
-            "message" => "Login Berhasil",
-            "data" => $user
-        ]);
-    } else {
-        // Jika login gagal
-        echo json_encode([
-            "success" => false,
-            "message" => "Login Gagal. Username atau password salah"
-        ]);
-    }
+    $response = [
+        'status' => 'success',
+        'message' => 'Login berhasil!',
+        'admin' => $akun['username'],
+        'email' => $akun['email']
+    ];
 } else {
-    // Jika parameter GET tidak lengkap
-    echo json_encode([
-        "success" => false,
-        "message" => "Username dan password harus diisi"
-    ]);
+    $response = [
+        'status' => 'error',
+        'message' => 'Username atau password salah!'
+    ];
 }
+
+echo json_encode($response);
 ?>

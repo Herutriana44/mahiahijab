@@ -54,7 +54,7 @@ function update_product($db, $id, $data)
 
     // Handle image upload if new image is provided
     if ($lokasi && !empty($lokasi)) {
-        move_uploaded_file($lokasi, "assets/images/foto_produk/$nmGambar");
+        // move_uploaded_file($lokasi, "assets/images/foto_produk/$nmGambar");
         $queryEdit = "UPDATE tbl_produk SET id_kategori='$kategori', nm_produk='$nmProduk', berat='$berat', harga='$harga', stok='$stok', gambar='$nmGambar', deskripsi='$deskripsi' WHERE id_produk='$id'";
     } else {
         $queryEdit = "UPDATE tbl_produk SET id_kategori='$kategori', nm_produk='$nmProduk', berat='$berat', harga='$harga', stok='$stok', deskripsi='$deskripsi' WHERE id_produk='$id'";
@@ -63,34 +63,48 @@ function update_product($db, $id, $data)
     $resultEdit = mysqli_query($db, $queryEdit);
 
     if ($resultEdit) {
-        echo json_encode(["message" => "Product updated successfully"]);
+        echo json_encode(["status" => "success", "message" => "Product updated successfully"]);
     } else {
-        echo json_encode(["message" => "Failed to update product"]);
+        echo json_encode(["status" => "error", "message" => "Failed to update product"]);
     }
 }
 
 // Function to delete a product
+// Hapus produk berdasarkan ID
 function delete_product($db, $id)
 {
-    $query = "SELECT * FROM tbl_produk WHERE id_produk = '$id'";
-    $exec = mysqli_query($db, $query);
-    $product = mysqli_fetch_array($exec);
+    // Cek apakah produk memiliki relasi di tabel lain
+    $queryCheck = "SELECT COUNT(*) as count FROM tbl_detail_order WHERE id_produk = '$id'";
+    $resultCheck = mysqli_query($db, $queryCheck);
+    $row = mysqli_fetch_assoc($resultCheck);
 
-    // Delete the image from the server
-    if (file_exists("assets/images/foto_produk/" . $product['gambar'])) {
-        unlink("assets/images/foto_produk/" . $product['gambar']);
+    if ($row['count'] > 0) {
+        // Hapus terlebih dahulu data di tabel relasi
+        $queryDeleteDetail = "DELETE FROM tbl_detail_order WHERE id_produk = '$id'";
+        mysqli_query($db, $queryDeleteDetail);
     }
 
-    // Delete the product from the database
-    $query_delete = "DELETE FROM tbl_produk WHERE id_produk = '$id'";
-    $exec_delete = mysqli_query($db, $query_delete);
+    // Ambil informasi produk untuk menghapus gambar
+    $querySelect = "SELECT gambar FROM tbl_produk WHERE id_produk = '$id'";
+    $execSelect = mysqli_query($db, $querySelect);
+    $produk = mysqli_fetch_assoc($execSelect);
 
-    if ($exec_delete) {
-        echo json_encode(["message" => "Product deleted successfully"]);
+    // Hapus gambar dari folder jika ada
+    if (!empty($produk['gambar']) && file_exists("../assets/images/foto_produk/" . $produk['gambar'])) {
+        unlink("../assets/images/foto_produk/" . $produk['gambar']);
+    }
+
+    // Hapus produk dari tabel `tbl_produk`
+    $queryDelete = "DELETE FROM tbl_produk WHERE id_produk = '$id'";
+    $execDelete = mysqli_query($db, $queryDelete);
+
+    if ($execDelete) {
+        echo json_encode(["status" => "success", "message" => "Produk berhasil dihapus"]);
     } else {
-        echo json_encode(["message" => "Failed to delete product"]);
+        echo json_encode(["status" => "error", "message" => "Gagal menghapus produk"]);
     }
 }
+
 
 // Function to get all products
 function get_all_products($db)

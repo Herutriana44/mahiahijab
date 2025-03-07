@@ -1,0 +1,56 @@
+<div class="container">
+    <h2>Edit Produk</h2>
+    <form (submit)="updateProduct()">
+
+        <div class="form-group">
+            <label>Nama Produk:</label>
+            <input type="text" [(ngModel)]="productData.nama" class="form-control" name="nama"
+                value="{{productData.nm_produk}}" required>
+        </div>
+
+        <div class="form-group">
+            <label>Kategori:</label>
+            <input type="number" [(ngModel)]="productData.id_kategori" class="form-control" name="id_kategori"
+                value="{{productData.id_kategori}}" required>
+        </div>
+
+        <div class="form-group">
+            <label>Berat (Gram):</label>
+            <input type="number" [(ngModel)]="productData.berat" class="form-control" name="berat"
+                value="{{productData.berat}}" required>
+        </div>
+
+        <div class="form-group">
+            <label>Harga:</label>
+            <input type="number" [(ngModel)]="productData.harga" class="form-control" name="harga"
+                value="{{productData.harga}}" required>
+        </div>
+
+        <div class="form-group">
+            <label>Stok:</label>
+            <input type="number" [(ngModel)]="productData.stok" class="form-control" name="stok"
+                value="{{productData.stok}}" required>
+        </div>
+
+        <div class="form-group">
+            <label>Deskripsi:</label>
+            <textarea [(ngModel)]="productData.deskripsi" class="form-control" name="deskripsi"
+                required>{{productData.deskripsi}}</textarea>
+        </div>
+
+        <!-- Preview Gambar Sebelumnya -->
+        <div class="form-group">
+            <label>Gambar Produk:</label><br>
+            <img *ngIf="previewImage" [src]="previewImage" alt="Product Image" width="200">
+        </div>
+
+        <!-- Input Upload Gambar Baru -->
+        <div class="form-group">
+            <label>Upload Gambar Baru:</label>
+            <input type="file" (change)="onFileSelected($event)" class="form-control">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+        <a routerLink="/products" class="btn btn-secondary">Batal</a>
+    </form>
+</div>

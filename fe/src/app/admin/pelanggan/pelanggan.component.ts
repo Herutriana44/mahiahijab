@@ -21,7 +21,7 @@ export class AdminPelangganComponent implements OnInit {
   getPelanggan(): void {
     this.http.get<any>(this.apiUrl).subscribe(
       (response) => {
-        console.log(response.data);
+        // console.log(response.data);
         this.pelangganList = response.data;
       },
       (error) => {
@@ -33,8 +33,8 @@ export class AdminPelangganComponent implements OnInit {
   deletePelanggan(id: string): void {
     if (confirm('Apakah Anda yakin ingin menghapus data pelanggan ini?')) {
       const deleteUrl = `${this.apiUrl}?id=${id}`; // Gunakan metode DELETE dengan ID sebagai URL param
-      console.log('Menghapus pelanggan dengan ID:', id); // Debugging
-      console.log('Request URL:', deleteUrl); // Debugging
+      // console.log('Menghapus pelanggan dengan ID:', id); // Debugging
+      // console.log('Request URL:', deleteUrl); // Debugging
 
       this.http.delete<any>(deleteUrl).subscribe(
         (response) => {

@@ -19,9 +19,10 @@ function create_product($db, $data)
     $nmGambar = $data['img']['name'];
     $lokasi = $data['img']['tmp_name'];
 
+
     if (!empty($lokasi)) {
         // Move uploaded image to a specific folder
-        if (move_uploaded_file($lokasi, "assets/images/foto_produk/" . $nmGambar)) {
+        if (move_uploaded_file($lokasi, "../assets/images/foto_produk/" . $nmGambar)) {
             // Insert product data into the database
             $query_add = "INSERT INTO tbl_produk (id_kategori, nm_produk, berat, harga, stok, gambar, deskripsi) 
                           VALUES ('$kategori', '$nmProduk', '$berat', '$harga', '$stok', '$nmGambar', '$deskripsi')";

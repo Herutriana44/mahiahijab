@@ -25,12 +25,17 @@ import { DetailBlogComponent } from './detail-blog/detail-blog.component';
 import { LupaPasswordComponent } from './lupa-password/lupa-password.component';
 import { RincianProdukComponent } from './rincian-produk/rincian-produk.component';
 
+
+import { AdminLoginComponent } from './admin/login/login.component';
+import { AdminPelangganComponent } from './admin/pelanggan/pelanggan.component';
+
+
 export const routes: Routes = [
     { path: '', component: IndexComponent },
-    
+
     { path: 'login', component: LoginComponent },
     { path: 'lupa-password', component: LupaPasswordComponent },
-   
+
     { path: 'gallery', component: GalleryComponent },
     { path: 'blog', component: BlogComponent },
     { path: 'signup', component: SignupComponent },
@@ -45,7 +50,11 @@ export const routes: Routes = [
     { path: 'blog/:id', component: DetailBlogComponent },
     { path: 'rincian-produk/:id', component: RincianProdukComponent },
     { path: 'pembayaran', component: RincianProdukComponent },
-    
+
+    { path: 'admin/login', component: AdminLoginComponent },
+    { path: 'admin/pelanggan', component: AdminPelangganComponent },
+
+
 ];
 
 @NgModule({

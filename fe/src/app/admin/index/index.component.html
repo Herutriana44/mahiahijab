@@ -17,19 +17,19 @@ if(!isset($_SESSION['tbl_admin'])){
     <meta content="Themesbrand" name="author" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <!-- App Icons -->
-    <link rel="shortcut icon" href="assets/images/mahialogo.png">
+    <link rel="shortcut icon" href="../../../assets/images/mahialogo.png">
     <!-- C3 charts css -->
-    <link href="../plugins/c3/c3.min.css" rel="stylesheet" type="text/css" />
+    <link href="../../../assets/plugins/c3/c3.min.css" rel="stylesheet" type="text/css" />
     <!-- DataTables -->
-    <link href="../plugins/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+    <link href="../../../assets/plugins/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
     <!-- Responsive datatable examples -->
-    <link href="../plugins/datatables/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+    <link href="../../../assets/plugins/datatables/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
     <!-- Select 2 -->
-    <link href="../plugins/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
+    <link href="../../../assets/plugins/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
     <!-- Basic Css files -->
-    <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-    <link href="assets/css/icons.css" rel="stylesheet" type="text/css">
-    <link href="assets/css/style.css" rel="stylesheet" type="text/css">
+    <link href="../../../assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="../../../assets/css/icons.css" rel="stylesheet" type="text/css">
+    <link href="../../../assets/css/style.css" rel="stylesheet" type="text/css">
 
 
 </head>
@@ -58,7 +58,76 @@ if(!isset($_SESSION['tbl_admin'])){
                 ================== -->
                 <div class="page-content-wrapper">
                     <div class="container-fluid">
-                        <?php include "config.php"; ?>
+                        <?php
+if (isset($_GET['pages']))
+{
+    if ($_GET['pages'] == "dashboard")
+    {
+        include 'dashboard.php';
+    }
+    elseif ($_GET['pages'] == "produk")
+    {
+        include 'produk.php';
+    }
+    elseif ($_GET['pages'] == "tambah-produk")
+    {
+        include 'tambah-produk.php';
+    }
+    elseif ($_GET['pages'] == "ubah-produk")
+    {
+        include 'ubah-produk.php';
+    }
+    elseif ($_GET['pages'] == "hapus-produk")
+    {
+        include 'hapus-produk.php';
+    }
+    elseif ($_GET['pages'] == "tambah-kategori")
+    {
+        include 'tambah-kategori.php';
+    }
+    elseif ($_GET['pages'] == "pelanggan")
+    {
+        include 'pelanggan.php';
+    }
+    elseif ($_GET['pages'] == "order")
+    {
+        include 'order.php';
+    }
+    elseif ($_GET['pages'] == "detail-order")
+    {
+        include 'detail-order.php';
+    }
+    elseif ($_GET['pages'] == "pembayaran")
+    {
+        include 'pembayaran.php';
+    }
+    elseif ($_GET['pages'] == "pos")
+    {
+        include 'pos.php';
+    }
+    elseif ($_GET['pages'] == "tambah-pos")
+    {
+        include 'tambah-pos.php';
+    }
+    elseif ($_GET['pages'] == "kategori-pos")
+    {
+        include 'kategori-pos.php';
+    }
+    elseif ($_GET['pages'] == "ubah-pos")
+    {
+        include 'ubah-pos.php';
+    }
+    elseif ($_GET['pages'] == "logout")
+    {
+        include 'logout.php';
+    }
+}
+else
+{
+    include 'dashboard.php';
+}
+?>
+
                     </div>
                     <!-- container -->
                 </div>
@@ -73,40 +142,40 @@ if(!isset($_SESSION['tbl_admin'])){
     <!-- END wrapper -->
     <!-- jQuery  -->
     <script src="https://cdnjs.com/libraries/Chart.js"></script>
-    <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/modernizr.min.js"></script>
-    <script src="assets/js/jquery.slimscroll.js"></script>
-    <script src="assets/js/waves.js"></script>
-    <script src="assets/js/jquery.nicescroll.js"></script>
-    <script src="assets/js/jquery.scrollTo.min.js"></script>
+    <script src="../../../assets/js/jquery.min.js"></script>
+    <script src="../../../assets/js/bootstrap.bundle.min.js"></script>
+    <script src="../../../assets/js/modernizr.min.js"></script>
+    <script src="../../../assets/js/jquery.slimscroll.js"></script>
+    <script src="../../../assets/js/waves.js"></script>
+    <script src="../../../assets/js/jquery.nicescroll.js"></script>
+    <script src="../../../assets/js/jquery.scrollTo.min.js"></script>
     <!-- Peity chart JS -->
-    <script src="../plugins/peity-chart/jquery.peity.min.js"></script>
+    <script src="../../../assets/plugins/peity-chart/jquery.peity.min.js"></script>
     <!--C3 Chart-->
-    <script src="../plugins/d3/d3.min.js"></script>
-    <script src="../plugins/c3/c3.min.js"></script>
+    <script src="../../../assets/plugins/d3/d3.min.js"></script>
+    <script src="../../../assets/plugins/c3/c3.min.js"></script>
     <!-- KNOB JS -->
-    <script src="../plugins/jquery-knob/excanvas.js"></script>
-    <script src="../plugins/jquery-knob/jquery.knob.js"></script>
+    <script src="../../../assets/plugins/jquery-knob/excanvas.js"></script>
+    <script src="../../../assets/plugins/jquery-knob/jquery.knob.js"></script>
     <!-- Page specific js -->
-    <script src="assets/pages/dashboard.js"></script>
+    <script src="../../../assets/pages/dashboard.js"></script>
     <!-- App js -->
-    <script src="assets/js/app.js"></script>
+    <script src="../../../assets/js/app.js"></script>
     <!-- Datatable js -->
-    <script src="../plugins/datatables/jquery.dataTables.min.js"></script>
-    <script src="../plugins/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="../../../assets/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="../../../assets/plugins/datatables/dataTables.bootstrap4.min.js"></script>
     <!-- Responsive examples -->
-    <script src="../plugins/datatables/dataTables.responsive.min.js"></script>
-    <script src="../plugins/datatables/responsive.bootstrap4.min.js"></script>
+    <script src="../../../assets/plugins/datatables/dataTables.responsive.min.js"></script>
+    <script src="../../../assets/plugins/datatables/responsive.bootstrap4.min.js"></script>
     <!-- Plugins js -->
-    <script src="../plugins/bootstrap-filestyle/js/bootstrap-filestyle.min.js"></script>
-    <!-- <script src="../plugins/bootstrap-touchspin/js/jquery.bootstrap-touchspin.min.js"></script> -->
+    <script src="../../../assets/plugins/bootstrap-filestyle/js/bootstrap-filestyle.min.js"></script>
+    <!-- <script src="../../../assets/plugins/bootstrap-touchspin/js/jquery.bootstrap-touchspin.min.js"></script> -->
     <!-- select2 js -->
-    <script src="../plugins/select2/js/select2.min.js"></script>
+    <script src="../../../assets/plugins/select2/js/select2.min.js"></script>
     <!--Wysiwig js-->
-    <script src="../plugins/tinymce/tinymce.min.js"></script>
+    <script src="../../../assets/plugins/tinymce/tinymce.min.js"></script>
     <!-- SweetAlert -->
-    <script src="assets/js/sweetalert.min.js"></script>
+    <script src="../../../assets/js/sweetalert.min.js"></script>
     <script>
         $(document).ready(function () {
             $('#datatable').DataTable();

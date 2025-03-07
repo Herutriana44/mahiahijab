@@ -1,6 +1,9 @@
 <?php
 // Menetapkan header JSON
 header('Content-Type: application/json');
+header("Access-Control-Allow-Origin: *"); // Mengizinkan akses dari semua domain
+header("Access-Control-Allow-Methods: GET, POST, DELETE,PUT, OPTIONS"); // Izinkan metode GET dan POST
+header("Access-Control-Allow-Headers: Content-Type, Authorization"); // Izinkan header tertentu
 
 // Memulai sesi dan menghubungkan ke database
 session_start();

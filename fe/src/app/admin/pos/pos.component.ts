@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-pos',
+  selector: 'admin-app-pos',
   imports: [],
   templateUrl: './pos.component.html',
   styleUrl: './pos.component.css'

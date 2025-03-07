@@ -15,7 +15,7 @@ export class LoginComponent {
   u: string = '';
   p: string = '';
 
-  constructor(private http: HttpClient, public router: Router) {} // Router diubah ke public
+  constructor(private http: HttpClient, public router: Router) { } // Router diubah ke public
 
   onLogin() {
     const body = new URLSearchParams();

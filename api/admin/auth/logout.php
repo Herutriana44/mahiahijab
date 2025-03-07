@@ -1,19 +1,16 @@
 <?php
 session_start();
+header("Access-Control-Allow-Origin: http://localhost:4200");
+header("Access-Control-Allow-Credentials: true");
 header('Content-Type: application/json');
-// Hapus semua session yang terkait dengan pengguna
-session_unset();
 
-// Hancurkan sesi pengguna
+// Hapus semua session yang terkait
+session_unset();
 session_destroy();
 
-// Menyiapkan response array
-$response = array();
-
-// Kirimkan pesan logout sukses
-$response['status'] = 'success';
-$response['message'] = 'Anda Telah Berhasil Logout';
-
-// Kirimkan respon dalam format JSON
-echo json_encode($response);
+// Response logout sukses
+echo json_encode([
+    'status' => 'success',
+    'message' => 'Anda Telah Berhasil Logout'
+]);
 ?>

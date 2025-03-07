@@ -13,6 +13,9 @@ export class LogoutService {
         sessionStorage.clear();
 
         // Redirect ke halaman login
-        this.router.navigate(['/index']);
+        this.router.navigate(['/']).then(() => {
+            // Auto refresh halaman setelah redirect
+            window.location.reload();
+        });
     }
 }

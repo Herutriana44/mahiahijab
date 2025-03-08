@@ -32,7 +32,7 @@ import { AdminProdukComponent } from './admin/produk/produk.component';
 import { AdminEditProductComponent } from './admin/edit-product/edit-product.component';
 import { AdminAddProductComponent } from './admin/add-product/add-product.component';
 import { DashboardComponent} from './admin/dashboard/dashboard.component'
-
+import { OrderComponent } from './admin/order/order.component';
 
 export const routes: Routes = [
     { path: '', component: IndexComponent },
@@ -61,6 +61,7 @@ export const routes: Routes = [
     { path: 'admin/edit-product/:id', component: AdminEditProductComponent },
     { path: 'admin/add-product', component: AdminAddProductComponent },
     { path: 'admin/dashboard', component: DashboardComponent },
+    { path: 'admin/order', component: OrderComponent },
 ];
 
 @NgModule({

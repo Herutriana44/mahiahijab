@@ -18,22 +18,33 @@ export class SidebarComponent {
             this.logoutService.logout();
         }
     }
-
+    
     onPelanggan(): void {
         this.router.navigate(['/admin/pelanggan']).then(() => {
             console.log('Navigasi ke halaman pelanggan.');
+            window.location.reload();
         });
     }
-
+    
     onProduct(): void {
-      this.router.navigate(['/admin/product']).then(() => {
-          console.log('Navigasi ke halaman Product.');
-      });
-  }
-
+        this.router.navigate(['/admin/product']).then(() => {
+            console.log('Navigasi ke halaman Product.');
+            window.location.reload();
+        });
+    }
+    
+    onOrder(): void {
+        this.router.navigate(['/admin/order']).then(() => {
+            console.log('Navigasi ke halaman Order.');
+            window.location.reload();
+        });
+    }
+    
     onDashboard(): void {
-      this.router.navigate(['/admin/dashboard']).then(() => {
-          console.log('Navigasi ke halaman dashboard.');
-      });
-  }
+        this.router.navigate(['/admin/dashboard']).then(() => {
+            console.log('Navigasi ke halaman dashboard.');
+            window.location.reload();
+        });
+    }
+    
 }

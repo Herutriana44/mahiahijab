@@ -1,0 +1,30 @@
+.app-sidebar {
+    width: 200px;
+    background-color: #f8f9fa;
+    height: 120vh;
+    padding: 15px;
+    position: fixed;
+}
+
+nav a {
+    display: block;
+    padding: 10px 0;
+    color: #333;
+    text-decoration: none;
+}
+
+nav a:hover {
+    background-color: #e9ecef;
+}
+
+nav a {
+    text-decoration: none;
+    padding: 10px;
+    display: block;
+    color: black;
+}
+
+nav a.active {
+    font-weight: bold;
+    color: blue;
+}

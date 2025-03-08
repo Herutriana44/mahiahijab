@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { SidebarComponent } from '../left-sidebar/left-sidebar.component';
 
 @Component({
   selector: 'admin-app-pelanggan',
-  imports: [CommonModule],
+  imports: [CommonModule,SidebarComponent],
   templateUrl: './pelanggan.component.html',
   styleUrl: './pelanggan.component.css'
 })

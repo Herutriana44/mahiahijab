@@ -1,19 +1,33 @@
 <?php
-// Menetapkan header JSON
-header('Content-Type: application/json');
-header("Access-Control-Allow-Origin: *"); // Mengizinkan akses dari semua domain
-header("Access-Control-Allow-Methods: GET, POST, DELETE,PUT, OPTIONS"); // Izinkan metode GET dan POST
-header("Access-Control-Allow-Headers: Content-Type, Authorization"); // Izinkan header tertentu
-
-// Memulai sesi dan menghubungkan ke database
+// Pastikan tidak ada output sebelum session_start
+ini_set('session.cookie_samesite', 'None');
+ini_set('session.cookie_secure', 'true'); // Gunakan hanya jika HTTPS
 session_start();
-include('../includes/config.php');  // Pastikan Anda sudah menyiapkan koneksi ke DB dengan benar
+
+header('Content-Type: application/json');
+header("Access-Control-Allow-Origin: http://localhost:4200");
+header("Access-Control-Allow-Credentials: true");
+header("Access-Control-Allow-Methods: GET, POST, DELETE, PUT, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
+
+// Periksa apakah admin sudah login
+if (!isset($_SESSION['admin'])) {
+    http_response_code(401);
+    echo json_encode([
+        "status" => "error",
+        "message" => "Unauthorized",
+        "session_id" => session_id()
+    ]);
+    exit;
+}
+
+include('../../koneksi.php');
 
 // Fungsi untuk mendapatkan daftar pelanggan
-function getAllCustomers($conn)
+function getAllCustomers($db)
 {
     $query = "SELECT * FROM tbl_pelanggan";
-    $result = mysqli_query($conn, $query);
+    $result = mysqli_query($db, $query);
     $customers = [];
 
     while ($data = mysqli_fetch_assoc($result)) {
@@ -24,58 +38,42 @@ function getAllCustomers($conn)
 }
 
 // Fungsi untuk menghapus pelanggan berdasarkan id_pelanggan
-function deleteCustomer($id, $conn)
+function deleteCustomer($id, $db)
 {
-    $query = "DELETE FROM tbl_pelanggan WHERE id_pelanggan='$id'";
-    if (mysqli_query($conn, $query)) {
-        return true;
-    } else {
-        return false;
-    }
+    $stmt = $db->prepare("DELETE FROM tbl_pelanggan WHERE id_pelanggan = ?");
+    $stmt->bind_param("s", $id);
+    return $stmt->execute();
 }
 
-// Mengambil daftar pelanggan (GET request)
-if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-    // Mendapatkan semua pelanggan
-    $customers = getAllCustomers($conn);
-
-    if (count($customers) > 0) {
-        echo json_encode([
-            'status' => 'success',
-            'data' => $customers
-        ]);
-    } else {
-        echo json_encode([
-            'status' => 'error',
-            'message' => 'No customers found'
-        ]);
-    }
+// GET: Ambil data pelanggan
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    $customers = getAllCustomers($db);
+    echo json_encode([
+        'status' => count($customers) > 0 ? 'success' : 'error',
+        'data' => $customers,
+        'message' => count($customers) > 0 ? '' : 'No customers found',
+        'session_id' => session_id() // Debugging
+    ]);
 }
 
-// Menghapus pelanggan (DELETE request)
-if ($_SERVER['REQUEST_METHOD'] == 'DELETE') {
-    // Mendapatkan id pelanggan dari URL parameter
-    $id = isset($_GET['id']) ? $_GET['id'] : null;
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $id = $_POST['id'] ?? null;
 
     if ($id) {
-        $deleteStatus = deleteCustomer($id, $conn);
+        $stmt = $db->prepare("DELETE FROM tbl_pelanggan WHERE id_pelanggan = ?");
+        $stmt->bind_param("s", $id);
+        $deleteStatus = $stmt->execute();
 
         if ($deleteStatus) {
-            echo json_encode([
-                'status' => 'success',
-                'message' => 'Customer deleted successfully'
-            ]);
+            echo json_encode(["status" => "success", "message" => "Pelanggan berhasil dihapus"]);
         } else {
-            echo json_encode([
-                'status' => 'error',
-                'message' => 'Failed to delete customer'
-            ]);
+            echo json_encode(["status" => "error", "message" => "Gagal menghapus pelanggan"]);
         }
     } else {
-        echo json_encode([
-            'status' => 'error',
-            'message' => 'Customer ID is required'
-        ]);
+        echo json_encode(["status" => "error", "message" => "ID pelanggan diperlukan"]);
     }
 }
+
+
+
 ?>

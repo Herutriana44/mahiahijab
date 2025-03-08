@@ -2,55 +2,83 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { SidebarComponent } from '../left-sidebar/left-sidebar.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'admin-app-pelanggan',
-  imports: [CommonModule,SidebarComponent],
+  imports: [CommonModule, SidebarComponent],
   templateUrl: './pelanggan.component.html',
   styleUrl: './pelanggan.component.css'
 })
 export class AdminPelangganComponent implements OnInit {
   pelangganList: any[] = [];
   apiUrl = 'http://localhost/mahiahijab/api/admin/pelanggan/pelanggan.php';
+  authCheckUrl = 'http://localhost/mahiahijab/api/admin/auth/check.php'; // API untuk validasi login
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) {}
 
   ngOnInit(): void {
-    this.getPelanggan();
+    this.checkLogin(); // Cek login sebelum mengambil data pelanggan
+  }
+
+  checkLogin(): void {
+    this.http.get<any>(this.authCheckUrl, { withCredentials: true }).subscribe(
+      (response) => {
+        console.log('Login check response:', response); // Debugging
+        if (response.status === 'success' && response.session_id) {
+          this.getPelanggan(); // Jika sesi valid, ambil data pelanggan
+        } else {
+          this.redirectToLogin();
+        }
+      },
+      (error) => {
+        console.error('Gagal memeriksa sesi:', error);
+        this.redirectToLogin();
+      }
+    );
+  }
+
+  redirectToLogin(): void {
+    alert('Silakan login terlebih dahulu!');
+    this.router.navigate(['/admin/login']);
   }
 
   getPelanggan(): void {
-    this.http.get<any>(this.apiUrl).subscribe(
+    this.http.get<any>(this.apiUrl, { withCredentials: true }).subscribe(
       (response) => {
-        // console.log(response.data);
-        this.pelangganList = response.data;
+        console.log('Response pelanggan:', response); // Debugging
+        if (response.status === 'error') {
+          this.redirectToLogin();
+        } else {
+          this.pelangganList = response.data || [];
+        }
       },
       (error) => {
-        console.error('Error fetching data:', error);
+        console.error('Error fetching data pelanggan:', error);
       }
     );
   }
 
   deletePelanggan(id: string): void {
-    if (confirm('Apakah Anda yakin ingin menghapus data pelanggan ini?')) {
-      const deleteUrl = `${this.apiUrl}?id=${id}`; // Gunakan metode DELETE dengan ID sebagai URL param
-      // console.log('Menghapus pelanggan dengan ID:', id); // Debugging
-      // console.log('Request URL:', deleteUrl); // Debugging
-
-      this.http.delete<any>(deleteUrl).subscribe(
+    if (confirm('Apakah Anda yakin ingin menghapus pelanggan ini?')) {
+      const body = new FormData();
+      body.append('id', id);
+  
+      this.http.post<any>(this.apiUrl, body, { withCredentials: true }).subscribe(
         (response) => {
-          console.log('Response dari API Hapus:', response); // Debugging
           if (response.status === 'success') {
-            alert('Data Pelanggan sudah dihapus');
-            this.getPelanggan(); // Refresh data setelah penghapusan
+            alert('Pelanggan berhasil dihapus.');
+            this.getPelanggan(); // Refresh daftar pelanggan setelah hapus
           } else {
-            alert('Gagal menghapus data pelanggan.');
+            alert('Gagal menghapus pelanggan: ' + response.message);
           }
         },
         (error) => {
-          console.error('Error deleting pelanggan:', error);
+          console.error('❌ Error saat menghapus pelanggan:', error);
         }
       );
     }
   }
+  
+  
 }

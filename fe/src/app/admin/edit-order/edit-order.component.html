@@ -33,5 +33,33 @@
                 </div>
             </div>
         </div>
+
+        <!-- Bagian Kanan: Form Ubah Status -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5>Ubah Status Pesanan</h5>
+                    <form (submit)="updateOrderStatus()">
+                        <div class="form-group">
+                            <label>Ubah Status</label>
+                            <select class="form-control" [(ngModel)]="status" name="status">
+                                <option value="">- Pilih Status -</option>
+                                <option *ngFor="let s of statusList" [value]="s">{{ s }}</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Masukkan Resi Pengiriman</label>
+                            <input type="text" class="form-control" [(ngModel)]="resi" name="resi"
+                                placeholder="Masukkan Nomor Resi" />
+                        </div>
+
+                        <button type="submit" class="btn btn-primary mt-3">
+                            Perbarui Status
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

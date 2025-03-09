@@ -63,7 +63,24 @@ export class OrderComponent implements OnInit {
     }
 
     goToOrderDetail(id: number): void {
-        this.router.navigate([`/admin/order-detail/`, id]);
+        this.router.navigate([`/admin/order/`, id]).then(() => {
+            console.log('Navigasi ke halaman detail order');
+            window.location.reload();
+        });
+    }
+
+    goToPaymentDetail(id: number): void {
+        this.router.navigate([`/admin/pembayaran/${id}`]).then(() => {
+            console.log('Navigasi ke halaman detail order');
+            window.location.reload();
+        });
+    }
+
+    goToEditOrder(id: number): void {
+        this.router.navigate([`/admin/edit-order/${id}`]).then(() => {
+            console.log('Navigasi ke halaman detail order');
+            window.location.reload();
+        });
     }
 
     handleAction(order: any): void {

@@ -1,15 +1,16 @@
 <?php
 // Menetapkan header JSON
 header('Content-Type: application/json');
+require "../../koneksi.php";
 
 // Memulai sesi dan menghubungkan ke database
 session_start();
 
 // Fungsi untuk mendapatkan data pembayaran berdasarkan id_order
-function getPaymentDetails($id_order, $conn)
+function getPaymentDetails($id_order, $db)
 {
     $query = "SELECT * FROM tbl_pembayaran WHERE id_order='$id_order'";
-    $result = mysqli_query($conn, $query);
+    $result = mysqli_query($db, $query);
     if ($result) {
         return mysqli_fetch_assoc($result);
     } else {
@@ -18,10 +19,10 @@ function getPaymentDetails($id_order, $conn)
 }
 
 // Fungsi untuk mengubah status order dan nomor resi
-function updateOrderStatus($id_order, $status, $resi, $conn)
+function updateOrderStatus($id_order, $status, $resi, $db)
 {
     $query = "UPDATE tbl_order SET status='$status', no_resi='$resi' WHERE id_order='$id_order'";
-    if (mysqli_query($conn, $query)) {
+    if (mysqli_query($db, $query)) {
         return true;
     } else {
         return false;
@@ -33,7 +34,7 @@ if (isset($_GET['id'])) {
     $id_order = $_GET['id'];
 
     // Mendapatkan data pembayaran
-    $paymentDetails = getPaymentDetails($id_order, $conn);
+    $paymentDetails = getPaymentDetails($id_order, $db);
     if ($paymentDetails) {
         // Mendapatkan tanggal pembayaran
         $tgl_bayar = date("d/m/Y", strtotime($paymentDetails['tgl_bayar']));
@@ -68,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $resi = $_POST['resi'];
 
         // Memperbarui status order dan nomor resi
-        $updateStatus = updateOrderStatus($id_order, $status, $resi, $conn);
+        $updateStatus = updateOrderStatus($id_order, $status, $resi, $db);
 
         if ($updateStatus) {
             echo json_encode([

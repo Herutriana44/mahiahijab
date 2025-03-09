@@ -7,7 +7,7 @@
         <!-- Konten Utama -->
         <div class="main-content">
             <!-- Statistik -->
-           
+
 
             <!-- Daftar Pesanan -->
             <div class="row">
@@ -26,7 +26,8 @@
                                 { icon: 'mdi-home', color: 'text-success', count: diterima, label: 'Produk Diterima' }
                             ]">
                                 <div class="mini-stat bg-white">
-                                    <span class="font-40 {{ stat.color }} float-right"><i class="mdi {{ stat.icon }}"></i></span>
+                                    <span class="font-40 {{ stat.color }} float-right"><i
+                                            class="mdi {{ stat.icon }}"></i></span>
                                     <div class="mini-stat-info">
                                         <h3 class="counter">{{ stat.count | number }}</h3>
                                     </div>
@@ -64,13 +65,17 @@
                                         </td>
                                         <td>Rp. {{ order.total_order | number }}</td>
                                         <td>
-                                            <button class="btn btn-light btn-sm" (click)="goToOrderDetail(order.id_order)">
+                                            <button class="btn btn-light btn-sm"
+                                                (click)="goToOrderDetail(order.id_order)">
                                                 <i class="mdi mdi-buffer font-18"></i> Detail
                                             </button>
-                                            <button *ngIf="order.status === 'Sudah Dibayar'" class="btn btn-secondary btn-sm">
+                                            <button *ngIf="order.status === 'Sudah Dibayar'"
+                                                (click)="goToPaymentDetail(order.id_order)"
+                                                class="btn btn-secondary btn-sm">
                                                 Lihat Pembayaran
                                             </button>
-                                            <button *ngIf="order.status === 'Menyiapkan Produk'" class="btn btn-info btn-sm">
+                                            <button *ngIf="order.status === 'Menyiapkan Produk'"
+                                                (click)="goToEditOrder(order.id_order)" class="btn btn-info btn-sm">
                                                 Edit Orderan
                                             </button>
                                         </td>

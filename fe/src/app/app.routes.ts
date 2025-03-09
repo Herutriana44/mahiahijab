@@ -37,6 +37,9 @@ import { AdminTambahKategoriComponent } from './admin/tambah-kategori/tambah-kat
 import { OrderComponent } from './admin/order/order.component';
 import { PosComponent } from './admin/pos/pos.component';
 import { AdminTambahPosComponent } from './admin/tambah-pos/tambah-pos.component';
+import { AdminDetailOrderComponent } from './admin/detail-order/detail-order.component';
+import { AdminPembayaranComponent } from './admin/pembayaran/pembayaran.component';
+import { AdminEditOrderComponent } from './admin/edit-order/edit-order.component';
 
 export const routes: Routes = [
     { path: '', component: IndexComponent },
@@ -71,6 +74,9 @@ export const routes: Routes = [
     { path: 'admin/order', component: OrderComponent },
     { path: 'admin/pos', component: PosComponent },
     { path: 'admin/tambah-pos', component: AdminTambahPosComponent },
+    { path: 'admin/order/:id', component: AdminDetailOrderComponent },
+    { path: 'admin/pembayaran/:id', component: AdminPembayaranComponent },
+    { path: 'admin/edit-order/:id', component: AdminEditOrderComponent },
 ];
 
 @NgModule({

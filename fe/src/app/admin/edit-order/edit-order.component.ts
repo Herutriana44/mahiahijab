@@ -8,10 +8,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 @Component({
   selector: 'admin-app-pembayaran',
   imports: [SidebarComponent, CommonModule, ReactiveFormsModule, FormsModule],
-  templateUrl: './pembayaran.component.html',
-  styleUrl: './pembayaran.component.css'
+  templateUrl: './edit-order.component.html',
+  styleUrl: './edit-order.component.css'
 })
-export class AdminPembayaranComponent implements OnInit {
+export class AdminEditOrderComponent implements OnInit {
   id_order: string | null = null;
   paymentDetails: any = {};
   statusList = ['Belum Dibayar', 'Sudah Dibayar', 'Menyiapkan Produk', 'Produk Dikirim'];

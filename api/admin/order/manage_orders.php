@@ -1,4 +1,5 @@
 <?php
+require "../../koneksi.php";
 // Memulai sesi dan menghubungkan ke database
 session_start();
 
@@ -8,7 +9,7 @@ header('Content-Type: application/json');
 // Mendapatkan semua order
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     // Ambil semua data order dari database
-    $orders = $conn->query("SELECT * FROM tbl_order");
+    $orders = $db->query("SELECT * FROM tbl_order");
 
     if ($orders->num_rows > 0) {
         $order_data = [];
@@ -31,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_order'])) {
         // Validasi status yang diterima
         if (in_array($status, ['Pending', 'Delivered', 'Cancelled'])) {
             // Update status order
-            $stmt = $conn->prepare("UPDATE tbl_order SET status = ? WHERE id_order = ?");
+            $stmt = $db->prepare("UPDATE tbl_order SET status = ? WHERE id_order = ?");
             $stmt->bind_param('si', $status, $order_id);
             if ($stmt->execute()) {
                 echo json_encode(['success' => 'Order status updated successfully']);
@@ -52,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_order'])) {
         $order_id = $_POST['order_id'];
 
         // Hapus order dari database
-        $stmt = $conn->prepare("DELETE FROM tbl_order WHERE id_order = ?");
+        $stmt = $db->prepare("DELETE FROM tbl_order WHERE id_order = ?");
         $stmt->bind_param('i', $order_id);
         if ($stmt->execute()) {
             echo json_encode(['success' => 'Order deleted successfully']);

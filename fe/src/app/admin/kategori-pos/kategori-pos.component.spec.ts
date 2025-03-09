@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { KategoriPosComponent } from './kategori-pos.component';
+import { AdminKategoriPosComponent } from './kategori-pos.component';
 
-describe('KategoriPosComponent', () => {
-  let component: KategoriPosComponent;
-  let fixture: ComponentFixture<KategoriPosComponent>;
+describe('AdminKategoriPosComponent', () => {
+  let component: AdminKategoriPosComponent;
+  let fixture: ComponentFixture<AdminKategoriPosComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [KategoriPosComponent]
+      imports: [AdminKategoriPosComponent]
     })
-    .compileComponents();
+      .compileComponents();
 
-    fixture = TestBed.createComponent(KategoriPosComponent);
+    fixture = TestBed.createComponent(AdminKategoriPosComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

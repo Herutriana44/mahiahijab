@@ -6,8 +6,9 @@ import { TopbarComponent } from '../topbar/topbar.component';
   selector: 'admin-app-header',
   imports: [LeftSidebarComponent, TopbarComponent],
   templateUrl: './header.component.html',
-  styleUrl: './header.component.css'
+  styleUrl: './header.component.css',
+  standalone: true,
 })
-export class HeaderComponent {
+export class AdminHeaderComponent {
 
 }

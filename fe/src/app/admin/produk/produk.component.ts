@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { AdminHeaderComponent } from '../header/header.component';
 
 @Component({
   selector: 'admin-app-produk',
-  imports: [CommonModule],
+  imports: [CommonModule, AdminHeaderComponent],
   templateUrl: './produk.component.html',
-  styleUrl: './produk.component.css'
+  styleUrl: './produk.component.css',
+  standalone: true
 })
 export class AdminProdukComponent implements OnInit {
   productList: any[] = [];

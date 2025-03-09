@@ -2,6 +2,11 @@
 header('Content-Type: application/json');
 include('../../koneksi.php');
 
+header('Content-Type: application/json');
+header("Access-Control-Allow-Origin: *"); // Mengizinkan akses dari semua domain
+header("Access-Control-Allow-Methods: GET, POST, DELETE,PUT, OPTIONS"); // Izinkan metode GET dan POST
+header("Access-Control-Allow-Headers: Content-Type, Authorization"); // Izinkan header tertentu
+
 // Fungsi untuk mengedit postingan
 function updatePost($id, $judul, $isi, $kategori, $gambar, $db)
 {

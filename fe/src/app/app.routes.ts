@@ -31,7 +31,9 @@ import { AdminPelangganComponent } from './admin/pelanggan/pelanggan.component';
 import { AdminProdukComponent } from './admin/produk/produk.component';
 import { AdminEditProductComponent } from './admin/edit-product/edit-product.component';
 import { AdminAddProductComponent } from './admin/add-product/add-product.component';
-import { DashboardComponent} from './admin/dashboard/dashboard.component'
+import { DashboardComponent } from './admin/dashboard/dashboard.component'
+import { AdminKategoriPosComponent } from './admin/kategori-pos/kategori-pos.component';
+import { AdminTambahKategoriComponent } from './admin/tambah-kategori/tambah-kategori.component';
 
 
 export const routes: Routes = [
@@ -61,6 +63,8 @@ export const routes: Routes = [
     { path: 'admin/edit-product/:id', component: AdminEditProductComponent },
     { path: 'admin/add-product', component: AdminAddProductComponent },
     { path: 'admin/dashboard', component: DashboardComponent },
+    { path: 'admin/category', component: AdminTambahKategoriComponent },
+    { path: 'admin/kategori-pos', component: AdminKategoriPosComponent }
 ];
 
 @NgModule({

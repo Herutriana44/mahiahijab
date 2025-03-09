@@ -1,89 +1,45 @@
-<?php
-    include "../koneksi.php";
-?>
-<!-- Lihat Data Produk -->
-<?php
-if (isset($_GET['id']))
-{
-    //mengambil id produk
-    $id = $_GET['id'];
-    //menghapus data
-    $queryHapus = "DELETE FROM tbl_kat_produk WHERE id_kategori='$id'";
-    $execHapus = mysqli_query($db, $queryHapus);
-
-    if ($execHapus)
-    {
-        //menampilkan pesan dan redirec ke halaman produk
-        echo "<script>alert('Kategori sudah dihapus');</script>";
-        echo "<script>location = 'index.php?pages=tambah-kategori';</script>";
-    }
-}
-?>
-<div class="row">
-    <div class="col-6">
-        <div class="card m-b-20">
-            <div class="card-body">
-                <form method="post">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label for="productname">Nama Kategori</label>
-                                <input id="productname" name="nama" type="text" class="form-control">
-                            </div>
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <div class="card">
+                <div class="card-body">
+                    <form (submit)="addCategory(); $event.preventDefault()">
+                        <div class="form-group">
+                            <label for="name">Nama Kategori</label>
+                            <input id="name" [(ngModel)]="name" name="name" class="form-control"
+                                placeholder="Masukkan kategori baru" />
                         </div>
-                    </div>
-                    <button class="btn btn-success waves-effect waves-light" name="tambah">Tambah</button>
-                </form>
-                <?php
-                    if(isset($_POST['tambah'])){
-                        $db->query("INSERT INTO tbl_kat_produk (nm_kategori) VALUES ('$_POST[nama]')");
-                    }
-                    
-                ?>
+                        <button type="submit" class="btn btn-success">Tambah</button>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="col-6">
-        <div class="card m-b-20">
-            <div class="card-body">
-                <form>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <label for="productname">Kategori Produk</label><br>
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">No</th>
-                                        <th scope="col">Nama Kategori</th>
-                                        <th scope="col">Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php $no=1; ?>
-                                    <?php $ambil=$db->query("SELECT * FROM tbl_kat_produk"); ?>
-                                    <?php while($pecah=$ambil->fetch_assoc()){ ?>
-                                    <tr>
-                                        <th scope="row">
-                                            <?php echo $no; ?>
-                                        </th>
-                                        <td>
-                                            <?php echo $pecah['nm_kategori'] ?>
-                                        </td>
-                                        <td>
-                                            <a href="index.php?pages=tambah-kategori&id=<?php echo $pecah['id_kategori']; ?>"
-                                                class="text-muted" data-toggle="tooltip" data-placement="top" title=""
-                                                data-original-title="Delete"
-                                                onclick="return confirm('Apakah Anda yakin ingin menghapus Kategori tersebut?')"><i
-                                                    class="mdi mdi-close font-18"></i></a>
-                                        </td>
-                                    </tr>
-                                    <?php $no++; ?>
-                                    <?php } ?>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </form>
+
+        <div class="col-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5>Kategori Artikel</h5>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Nama Kategori</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let category of categories; let i = index">
+                                <td>{{ i + 1 }}</td>
+                                <td>{{ category.nm_kategori }}</td>
+                                <td>
+                                    <button class="btn btn-danger" (click)="deleteCategory(category.id_kategori)">
+                                        Hapus
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

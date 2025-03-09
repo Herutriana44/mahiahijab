@@ -1,86 +1,12 @@
-<div class="left side-menu">
-    <!-- LOGO -->
-    <div class="topbar-left">
-        <a (click)="router.navigate(['/admin/dashboard'])" class="logo">
-            <img src="assets/images/logo-admin1.png" height="72" alt="logo">
-        </a>
-    </div>
+<aside class="app-sidebar">
+    <nav>
+        <h3>MAHIAHIJAB</h3>
+        <a (click)="onDashboard()" style="cursor: pointer;">Dashboard</a>
+        <a routerLink="/admin/pos" routerLinkActive="active">Postingan</a>
+        <a (click)="onProduct()" style="cursor: pointer;">Produk</a>
+        <a (click)="onPelanggan()" style="cursor: pointer;">Pelanggan</a>
+        <a (click)="onOrder()" style="cursor: pointer;">Order</a>
+        <a (click)="onLogout()" style="cursor: pointer;">Logout</a>
 
-    <div class="sidebar-inner slimscrollleft">
-        <div id="sidebar-menu">
-            <ul>
-                <li class="menu-title">Utama</li>
-                <li>
-                    <a (click)="router.navigate(['/admin/dashboard'])" class="waves-effect">
-                        <i class="mdi mdi-view-dashboard"></i>
-                        <span>Dashboard</span>
-                    </a>
-                </li>
-
-                <li class="menu-title">Umum</li>
-
-                <!-- Menu Pos -->
-                <li [class.active]="activeMenu === 'pos'" (click)="toggleMenu('pos')">
-                    <a href="javascript:void(0);" class="waves-effect">
-                        <i class="mdi mdi-near-me"></i>
-                        <span> Pos
-                            <span class="pull-right">
-                                <i class="mdi mdi-chevron-right"></i>
-                            </span>
-                        </span>
-                    </a>
-                    <ul class="list-unstyled" *ngIf="activeMenu === 'pos'">
-                        <li><a (click)="router.navigate(['/admin/pos'])">Semua Pos</a></li>
-                        <li><a (click)="router.navigate(['/admin/pos/tambah'])">Tambah Baru</a></li>
-                        <li><a (click)="router.navigate(['/admin/pos/kategori'])">Kategori</a></li>
-                    </ul>
-                </li>
-
-                <!-- Menu Produk -->
-                <li [class.active]="activeMenu === 'produk'" (click)="toggleMenu('produk')">
-                    <a href="javascript:void(0);" class="waves-effect">
-                        <i class="mdi mdi-buffer"></i>
-                        <span> Produk
-                            <span class="pull-right">
-                                <i class="mdi mdi-chevron-right"></i>
-                            </span>
-                        </span>
-                    </a>
-                    <ul class="list-unstyled" *ngIf="activeMenu === 'produk'">
-                        <li><a (click)="router.navigate(['/admin/product'])">Semua Produk</a></li>
-                        <li><a (click)="router.navigate(['/admin/product/tambah'])">Tambah Baru</a></li>
-                        <li><a (click)="router.navigate(['/admin/product/kategori'])">Kategori</a></li>
-                    </ul>
-                </li>
-
-                <li>
-                    <a (click)="router.navigate(['/admin/pelanggan'])">
-                        <i class="mdi mdi-account"></i>Pelanggan
-                    </a>
-                </li>
-
-                <!-- Menu Order -->
-                <li [class.active]="activeMenu === 'order'" (click)="toggleMenu('order')">
-                    <a href="javascript:void(0);" class="waves-effect">
-                        <i class="mdi mdi-cart-outline"></i>
-                        <span> Order
-                            <span class="pull-right">
-                                <i class="mdi mdi-chevron-right"></i>
-                            </span>
-                        </span>
-                    </a>
-                    <ul class="list-unstyled" *ngIf="activeMenu === 'order'">
-                        <li><a (click)="router.navigate(['/admin/order'])">Semua Orderan</a></li>
-                    </ul>
-                </li>
-
-                <li>
-                    <a (click)="router.navigate(['/admin/logout'])">
-                        <i class="mdi mdi-logout"></i>Logout
-                    </a>
-                </li>
-            </ul>
-        </div>
-        <div class="clearfix"></div>
-    </div>
-</div>
+    </nav>
+</aside>

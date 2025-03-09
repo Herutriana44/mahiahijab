@@ -1,0 +1,71 @@
+/* Style untuk Sidebar */
+
+
+/* Style untuk Navigasi dalam Sidebar */
+nav a {
+    display: block;
+    padding: 10px 0;
+    color: #333;
+    text-decoration: none;
+}
+
+nav a:hover {
+    background-color: #e9ecef;
+}
+
+nav a.active {
+    font-weight: bold;
+    color: blue;
+}
+
+/* Style untuk Konten Utama (di luar sidebar) */
+.container {
+    margin-top: 20px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-left: 250px; /* Memberikan ruang untuk sidebar */
+    flex-grow: 1; /* Membuat container mengisi sisa ruang */
+}
+
+/* Style untuk Tabel */
+.table {
+    width: 100%; /* Membuat tabel sedikit lebih besar */
+    margin-bottom: 1rem;
+    background-color: transparent;
+}
+
+.table thead th {
+    background-color: #f8f9fa;
+    color: #495057;
+    font-weight: bold;
+    text-align: center;
+    vertical-align: middle;
+    padding: 10px;
+}
+
+.table tbody tr td {
+    vertical-align: middle;
+    text-align: center;
+    padding: 10px;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #f9f9f9;
+}
+
+.btn-sm {
+    padding: 5px 10px;
+    font-size: 12px;
+}
+
+.card {
+    border: 1px solid #e3e3e3;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.card-body {
+    padding: 15px;
+}

@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import { AdminHeaderComponent } from '../header/header.component';
+import { SidebarComponent } from '../left-sidebar/left-sidebar.component';
 
 @Component({
   selector: 'admin-app-produk',
-  imports: [CommonModule, AdminHeaderComponent],
+  imports: [CommonModule, SidebarComponent],
   templateUrl: './produk.component.html',
   styleUrl: './produk.component.css',
   standalone: true

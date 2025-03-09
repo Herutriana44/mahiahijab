@@ -34,7 +34,7 @@ import { AdminAddProductComponent } from './admin/add-product/add-product.compon
 import { DashboardComponent } from './admin/dashboard/dashboard.component'
 import { AdminKategoriPosComponent } from './admin/kategori-pos/kategori-pos.component';
 import { AdminTambahKategoriComponent } from './admin/tambah-kategori/tambah-kategori.component';
-
+import { OrderComponent } from './admin/order/order.component';
 
 export const routes: Routes = [
     { path: '', component: IndexComponent },
@@ -65,6 +65,7 @@ export const routes: Routes = [
     { path: 'admin/dashboard', component: DashboardComponent },
     { path: 'admin/category', component: AdminTambahKategoriComponent },
     { path: 'admin/kategori-pos', component: AdminKategoriPosComponent }
+    { path: 'admin/order', component: OrderComponent },
 ];
 
 @NgModule({

@@ -1,11 +1,76 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
+import { RouterModule, Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { DecimalPipe, DatePipe } from '@angular/common'; // Pipe tambahan
+import { SidebarComponent } from '../left-sidebar/left-sidebar.component';
 
 @Component({
-  selector: 'admin-app-order',
-  imports: [],
-  templateUrl: './order.component.html',
-  styleUrl: './order.component.css'
+    selector: 'app-order',
+    templateUrl: './order.component.html',
+    styleUrls: ['./order.component.css'],
+    standalone: true,  // Standalone component
+    imports: [
+        CommonModule, 
+        RouterModule, 
+        FormsModule, 
+        SidebarComponent
+    ],
+    providers: [DecimalPipe, DatePipe] // Tambahkan penyedia pipe jika masih error
 })
-export class OrderComponent {
+export class OrderComponent implements OnInit {
+    totalOrder: number = 0;
+    blmDibayar: number = 0;
+    sudahDibayar: number = 0;
+    menyiapkanProduk: number = 0;
+    produkDikirim: number = 0;
+    diterima: number = 0;
+    orders: any[] = [];
 
+    private apiUrl = 'http://localhost/mahiahijab/api/admin/order/order.php';
+
+    constructor(private http: HttpClient, private router: Router) {}
+
+    ngOnInit(): void {
+        this.fetchOrderStats();
+        this.fetchOrders();
+    }
+
+    fetchOrderStats(): void {
+        this.http.get<any>(`${this.apiUrl}?action=getStats`, { withCredentials: true })
+            .subscribe(
+                data => {
+                    this.totalOrder = data.totalOrder || 0;
+                    this.blmDibayar = data.blmDibayar || 0;
+                    this.sudahDibayar = data.sudahDibayar || 0;
+                    this.menyiapkanProduk = data.menyiapkanProduk || 0;
+                    this.produkDikirim = data.produkDikirim || 0;
+                    this.diterima = data.diterima || 0;
+                },
+                error => console.error('Gagal mengambil statistik order', error)
+            );
+    }
+
+    fetchOrders(): void {
+        this.http.get<any[]>(`${this.apiUrl}?action=getOrders`, { withCredentials: true })
+            .subscribe(
+                data => {
+                    this.orders = data;
+                },
+                error => console.error('Gagal mengambil data order', error)
+            );
+    }
+
+    goToOrderDetail(id: number): void {
+        this.router.navigate([`/admin/order-detail`, id]);
+    }
+
+    handleAction(order: any): void {
+        if (order.status === 'Sudah Dibayar') {
+            alert('Fungsi lihat pembayaran masih dalam pengembangan.');
+        } else if (order.status === 'Menyiapkan Produk') {
+            alert('Fungsi edit orderan masih dalam pengembangan.');
+        }
+    }
 }

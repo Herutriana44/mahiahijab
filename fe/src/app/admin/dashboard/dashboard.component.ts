@@ -2,12 +2,14 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import Chart from 'chart.js/auto';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { SidebarComponent } from '../left-sidebar/left-sidebar.component';
+
 
 
 @Component({
     selector: 'app-dashboard',
     standalone: true,
-    imports: [],
+    imports: [SidebarComponent],
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.css']
 })

@@ -1,23 +1,51 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { LogoutService } from '../logout/logout.service';
+
 
 @Component({
-  selector: 'admin-app-left-sidebar',
-  imports: [CommonModule],
-  templateUrl: './left-sidebar.component.html',
-  styleUrl: './left-sidebar.component.css'
+    selector: 'app-sidebar',
+    standalone: true,
+
+    templateUrl: './left-sidebar.component.html',
+    styleUrls: ['./left-sidebar.component.css']
 })
-export class LeftSidebarComponent {
-  activeMenu: string | null = null; // ✅ Menyimpan menu aktif
+export class SidebarComponent {
+    constructor(private logoutService: LogoutService, private router: Router) { }
 
-  constructor(public router: Router) { } // ✅ Inject Router
+    onLogout(): void {
+        if (confirm('Yakin ingin logout?')) {
+            this.logoutService.logout();
+        }
+    }
 
-  toggleMenu(menu: string) {
-    this.activeMenu = this.activeMenu === menu ? null : menu;
-  }
+    onPelanggan(): void {
+        this.router.navigate(['/admin/pelanggan']).then(() => {
+            console.log('Navigasi ke halaman pelanggan.');
+            window.location.reload();
+        });
+    }
 
-  navigateTo(route: string) {
-    this.router.navigate([route]); // ✅ Gunakan Router untuk navigasi
-  }
+    onProduct(): void {
+        this.router.navigate(['/admin/product']).then(() => {
+            console.log('Navigasi ke halaman Product.');
+            window.location.reload();
+        });
+    }
+
+    onOrder(): void {
+        this.router.navigate(['/admin/order']).then(() => {
+            console.log('Navigasi ke halaman Order.');
+            window.location.reload();
+        });
+    }
+
+    onDashboard(): void {
+        this.router.navigate(['/admin/dashboard']).then(() => {
+            console.log('Navigasi ke halaman dashboard.');
+            window.location.reload();
+        });
+    }
+
 }

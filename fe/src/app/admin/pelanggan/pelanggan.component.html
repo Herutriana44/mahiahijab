@@ -1,31 +1,36 @@
-<div class="row">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-body">
-                <table class="table table-striped dt-responsive nowrap table-vertical" width="100%">
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Nama</th>
-                            <th>Username</th>
-                            <th>Email</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let pelanggan of pelangganList; let i = index">
-                            <td>{{ i + 1 }}</td>
-                            <td>{{ pelanggan.nm_pelanggan }}</td>
-                            <td>{{ pelanggan.username }}</td>
-                            <td>{{ pelanggan.email }}</td>
-                            <td>
-                                <button class="btn btn-danger btn-sm" (click)="deletePelanggan(pelanggan.id_pelanggan)">
-                                    <i class="mdi mdi-close"></i> Hapus
-                                </button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+<div class="app-container">
+    <div class="content">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <app-sidebar></app-sidebar>
+                        <table class="table table-striped dt-responsive nowrap table-vertical">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Nama</th>
+                                    <th>Username</th>
+                                    <th>Email</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let pelanggan of pelangganList; let i = index">
+                                    <td>{{ i + 1 }}</td>
+                                    <td>{{ pelanggan.nm_pelanggan }}</td>
+                                    <td>{{ pelanggan.username }}</td>
+                                    <td>{{ pelanggan.email }}</td>
+                                    <td>
+                                        <button class="btn btn-danger btn-sm" (click)="deletePelanggan(pelanggan.id_pelanggan)">
+                                            <i class="mdi mdi-close"></i> Hapus
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

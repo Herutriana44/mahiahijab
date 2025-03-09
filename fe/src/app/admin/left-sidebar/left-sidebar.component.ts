@@ -47,6 +47,12 @@ export class SidebarComponent {
             window.location.reload();
         });
     }
+    onPos(): void {
+        this.router.navigate(['/admin/pos']).then(() => {
+            console.log('Navigasi ke halaman postingan.');
+            window.location.reload();
+        });
+    }
 
     onPos(): void {
         this.router.navigate(['/admin/pos']).then(() => {

@@ -64,7 +64,7 @@ export const routes: Routes = [
     { path: 'admin/add-product', component: AdminAddProductComponent },
     { path: 'admin/dashboard', component: DashboardComponent },
     { path: 'admin/category', component: AdminTambahKategoriComponent },
-    { path: 'admin/kategori-pos', component: AdminKategoriPosComponent }
+    { path: 'admin/kategori-pos', component: AdminKategoriPosComponent },
     { path: 'admin/order', component: OrderComponent },
 ];
 

@@ -95,17 +95,18 @@ if ($request_method == 'GET') {
     }
 } elseif ($request_method == 'POST') {
     // Create a new category
-    if (isset($_POST['name'])) {
-        $name = $_POST['name'];
+    $data = json_decode(file_get_contents("php://input"), true);
+    if (isset($data['nama'])) {
+        $name = $data['nama'];
         create_category($db, $name);
     } else {
-        echo json_encode(["message" => "Category name is required"]);
+        echo json_encode(["message" => "Category nama is required"]);
     }
 } elseif ($request_method == 'PUT' && isset($_GET['id'])) {
     // Update category by ID
-    if (isset($_GET['id']) && isset($_POST['name'])) {
+    if (isset($_GET['id']) && isset($_POST['nama'])) {
         $id = $_GET['id'];
-        $name = $_POST['name'];
+        $name = $_POST['nama'];
         update_category($db, $id, $name);
     } else {
         echo json_encode(["message" => "Category ID and new name are required"]);

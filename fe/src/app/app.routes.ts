@@ -59,6 +59,7 @@ export const routes: Routes = [
     { path: 'rincian-produk/:id', component: RincianProdukComponent },
     { path: 'pembayaran', component: RincianProdukComponent },
 
+    { path: 'admin', component: DashboardComponent },
     { path: 'admin/login', component: AdminLoginComponent },
     { path: 'admin/pelanggan', component: AdminPelangganComponent },
     { path: 'admin/product', component: AdminProdukComponent },

@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { CategoryService } from './category.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { SidebarComponent } from '../left-sidebar/left-sidebar.component';
 
 @Component({
   selector: 'admin-app-tambah-kategori',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, SidebarComponent],
   templateUrl: './tambah-kategori.component.html',
   styleUrl: './tambah-kategori.component.css'
 })

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { SidebarComponent } from '../left-sidebar/left-sidebar.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'admin-app-produk',
@@ -14,7 +15,7 @@ export class AdminProdukComponent implements OnInit {
   productList: any[] = [];
   apiUrl = 'http://localhost/mahiahijab/api/admin/product/Product.php';
 
-  constructor(public http: HttpClient) { }
+  constructor(public http: HttpClient, private router: Router) { }
 
   ngOnInit(): void {
     this.getProducts();
@@ -58,5 +59,19 @@ export class AdminProdukComponent implements OnInit {
         }
       );
     }
+  }
+
+  onAddProduct(): void {
+    this.router.navigate(['/admin/add-product']).then(() => {
+      console.log('Navigasi ke halaman pos');
+      window.location.reload();
+    });
+  }
+
+  onCategory(): void {
+    this.router.navigate(['/admin/category']).then(() => {
+      console.log('Navigasi ke halaman pos');
+      window.location.reload();
+    });
   }
 }

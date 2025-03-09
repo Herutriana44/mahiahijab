@@ -2,19 +2,19 @@ import { Component, OnInit } from '@angular/core';
 import { PostService } from './post.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { SidebarComponent } from '../left-sidebar/left-sidebar.component';
 
 @Component({
   selector: 'admin-app-pos',
-  imports: [CommonModule, FormsModule, RouterModule,SidebarComponent],
+  imports: [CommonModule, FormsModule, RouterModule, SidebarComponent],
   templateUrl: './pos.component.html',
   styleUrl: './pos.component.css'
 })
 export class PosComponent implements OnInit {
   posts: any[] = [];
 
-  constructor(private postService: PostService) { }
+  constructor(private postService: PostService, private router: Router) { }
 
   ngOnInit() {
     this.loadPosts();
@@ -53,4 +53,19 @@ export class PosComponent implements OnInit {
       );
     }
   }
+
+  onAddProduct(): void {
+    this.router.navigate(['/admin/tambah-pos']).then(() => {
+      console.log('Navigasi ke halaman pos');
+      window.location.reload();
+    });
+  }
+
+  onCategory(): void {
+    this.router.navigate(['/admin/kategori-pos']).then(() => {
+      console.log('Navigasi ke halaman pos');
+      window.location.reload();
+    });
+  }
+
 }

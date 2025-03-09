@@ -10,6 +10,7 @@ header("Access-Control-Allow-Headers: Content-Type, Authorization"); // Izinkan 
 
 // Memulai sesi dan menghubungkan ke database
 session_start();
+include('../../koneksi.php');
 
 // Fungsi untuk mendapatkan daftar kategori
 function getAllCategories($db)

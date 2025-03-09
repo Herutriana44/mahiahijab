@@ -10,14 +10,18 @@ app-sidebar {
 /* Style untuk Konten Utama */
 .container {
     margin-top: 20px;
-    margin-left: 260px; /* Menyesuaikan dengan sidebar */
-    margin-right: 0; /* Menghapus margin di sisi kanan */
-    width: calc(100% - 260px); /* Lebar penuh, dikurangi sidebar */
+    margin-left: 260px;
+    /* Menyesuaikan dengan sidebar */
+    margin-right: 0;
+    /* Menghapus margin di sisi kanan */
+    width: calc(100% - 260px);
+    /* Lebar penuh, dikurangi sidebar */
     background-color: #fff;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    overflow-x: auto; /* Mencegah konten terpotong */
+    overflow-x: auto;
+    /* Mencegah konten terpotong */
 }
 
 /* Style untuk Mini Statistik */
@@ -36,16 +40,19 @@ app-sidebar {
 /* Style untuk Tabel */
 .table-container {
     margin-left: 5cm;
-    width: calc(100% - 5cm); /* Sesuai lebar row */
+    width: calc(100% - 5cm);
+    /* Sesuai lebar row */
 }
 
 .table {
-    width: 100%; /* Sesuai dengan lebar container */
+    width: 100%;
+    /* Sesuai dengan lebar container */
     margin-top: 20px;
     border-collapse: collapse;
 }
 
-.table th, .table td {
+.table th,
+.table td {
     text-align: center;
     vertical-align: middle;
     padding: 8px;
@@ -66,7 +73,8 @@ app-sidebar {
 .btn-sm {
     padding: 5px 10px;
     font-size: 12px;
-    margin: 5px; /* Menambahkan jarak antar tombol */
+    margin: 5px;
+    /* Menambahkan jarak antar tombol */
 }
 
 /* Hover Efek untuk Tombol */

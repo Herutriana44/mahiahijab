@@ -42,7 +42,7 @@ export class SidebarComponent {
     }
 
     onDashboard(): void {
-        this.router.navigate(['/admin/dashboard']).then(() => {
+        this.router.navigate(['/admin/']).then(() => {
             console.log('Navigasi ke halaman dashboard.');
             window.location.reload();
         });
@@ -50,6 +50,13 @@ export class SidebarComponent {
     onPos(): void {
         this.router.navigate(['/admin/pos']).then(() => {
             console.log('Navigasi ke halaman postingan.');
+            window.location.reload();
+        });
+    }
+
+    onPos(): void {
+        this.router.navigate(['/admin/pos']).then(() => {
+            console.log('Navigasi ke halaman pos');
             window.location.reload();
         });
     }

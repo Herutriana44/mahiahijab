@@ -1,0 +1,61 @@
+/* Layout utama */
+.row {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+/* Sidebar */
+app-sidebar {
+    width: 7cm;
+    min-width: 7cm;
+    background-color: #f8f9fa;
+    /* Warna latar belakang opsional */
+    height: 100vh;
+    /* Sesuaikan dengan tinggi layar */
+    position: fixed;
+    left: 0;
+    top: 0;
+    padding: 8px;
+    border-right: 1px solid #ddd;
+}
+
+/* Konten utama */
+.card-body {
+    margin-left: 7cm;
+    /* Geser konten utama ke kanan */
+    width: calc(100% - 7cm);
+    padding: 20px;
+}
+
+/* Styling tabel */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table th,
+.table td {
+    text-align: center;
+    padding: 10px;
+    vertical-align: middle;
+}
+
+/* Gambar produk */
+.product-list-img img {
+    max-width: 150px;
+    height: auto;
+    border-radius: 5px;
+    object-fit: cover;
+}
+
+/* Tombol aksi */
+.btn {
+    margin: 2px;
+}
+
+/* Tombol Tambah Produk */
+.btn-danger.text-white {
+    font-weight: bold;
+    padding: 8px 12px;
+    border-radius: 5px;
+}

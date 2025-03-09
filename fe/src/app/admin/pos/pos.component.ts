@@ -3,10 +3,11 @@ import { PostService } from './post.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { SidebarComponent } from '../left-sidebar/left-sidebar.component';
 
 @Component({
   selector: 'admin-app-pos',
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule,SidebarComponent],
   templateUrl: './pos.component.html',
   styleUrl: './pos.component.css'
 })

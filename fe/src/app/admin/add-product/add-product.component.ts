@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SidebarComponent } from '../left-sidebar/left-sidebar.component';
 
 @Component({
@@ -11,10 +12,12 @@ import { SidebarComponent } from '../left-sidebar/left-sidebar.component';
   styleUrls: ['./add-product.component.css'],
   imports: [CommonModule, FormsModule, ReactiveFormsModule, SidebarComponent]
 })
-export class AdminAddProductComponent {
+export class AdminAddProductComponent implements OnInit {
   productForm: FormGroup;
   previewImage: string | ArrayBuffer | null = '';
   apiUrl = 'http://localhost/mahiahijab/api/admin/product/Product.php';
+  categoryApiUrl = 'http://localhost/mahiahijab/api/admin/product/Category.php';
+  categories: any[] = []; // Array untuk menyimpan kategori
 
   constructor(
     private fb: FormBuilder,
@@ -32,7 +35,27 @@ export class AdminAddProductComponent {
     });
   }
 
-  // Fungsi untuk menangani file upload dan konversi ke Base64
+  ngOnInit() {
+    this.fetchCategories(); // Panggil fungsi untuk mengambil kategori saat komponen di-load
+  }
+
+  // Ambil kategori dari API
+  fetchCategories() {
+    this.http.get<any[]>(this.categoryApiUrl).subscribe(
+      (response) => {
+        this.categories = response.map(item => ({
+          id: item.id_kategori,
+          name: item.nm_kategori
+        }));
+        console.log('Kategori:', this.categories);
+      },
+      (error) => {
+        console.error('Gagal mengambil kategori:', error);
+      }
+    );
+  }
+
+  // Konversi gambar ke Base64
   onFileSelected(event: any) {
     const file = event.target.files[0];
     if (file) {
@@ -47,11 +70,12 @@ export class AdminAddProductComponent {
     }
   }
 
-  // Fungsi untuk submit form
+  // Submit produk
   addProduct() {
+    console.log(this.productForm.value);
     if (this.productForm.valid) {
-      this.http.post(this.apiUrl, this.productForm.value)
-        .subscribe((response: any) => {
+      this.http.post(this.apiUrl, this.productForm.value).subscribe(
+        (response: any) => {
           console.log(response);
           if (response.status === 'success') {
             alert('Produk berhasil ditambahkan!');
@@ -59,10 +83,12 @@ export class AdminAddProductComponent {
           } else {
             alert('Gagal menambahkan produk!');
           }
-        }, (error) => {
+        },
+        (error) => {
           console.error('Error:', error);
           alert('Terjadi kesalahan saat mengirim data.');
-        });
+        }
+      );
     } else {
       alert('Silakan isi semua field dengan benar.');
     }

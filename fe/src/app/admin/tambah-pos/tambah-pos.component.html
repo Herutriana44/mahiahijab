@@ -6,32 +6,28 @@
                     <app-sidebar></app-sidebar>
 
                     <h2 class="mb-4 text-center">Tambah Postingan Baru</h2>
-                    <form [formGroup]="postForm" (ngSubmit)="submitPost()" enctype="multipart/form-data">
-                        <div class="form-group mb-3">
-                            <label class="form-label fw-bold">Judul</label>
-                            <input type="text" class="form-control" formControlName="judul" required />
-                        </div>
-                        <div class="form-group mb-3">
-                            <label class="form-label fw-bold">Isi Postingan</label>
-                            <textarea class="form-control" formControlName="isi" rows="5" required></textarea>
-                        </div>
-                        <div class="form-group mb-3">
-                            <label class="form-label fw-bold">Kategori</label>
-                            <select class="form-control" formControlName="kategori" required>
-                                <option value="">Pilih Kategori</option>
-                                <option *ngFor="let kategori of categories" [value]="kategori.id_kategori">
-                                    {{ kategori.nm_kategori }}
-                                </option>
-                            </select>
-                        </div>
-                        <div class="form-group mb-3">
-                            <label class="form-label fw-bold">Gambar</label>
-                            <input type="file" class="form-control" (change)="onFileSelected($event)" required />
-                        </div>
-                        <button type="submit" class="btn btn-success w-100" [disabled]="postForm.invalid">
-                            Pos Sekarang
-                        </button>
+                    <form [formGroup]="postForm" (ngSubmit)="submitPost()">
+                        <label>Judul</label>
+                        <input type="text" formControlName="judul" class="form-control" />
+
+                        <label>Isi Postingan</label>
+                        <textarea formControlName="isi" class="form-control"></textarea>
+
+                        <label>Kategori</label>
+                        <select formControlName="kategori" class="form-control">
+                            <option *ngFor="let kat of categories" [value]="kat.id_kategori">{{ kat.nm_kategori }}
+                            </option>
+                        </select>
+
+                        <label>Gambar</label>
+                        <input type="file" (change)="convertToBase64($event)" class="form-control" />
+                        <small *ngIf="postForm.get('gambar')?.hasError('invalidBase64')" class="text-danger">
+                            Format gambar tidak valid!
+                        </small>
+
+                        <button type="submit" class="btn btn-success">Pos Sekarang</button>
                     </form>
+
                 </div>
             </div>
         </div>

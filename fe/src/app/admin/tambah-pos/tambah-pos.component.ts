@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PosService } from './post.service';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { SidebarComponent } from '../left-sidebar/left-sidebar.component';
@@ -15,7 +15,7 @@ import { SidebarComponent } from '../left-sidebar/left-sidebar.component';
 export class AdminTambahPosComponent implements OnInit {
   postForm!: FormGroup;
   categories: any[] = [];
-  selectedFile!: File;
+  base64Image: string = ''; // Menyimpan gambar dalam format Base64
 
   constructor(private posService: PosService, private fb: FormBuilder) { }
 
@@ -24,10 +24,18 @@ export class AdminTambahPosComponent implements OnInit {
       judul: ['', Validators.required],
       isi: ['', Validators.required],
       kategori: ['', Validators.required],
-      gambar: ['', Validators.required],
+      gambar: [''],
     });
 
     this.loadCategories();
+  }
+
+  base64Validator(control: AbstractControl) {
+    const value = control.value;
+    if (!value || !value.startsWith('data:image/')) {
+      return { invalidBase64: true };
+    }
+    return null;
   }
 
   // Ambil data kategori dari API
@@ -41,25 +49,48 @@ export class AdminTambahPosComponent implements OnInit {
     });
   }
 
-  // Handle perubahan file gambar
+  // Handle perubahan file gambar dan konversi ke Base64
   onFileSelected(event: any) {
-    this.selectedFile = event.target.files[0];
+    const file: File = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.base64Image = reader.result as string;
+      };
+      reader.readAsDataURL(file); // Konversi ke Base64
+    }
   }
 
   // Kirim data postingan
   submitPost() {
+    console.log('Form Status:', this.postForm.status);
+    console.log('Form Values:', this.postForm.value);
+    console.log({
+      judul: this.postForm.get('judul')?.value,
+      isi: this.postForm.get('isi')?.value,
+      kategori: this.postForm.get('kategori')?.value,
+      gambar: this.base64Image // ✅ Pastikan gambar dikirim
+    });
+
     if (this.postForm.invalid) {
-      alert('Silakan lengkapi semua bidang!');
+      alert('Form masih tidak valid!');
       return;
     }
 
-    const formData = new FormData();
-    formData.append('judul', this.postForm.get('judul')?.value);
-    formData.append('isi', this.postForm.get('isi')?.value);
-    formData.append('kategori', this.postForm.get('kategori')?.value);
-    formData.append('gambar', this.selectedFile);
+    if (this.base64Image == "") {
+      alert('Harap upload gambar terlebih dahulu!');
+      return;
+    }
 
-    this.posService.addPost(formData).subscribe(response => {
+    const postData = {
+      judul: this.postForm.get('judul')?.value,
+      isi: this.postForm.get('isi')?.value,
+      kategori: this.postForm.get('kategori')?.value,
+      gambar: this.base64Image // ✅ Pastikan gambar dikirim
+    };
+
+    this.posService.addPost(postData).subscribe(response => {
+      alert(response);
       if (response.status === 'success') {
         alert('Postingan berhasil ditambahkan!');
         this.postForm.reset();
@@ -68,4 +99,20 @@ export class AdminTambahPosComponent implements OnInit {
       }
     });
   }
+
+  convertToBase64(event: Event) {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        this.base64Image = reader.result as string;
+        this.postForm.controls['gambar'].setValue(this.base64Image); // ✅ Paksa nilai form diperbarui
+        this.postForm.controls['gambar'].updateValueAndValidity();  // ✅ Pastikan validasi berjalan
+        console.log('Base64:', this.base64Image);
+      };
+    }
+  }
+
+
 }

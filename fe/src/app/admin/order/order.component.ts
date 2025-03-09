@@ -12,9 +12,9 @@ import { SidebarComponent } from '../left-sidebar/left-sidebar.component';
     styleUrls: ['./order.component.css'],
     standalone: true,  // Standalone component
     imports: [
-        CommonModule, 
-        RouterModule, 
-        FormsModule, 
+        CommonModule,
+        RouterModule,
+        FormsModule,
         SidebarComponent
     ],
     providers: [DecimalPipe, DatePipe] // Tambahkan penyedia pipe jika masih error
@@ -30,7 +30,7 @@ export class OrderComponent implements OnInit {
 
     private apiUrl = 'http://localhost/mahiahijab/api/admin/order/order.php';
 
-    constructor(private http: HttpClient, private router: Router) {}
+    constructor(private http: HttpClient, public router: Router) { }
 
     ngOnInit(): void {
         this.fetchOrderStats();
@@ -63,7 +63,7 @@ export class OrderComponent implements OnInit {
     }
 
     goToOrderDetail(id: number): void {
-        this.router.navigate([`/admin/order-detail`, id]);
+        this.router.navigate([`/admin/order-detail/`, id]);
     }
 
     handleAction(order: any): void {

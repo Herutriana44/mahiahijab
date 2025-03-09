@@ -29,8 +29,8 @@
                         <tr *ngFor="let product of productList; let i = index">
                             <td class="product-list-img">
                                 <img *ngIf="product.gambar" width="200"
-                                    [src]="'assets/admin/assets/images/foto_produk/' + product.gambar" class="img-fluid"
-                                    alt="Product Image">
+                                    [src]="'../../../assets/admin/assets/images/foto_produk/' + product.gambar"
+                                    class="img-fluid" alt="Product Image">
                             </td>
                             <td>
                                 <h6 class="mt-0 mb-5">{{ product.nm_produk }}</h6>

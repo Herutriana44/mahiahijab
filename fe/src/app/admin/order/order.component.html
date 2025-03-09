@@ -1,4 +1,3 @@
-
 <app-sidebar></app-sidebar>
 <div class="row">
     <div class="col-md-6 col-lg-4 col-xl-2" *ngFor="let stat of [
@@ -52,7 +51,8 @@
                             </td>
                             <td>Rp. {{ order.total_order | number }}</td>
                             <td>
-                                <button class="btn btn-light btn-sm" [routerLink]="['/admin/order-detail', order.id_order]">
+                                <button class="btn btn-light btn-sm" (click)="goToOrderDetail(order.id_order)"
+                                    [routerLink]="['/admin/order-detail', order.id_order]">
                                     <i class="mdi mdi-buffer font-18"></i> Detail
                                 </button>
                                 <button *ngIf="order.status === 'Sudah Dibayar'" class="btn btn-secondary btn-sm">

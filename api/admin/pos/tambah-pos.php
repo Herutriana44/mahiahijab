@@ -2,40 +2,109 @@
 header('Content-Type: application/json');
 include('../../koneksi.php');
 
-header("Access-Control-Allow-Origin: *"); // Mengizinkan akses dari semua domain
-header("Access-Control-Allow-Methods: GET, POST, DELETE, PUT, OPTIONS"); // Izinkan metode GET, POST, DELETE, PUT
-header("Access-Control-Allow-Headers: Content-Type, Authorization"); // Izinkan header tertentu
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
-// Fungsi untuk menambahkan postingan
-function addPost($judul, $isi, $kategori, $gambarBase64, $db)
+// Direktori penyimpanan gambar
+$uploadDir = '../../../fe/src/assets/admin/assets/images/foto_pos/';
+
+// Fungsi untuk menyimpan gambar dari Base64
+function saveBase64Image($base64Image, $uploadDir)
 {
-    $tgl = date('Y-m-d');
-    $query = "INSERT INTO tbl_pos (judul, isi, gambar, id_kategori, tgl) VALUES ('$judul', '$isi', '$gambarBase64', '$kategori', '$tgl')";
-    return mysqli_query($db, $query);
+    // Pastikan direktori ada
+    if (!is_dir($uploadDir)) {
+        mkdir($uploadDir, 0777, true);
+    }
+
+    // Cek apakah data base64 valid
+    if (preg_match('/^data:image\/(\w+);base64,/', $base64Image, $type)) {
+        $data = substr($base64Image, strpos($base64Image, ',') + 1);
+        $type = strtolower($type[1]); // jpg, png, jpeg
+
+        // Pastikan hanya format yang diperbolehkan
+        if (!in_array($type, ['jpg', 'jpeg', 'png'])) {
+            return ['status' => 'error', 'message' => 'Format gambar tidak valid. Gunakan JPG atau PNG.'];
+        }
+
+        $data = base64_decode($data);
+        if ($data === false) {
+            return ['status' => 'error', 'message' => 'Base64 decoding gagal.'];
+        }
+
+        // Nama file unik
+        $fileName = uniqid('post_') . '.' . $type;
+        $filePath = $uploadDir . $fileName;
+
+        // Simpan gambar ke folder
+        if (file_put_contents($filePath, $data)) {
+            return ['status' => 'success', 'file_name' => $fileName];
+        } else {
+            return ['status' => 'error', 'message' => 'Gagal menyimpan gambar.'];
+        }
+    }
+
+    return ['status' => 'error', 'message' => 'Format Base64 tidak valid.'];
 }
 
-// Menghandle request POST
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Mengambil input dari JSON
-    $inputJSON = file_get_contents("php://input");
-    $input = json_decode($inputJSON, true);
+// Fungsi untuk menambahkan postingan
+function addPost($judul, $isi, $kategori, $gambarFileName, $db)
+{
+    $tgl = date('Y-m-d');
 
-    // Validasi input
-    if (!isset($input['judul']) || !isset($input['isi']) || !isset($input['kategori']) || !isset($input['gambar'])) {
-        echo json_encode([
-            'status' => 'error',
-            'message' => 'Kategori, Judul, Isi, dan Gambar harus diisi.'
-        ]);
+    // Cek apakah kategori valid
+    $checkCategory = "SELECT id_kategori FROM tbl_kat_pos WHERE id_kategori = ?";
+    $stmt = mysqli_prepare($db, $checkCategory);
+    mysqli_stmt_bind_param($stmt, "i", $kategori);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_store_result($stmt);
+
+    if (mysqli_stmt_num_rows($stmt) == 0) {
+        echo json_encode(['status' => 'error', 'message' => 'Kategori tidak ditemukan.']);
+        exit();
+    }
+    mysqli_stmt_close($stmt);
+
+    // Simpan data ke database
+    $query = "INSERT INTO tbl_pos (judul, isi, gambar, id_kategori, tgl) VALUES (?, ?, ?, ?, ?)";
+    $stmt = mysqli_prepare($db, $query);
+    mysqli_stmt_bind_param($stmt, "sssis", $judul, $isi, $gambarFileName, $kategori, $tgl);
+    $result = mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+
+    return $result;
+}
+
+// Handle request POST
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $data = json_decode(file_get_contents("php://input"), true);
+
+    if (!isset($data['judul'], $data['isi'], $data['kategori'], $data['gambar'])) {
+        echo json_encode(['status' => 'error', 'message' => 'Semua data harus diisi.']);
         exit();
     }
 
-    $judul = $input['judul'];
-    $isi = $input['isi'];
-    $kategori = $input['kategori'];
-    $gambarBase64 = $input['gambar']; // Base64 image langsung disimpan di database
+    $judul = $data['judul'];
+    $isi = $data['isi'];
+    $kategori = (int) $data['kategori'];
+    $base64Gambar = $data['gambar']; // Gambar dalam format Base64
 
-    // Menyimpan data ke database
-    if (addPost($judul, $isi, $kategori, $gambarBase64, $db)) {
+    if (empty($judul) || empty($isi) || empty($kategori) || empty($base64Gambar)) {
+        echo json_encode(['status' => 'error', 'message' => 'Judul, isi, kategori, dan gambar tidak boleh kosong.']);
+        exit();
+    }
+
+    // Simpan gambar
+    $saveImage = saveBase64Image($base64Gambar, $uploadDir);
+    if ($saveImage['status'] === 'error') {
+        echo json_encode($saveImage);
+        exit();
+    }
+
+    $gambarFileName = $saveImage['file_name'];
+
+    // Tambahkan postingan ke database
+    if (addPost($judul, $isi, $kategori, $gambarFileName, $db)) {
         echo json_encode([
             'status' => 'success',
             'message' => 'Postingan berhasil ditambahkan.',
@@ -43,14 +112,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 'judul' => $judul,
                 'isi' => $isi,
                 'kategori' => $kategori,
-                'gambar' => 'Base64 image disimpan'
+                'gambar' => $gambarFileName
             ]
         ]);
     } else {
-        echo json_encode([
-            'status' => 'error',
-            'message' => 'Gagal menyimpan data postingan.'
-        ]);
+        echo json_encode(['status' => 'error', 'message' => 'Gagal menyimpan data postingan.']);
     }
 }
 ?>

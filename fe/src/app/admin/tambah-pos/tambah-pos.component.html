@@ -1,33 +1,49 @@
-<div class="container mt-4">
+<div class="container-fluid">
     <div class="row">
-        <div class="col-lg-6 mx-auto">
-            <div class="card shadow-sm">
+        <!-- Sidebar -->
+        <div>
+            <app-sidebar></app-sidebar>
+        </div>
+        <!-- Konten Utama -->
+        <div class="main-content">
+            <div class="card">
+                <div class="card-header bg-primary text-white text-center">
+                    <h4>Tambah Postingan Baru</h4>
+                </div>
                 <div class="card-body">
-                    <app-sidebar></app-sidebar>
-
-                    <h2 class="mb-4 text-center">Tambah Postingan Baru</h2>
                     <form [formGroup]="postForm" (ngSubmit)="submitPost()">
-                        <label>Judul</label>
-                        <input type="text" formControlName="judul" class="form-control" />
+                        <div class="form-group">
+                            <label>Judul:</label>
+                            <input type="text" formControlName="judul" class="form-control" required>
+                        </div>
 
-                        <label>Isi Postingan</label>
-                        <textarea formControlName="isi" class="form-control"></textarea>
+                        <div class="form-group">
+                            <label>Isi Postingan:</label>
+                            <textarea formControlName="isi" class="form-control" required></textarea>
+                        </div>
 
-                        <label>Kategori</label>
-                        <select formControlName="kategori" class="form-control">
-                            <option *ngFor="let kat of categories" [value]="kat.id_kategori">{{ kat.nm_kategori }}
-                            </option>
-                        </select>
+                        <div class="form-group">
+                            <label>Kategori:</label>
+                            <select formControlName="kategori" class="form-control" required>
+                                <option value="">Pilih Kategori</option>
+                                <option *ngFor="let kat of categories" [value]="kat.id_kategori">{{ kat.nm_kategori }}</option>
+                            </select>
+                        </div>
 
-                        <label>Gambar</label>
-                        <input type="file" (change)="convertToBase64($event)" class="form-control" />
-                        <small *ngIf="postForm.get('gambar')?.hasError('invalidBase64')" class="text-danger">
-                            Format gambar tidak valid!
-                        </small>
+                        <!-- Preview Gambar -->
+                        <div class="form-group">
+                            <label>Gambar:</label><br>
+                            <img *ngIf="base64Image" [src]="base64Image" alt="Preview Image" class="img-thumbnail" width="200">
+                        </div>
 
-                        <button type="submit" class="btn btn-success">Pos Sekarang</button>
+                        <!-- Input Upload Gambar -->
+                        <div class="form-group">
+                            <label>Upload Gambar:</label>
+                            <input type="file" (change)="convertToBase64($event)" class="form-control">
+                        </div>
+
+                        <button type="submit" class="btn btn-success mt-3">Pos Sekarang</button>
                     </form>
-
                 </div>
             </div>
         </div>

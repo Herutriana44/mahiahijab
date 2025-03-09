@@ -1,11 +1,13 @@
 <aside class="app-sidebar">
     <nav>
         <h3>MAHIAHIJAB</h3>
-        <a (click)="onDashboard()" style="cursor: pointer;">Dashboard</a>
-        <a (click)="onPos()" style="cursor: pointer;">Postingan</a>
-        <a (click)="onProduct()" style="cursor: pointer;">Produk</a>
-        <a (click)="onPelanggan()" style="cursor: pointer;">Pelanggan</a>
-        <a (click)="onOrder()" style="cursor: pointer;">Order</a>
-        <a (click)="onLogout()" style="cursor: pointer;">Logout</a>
+        <ul>
+            <li (click)="onNavigate('/admin/dashboard')" [class.active]="activePage === 'dashboard'">Dashboard</li>
+            <li (click)="onNavigate('/admin/pos')" [class.active]="activePage === 'postingan'">Postingan</li>
+            <li (click)="onNavigate('/admin/product')" [class.active]="activePage === 'produk'">Produk</li>
+            <li (click)="onNavigate('/admin/pelanggan')" [class.active]="activePage === 'pelanggan'">Pelanggan</li>
+            <li (click)="onNavigate('/admin/order')" [class.active]="activePage === 'order'">Order</li>
+            <li (click)="onLogout()" class="logout">Logout</li>
+        </ul>
     </nav>
 </aside>

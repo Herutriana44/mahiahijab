@@ -54,7 +54,7 @@ export class PosComponent implements OnInit {
     }
   }
 
-  onAddProduct(): void {
+  onTambahpos(): void {
     this.router.navigate(['/admin/tambah-pos']).then(() => {
       console.log('Navigasi ke halaman pos');
       window.location.reload();

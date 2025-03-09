@@ -1,132 +1,58 @@
-/* Style untuk Sidebar */
+/* Sidebar */
 app-sidebar {
-    position: fixed;
-    width: 250px;
-    height: 100%;
+    width: 4.7cm;
+    min-width: 4.7cm;
     background-color: #f8f9fa;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-}
-
-/* Style untuk Konten Utama */
-.container {
-    margin-top: 20px;
-    margin-left: 260px;
-    /* Menyesuaikan dengan sidebar */
-    margin-right: 0;
-    /* Menghapus margin di sisi kanan */
-    width: calc(100% - 260px);
-    /* Lebar penuh, dikurangi sidebar */
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    overflow-x: auto;
-    /* Mencegah konten terpotong */
-}
-
-/* Style untuk Mini Statistik */
-.mini-stat {
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
     padding: 15px;
-    border-radius: 8px;
-    text-align: center;
-    margin-bottom: 20px;
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    border-right: 1px solid #ddd;
 }
 
-.mini-stat .font-40 {
-    font-size: 40px;
+/* Konten Utama */
+.main-content {
+    margin-left: 4.7cm; /* Geser konten ke kanan 7cm */
+    padding: 20px;
+    width: calc(100% - 4.7cm); /* Sisakan ruang untuk sidebar */
 }
 
-/* Style untuk Tabel */
-.table-container {
-    margin-left: 5cm;
-    width: calc(100% - 5cm);
-    /* Sesuai lebar row */
-}
-
+/* Tabel */
 .table {
     width: 100%;
-    /* Sesuai dengan lebar container */
-    margin-top: 20px;
     border-collapse: collapse;
-}
-
-.table th,
-.table td {
     text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.table th, .table td {
+    padding: 15px;
     vertical-align: middle;
-    padding: 8px;
     border: 1px solid #ddd;
+}
+
+.table thead {
+    background-color: #343a40;
+    color: white;
+}
+
+/* Tombol */
+.btn {
+    padding: 8px 12px;
     font-size: 14px;
+    margin:5px;
 }
 
-.table th {
-    background-color: #f8f9fa;
-    font-weight: bold;
+.btn-danger {
+    background-color: #dc3545;
 }
 
-.table-striped tbody tr:nth-of-type(odd) {
-    background-color: #f9f9f9;
+.btn-warning {
+    background-color: #ffc107;
+    color: #212529;
 }
 
-/* Style untuk Tombol */
-.btn-sm {
-    padding: 5px 10px;
-    font-size: 12px;
-    margin: 5px;
-    /* Menambahkan jarak antar tombol */
-}
-
-/* Hover Efek untuk Tombol */
 .btn-warning:hover {
     background-color: #e0a800;
-    color: #fff;
-}
-
-.btn-danger:hover {
-    background-color: #c82333;
-    color: #fff;
-}
-
-/* Style untuk Badge */
-.badge {
-    padding: 5px 10px;
-    border-radius: 5px;
-    font-size: 14px;
-}
-
-.badge-warning {
-    background-color: #ffc107;
-    color: #fff;
-}
-
-.badge-secondary {
-    background-color: #6c757d;
-    color: #fff;
-}
-
-.badge-info {
-    background-color: #17a2b8;
-    color: #fff;
-}
-
-.badge-danger {
-    background-color: #dc3545;
-    color: #fff;
-}
-
-.badge-success {
-    background-color: #28a745;
-    color: #fff;
-}
-
-/* Style untuk Kartu (Card) */
-.card {
-    border: 1px solid #e3e3e3;
-    border-radius: 8px;
-    overflow: hidden;
-}
-
-.card-body {
-    padding: 15px;
 }

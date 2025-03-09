@@ -79,7 +79,7 @@ export class AdminAddProductComponent implements OnInit {
           console.log(response);
           if (response.status === 'success') {
             alert('Produk berhasil ditambahkan!');
-            this.router.navigate(['/products']);
+            this.router.navigate(['/admin/product']);
           } else {
             alert('Gagal menambahkan produk!');
           }

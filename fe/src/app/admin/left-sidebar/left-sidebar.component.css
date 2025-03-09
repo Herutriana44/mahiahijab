@@ -1,30 +1,59 @@
 .app-sidebar {
-    width: 200px;
+    width: 5cm; /* Lebar tetap 5 cm */
     background-color: #f8f9fa;
-    height: 120vh;
-    padding: 15px;
+    height: 100vh;
+    padding: 20px;
     position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
-nav a {
+h3 {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    flex-grow: 1; /* Agar menu mengisi area yang tersisa */
+}
+
+li {
     display: block;
-    padding: 10px 0;
+    padding: 12px;
+    margin: 5px 0;
     color: #333;
     text-decoration: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background 0.3s ease;
+    text-align: center;
+    font-size: 14px;
 }
 
-nav a:hover {
+li:hover {
     background-color: #e9ecef;
 }
 
-nav a {
-    text-decoration: none;
-    padding: 10px;
-    display: block;
-    color: black;
+li.active {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
 }
 
-nav a.active {
+.logout {
+    color: red;
     font-weight: bold;
-    color: blue;
+    text-align: center;
+    cursor: pointer;
+    margin-bottom: 20px; /* Memberi jarak bawah */
 }

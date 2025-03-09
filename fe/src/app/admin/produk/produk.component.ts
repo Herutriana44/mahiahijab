@@ -3,10 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { SidebarComponent } from '../left-sidebar/left-sidebar.component';
 import { Router } from '@angular/router';
+import { RouterModule } from '@angular/router';
+
 
 @Component({
   selector: 'admin-app-produk',
-  imports: [CommonModule, SidebarComponent],
+  imports: [CommonModule, SidebarComponent,RouterModule],
   templateUrl: './produk.component.html',
   styleUrl: './produk.component.css',
   standalone: true

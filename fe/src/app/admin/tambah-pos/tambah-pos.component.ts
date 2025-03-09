@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PosService } from './post.service';
 import { AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { SidebarComponent } from '../left-sidebar/left-sidebar.component';
 
 @Component({
@@ -15,18 +15,17 @@ import { SidebarComponent } from '../left-sidebar/left-sidebar.component';
 export class AdminTambahPosComponent implements OnInit {
   postForm!: FormGroup;
   categories: any[] = [];
-  base64Image: string = ''; // Menyimpan gambar dalam format Base64
+  base64Image: string = '';
 
-  constructor(private posService: PosService, private fb: FormBuilder) { }
+  constructor(private posService: PosService, private fb: FormBuilder, private router: Router) { }
 
   ngOnInit(): void {
     this.postForm = this.fb.group({
       judul: ['', Validators.required],
       isi: ['', Validators.required],
       kategori: ['', Validators.required],
-      gambar: [''],
+      gambar: ['', this.base64Validator],
     });
-
     this.loadCategories();
   }
 
@@ -38,7 +37,6 @@ export class AdminTambahPosComponent implements OnInit {
     return null;
   }
 
-  // Ambil data kategori dari API
   loadCategories() {
     this.posService.getCategories().subscribe(response => {
       if (response.status === 'success') {
@@ -49,29 +47,20 @@ export class AdminTambahPosComponent implements OnInit {
     });
   }
 
-  // Handle perubahan file gambar dan konversi ke Base64
-  onFileSelected(event: any) {
-    const file: File = event.target.files[0];
+  convertToBase64(event: Event) {
+    const file = (event.target as HTMLInputElement).files?.[0];
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
         this.base64Image = reader.result as string;
+        this.postForm.controls['gambar'].setValue(this.base64Image);
+        this.postForm.controls['gambar'].updateValueAndValidity();
       };
-      reader.readAsDataURL(file); // Konversi ke Base64
+      reader.readAsDataURL(file);
     }
   }
 
-  // Kirim data postingan
   submitPost() {
-    console.log('Form Status:', this.postForm.status);
-    console.log('Form Values:', this.postForm.value);
-    console.log({
-      judul: this.postForm.get('judul')?.value,
-      isi: this.postForm.get('isi')?.value,
-      kategori: this.postForm.get('kategori')?.value,
-      gambar: this.base64Image // ✅ Pastikan gambar dikirim
-    });
-
     if (this.postForm.invalid) {
       alert('Form masih tidak valid!');
       return;
@@ -86,33 +75,18 @@ export class AdminTambahPosComponent implements OnInit {
       judul: this.postForm.get('judul')?.value,
       isi: this.postForm.get('isi')?.value,
       kategori: this.postForm.get('kategori')?.value,
-      gambar: this.base64Image // ✅ Pastikan gambar dikirim
+      gambar: this.base64Image
     };
 
     this.posService.addPost(postData).subscribe(response => {
-      alert(response);
       if (response.status === 'success') {
         alert('Postingan berhasil ditambahkan!');
         this.postForm.reset();
+        this.base64Image = '';
+        this.router.navigate(['/admin/pos']);
       } else {
         alert('Gagal menambahkan postingan.');
       }
     });
   }
-
-  convertToBase64(event: Event) {
-    const file = (event.target as HTMLInputElement).files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        this.base64Image = reader.result as string;
-        this.postForm.controls['gambar'].setValue(this.base64Image); // ✅ Paksa nilai form diperbarui
-        this.postForm.controls['gambar'].updateValueAndValidity();  // ✅ Pastikan validasi berjalan
-        console.log('Base64:', this.base64Image);
-      };
-    }
-  }
-
-
 }

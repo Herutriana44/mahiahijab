@@ -1,21 +1,26 @@
-<div class="container">
+<div class="container-fluid">
     <div class="row">
-        <div class="col-6">
+        <!-- Sidebar -->
+        <div>
+            <app-sidebar></app-sidebar>
+        </div>
+        <!-- Konten Utama -->
+        <div class="main-content">
             <div class="card">
+                <div class="card-header bg-primary text-white text-center">
+                    <h4>Tambah Kategori</h4>
+                </div>
                 <div class="card-body">
-                    <app-sidebar></app-sidebar>
-
                     <form (submit)="addCategory(); $event.preventDefault()">
                         <div class="form-group">
                             <label for="name">Nama Kategori</label>
                             <input id="name" [(ngModel)]="name" name="name" class="form-control"
-                                placeholder="Masukkan kategori baru" />
+                                placeholder="Masukkan kategori baru" required />
                         </div>
-                        <button type="submit" class="btn btn-success">Tambah</button>
+                        <button type="submit" class="btn btn-success mt-3">Tambah</button>
                     </form>
-
-                    <table class="table">
-                        <thead>
+                    <table class="table table-bordered mt-4">
+                        <thead class="table-dark">
                             <tr>
                                 <th>No</th>
                                 <th>Nama Kategori</th>
@@ -27,7 +32,7 @@
                                 <td>{{ i + 1 }}</td>
                                 <td>{{ category.nm_kategori }}</td>
                                 <td>
-                                    <button class="btn btn-danger" (click)="deleteCategory(category.id_kategori)">
+                                    <button class="btn btn-danger btn-sm" (click)="deleteCategory(category.id_kategori)">
                                         Hapus
                                     </button>
                                 </td>

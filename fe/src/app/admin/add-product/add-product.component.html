@@ -1,11 +1,16 @@
-<div class="container">
+<div class="container-fluid">
     <div class="row">
-        <div class="col-6">
+        <!-- Sidebar -->
+        <div>
+            <app-sidebar></app-sidebar>
+        </div>
+        <!-- Konten Utama -->
+        <div class="main-content">
             <div class="card">
+                <div class="card-header bg-primary text-white text-center">
+                    <h4>Tambah Produk</h4>
+                </div>
                 <div class="card-body">
-                    <app-sidebar></app-sidebar>
-
-                    <h2>Tambah Produk</h2>
                     <form [formGroup]="productForm" (ngSubmit)="addProduct()">
                         <div class="form-group">
                             <label>Nama Produk:</label>
@@ -21,7 +26,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label>Berat (Gram):</label>
+                            <label>Berat (kg):</label>
                             <input type="number" formControlName="berat" class="form-control" required>
                         </div>
 
@@ -43,7 +48,7 @@
                         <!-- Preview Gambar -->
                         <div class="form-group">
                             <label>Gambar Produk:</label><br>
-                            <img *ngIf="previewImage" [src]="previewImage" alt="Preview Image" width="200">
+                            <img *ngIf="previewImage" [src]="previewImage" alt="Preview Image" class="img-thumbnail" width="200">
                         </div>
 
                         <!-- Input Upload Gambar -->
@@ -52,8 +57,8 @@
                             <input type="file" (change)="onFileSelected($event)" class="form-control">
                         </div>
 
-                        <button type="submit" class="btn btn-primary">Tambah Produk</button>
-                        <a routerLink="/products" class="btn btn-secondary">Batal</a>
+                        <button type="submit" class="btn btn-success mt-3">Tambah Produk</button>
+                        <a routerLink="/products" class="btn btn-secondary mt-3">Batal</a>
                     </form>
                 </div>
             </div>

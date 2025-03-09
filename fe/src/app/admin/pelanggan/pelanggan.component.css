@@ -1,71 +1,53 @@
-/* Style untuk Sidebar */
-
-
-/* Style untuk Navigasi dalam Sidebar */
-nav a {
-    display: block;
-    padding: 10px 0;
-    color: #333;
-    text-decoration: none;
-}
-
-nav a:hover {
-    background-color: #e9ecef;
-}
-
-nav a.active {
-    font-weight: bold;
-    color: blue;
-}
-
-/* Style untuk Konten Utama (di luar sidebar) */
-.container {
-    margin-top: 20px;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    margin-left: 250px; /* Memberikan ruang untuk sidebar */
-    flex-grow: 1; /* Membuat container mengisi sisa ruang */
-}
-
-/* Style untuk Tabel */
-.table {
-    width: 100%; /* Membuat tabel sedikit lebih besar */
-    margin-bottom: 1rem;
-    background-color: transparent;
-}
-
-.table thead th {
+/* Sidebar */
+app-sidebar {
+    width: 4.8cm;
+    min-width: 4.8cm;
     background-color: #f8f9fa;
-    color: #495057;
-    font-weight: bold;
-    text-align: center;
-    vertical-align: middle;
-    padding: 10px;
-}
-
-.table tbody tr td {
-    vertical-align: middle;
-    text-align: center;
-    padding: 10px;
-}
-
-.table-striped tbody tr:nth-of-type(odd) {
-    background-color: #f9f9f9;
-}
-
-.btn-sm {
-    padding: 5px 10px;
-    font-size: 12px;
-}
-
-.card {
-    border: 1px solid #e3e3e3;
-    border-radius: 8px;
-    overflow: hidden;
-}
-
-.card-body {
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
     padding: 15px;
+    border-right: 1px solid #ddd;
+}
+
+/* Konten Utama */
+.main-content {
+    margin-left: 5cm; /* Geser konten utama ke kanan 7cm */
+    padding: 20px;
+    width: calc(100% - 5cm); /* Sisakan ruang untuk sidebar */
+}
+
+/* Tabel */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.table th, .table td {
+    padding: 15px;
+    vertical-align: middle;
+    border: 1px solid #ddd;
+}
+
+.table thead {
+    background-color: #343a40;
+    color: white;
+}
+
+/* Tombol */
+.btn {
+    padding: 8px 12px;
+    font-size: 14px;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: white;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
 }

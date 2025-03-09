@@ -1,61 +1,46 @@
-/* Layout utama */
-.row {
-    display: flex;
-    flex-wrap: nowrap;
-}
-
 /* Sidebar */
 app-sidebar {
-    width: 7cm;
-    min-width: 7cm;
+    width: 4.7cm;
+    min-width: 4.7cm;
     background-color: #f8f9fa;
-    /* Warna latar belakang opsional */
     height: 100vh;
-    /* Sesuaikan dengan tinggi layar */
     position: fixed;
     left: 0;
     top: 0;
-    padding: 8px;
+    padding: 15px;
     border-right: 1px solid #ddd;
 }
 
-/* Konten utama */
-.card-body {
-    margin-left: 7cm;
-    /* Geser konten utama ke kanan */
-    width: calc(100% - 7cm);
+/* Konten Utama */
+.main-content {
+    margin-left: 4.7cm; /* Geser konten ke kanan 7 cm */
     padding: 20px;
+    width: calc(100% - 4.7cm); /* Sisakan ruang untuk sidebar */
 }
 
-/* Styling tabel */
-.table {
-    width: 100%;
-    border-collapse: collapse;
+/* Formulir */
+.form-group {
+    margin-bottom: 15px;
 }
 
-.table th,
-.table td {
-    text-align: center;
-    padding: 10px;
-    vertical-align: middle;
+/* Tombol */
+.btn-success {
+    background-color: #28a745;
+    margin:7px;
 }
 
-/* Gambar produk */
-.product-list-img img {
-    max-width: 150px;
-    height: auto;
+.btn-secondary {
+    background-color: #6c757d;
+    color: #fff;
+    margin:7px;
+}
+
+.btn:hover {
+    opacity: 0.9;
+}
+
+/* Gambar Produk */
+.img-thumbnail {
     border-radius: 5px;
     object-fit: cover;
-}
-
-/* Tombol aksi */
-.btn {
-    margin: 2px;
-}
-
-/* Tombol Tambah Produk */
-.btn-danger.text-white {
-    font-weight: bold;
-    padding: 8px 12px;
-    border-radius: 5px;
 }

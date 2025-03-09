@@ -2,77 +2,54 @@
 header('Content-Type: application/json');
 include('../../koneksi.php');
 
-header('Content-Type: application/json');
 header("Access-Control-Allow-Origin: *"); // Mengizinkan akses dari semua domain
-header("Access-Control-Allow-Methods: GET, POST, DELETE,PUT, OPTIONS"); // Izinkan metode GET dan POST
+header("Access-Control-Allow-Methods: GET, POST, DELETE, PUT, OPTIONS"); // Izinkan metode GET, POST, DELETE, PUT
 header("Access-Control-Allow-Headers: Content-Type, Authorization"); // Izinkan header tertentu
 
 // Fungsi untuk menambahkan postingan
-function addPost($judul, $isi, $kategori, $gambar, $db)
+function addPost($judul, $isi, $kategori, $gambarBase64, $db)
 {
     $tgl = date('Y-m-d');
-    $query = "INSERT INTO tbl_pos (judul, isi, gambar, id_kategori, tgl) VALUES ('$judul', '$isi', '$gambar', '$kategori', '$tgl')";
+    $query = "INSERT INTO tbl_pos (judul, isi, gambar, id_kategori, tgl) VALUES ('$judul', '$isi', '$gambarBase64', '$kategori', '$tgl')";
     return mysqli_query($db, $query);
 }
 
 // Menghandle request POST
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Mengecek apakah file gambar di-upload
-    if (isset($_FILES['gambar'])) {
-        $kategori = $_POST['kategori'];
-        $judul = $_POST['judul'];
-        $isi = $_POST['isi'];
+    // Mengambil input dari JSON
+    $inputJSON = file_get_contents("php://input");
+    $input = json_decode($inputJSON, true);
 
-        // Mendapatkan file gambar
-        $nmGambar = $_FILES['gambar']['name'];
-        $lokasi = $_FILES['gambar']['tmp_name'];
+    // Validasi input
+    if (!isset($input['judul']) || !isset($input['isi']) || !isset($input['kategori']) || !isset($input['gambar'])) {
+        echo json_encode([
+            'status' => 'error',
+            'message' => 'Kategori, Judul, Isi, dan Gambar harus diisi.'
+        ]);
+        exit();
+    }
 
-        // Validasi kategori, judul, isi, dan gambar
-        if (empty($kategori) || empty($judul) || empty($isi)) {
-            echo json_encode([
-                'status' => 'error',
-                'message' => 'Kategori, Judul, dan Isi harus diisi.'
-            ]);
-            exit();
-        }
+    $judul = $input['judul'];
+    $isi = $input['isi'];
+    $kategori = $input['kategori'];
+    $gambarBase64 = $input['gambar']; // Base64 image langsung disimpan di database
 
-        if (!empty($lokasi)) {
-            // Memindahkan gambar ke folder yang sesuai
-            if (move_uploaded_file($lokasi, "assets/images/foto_pos/" . $nmGambar)) {
-                // Menyimpan data postingan ke database
-                if (addPost($judul, $isi, $kategori, $nmGambar, $db)) {
-                    echo json_encode([
-                        'status' => 'success',
-                        'message' => 'Postingan berhasil ditambahkan.',
-                        'data' => [
-                            'judul' => $judul,
-                            'isi' => $isi,
-                            'kategori' => $kategori,
-                            'gambar' => $nmGambar
-                        ]
-                    ]);
-                } else {
-                    echo json_encode([
-                        'status' => 'error',
-                        'message' => 'Gagal menyimpan data postingan.'
-                    ]);
-                }
-            } else {
-                echo json_encode([
-                    'status' => 'error',
-                    'message' => 'Upload gambar gagal.'
-                ]);
-            }
-        } else {
-            echo json_encode([
-                'status' => 'error',
-                'message' => 'Gambar harus di-upload.'
-            ]);
-        }
+    // Menyimpan data ke database
+    if (addPost($judul, $isi, $kategori, $gambarBase64, $db)) {
+        echo json_encode([
+            'status' => 'success',
+            'message' => 'Postingan berhasil ditambahkan.',
+            'data' => [
+                'judul' => $judul,
+                'isi' => $isi,
+                'kategori' => $kategori,
+                'gambar' => 'Base64 image disimpan'
+            ]
+        ]);
     } else {
         echo json_encode([
             'status' => 'error',
-            'message' => 'Gambar belum di-upload.'
+            'message' => 'Gagal menyimpan data postingan.'
         ]);
     }
 }

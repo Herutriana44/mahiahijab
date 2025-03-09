@@ -16,7 +16,7 @@ export class CategoryService {
 
     addCategory(name: string): Observable<any> {
         const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-        const body = JSON.stringify({ name });
+        const body = JSON.stringify({ nama: name });
 
         return this.http.post(this.apiUrl, body, { headers });
     }

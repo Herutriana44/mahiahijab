@@ -7,12 +7,13 @@ header("Access-Control-Allow-Headers: Content-Type, Authorization"); // Izinkan 
 
 // Memulai sesi dan menghubungkan ke database
 session_start();
+include('../../koneksi.php');
 
 // Fungsi untuk mendapatkan daftar kategori
-function getAllCategories($conn)
+function getAllCategories($db)
 {
     $query = "SELECT * FROM tbl_kat_pos";
-    $result = mysqli_query($conn, $query);
+    $result = mysqli_query($db, $query);
     $categories = [];
 
     while ($data = mysqli_fetch_assoc($result)) {
@@ -23,23 +24,23 @@ function getAllCategories($conn)
 }
 
 // Fungsi untuk menambahkan kategori
-function addCategory($name, $conn)
+function addCategory($name, $db)
 {
     $query = "INSERT INTO tbl_kat_pos (nm_kategori) VALUES ('$name')";
-    return mysqli_query($conn, $query);
+    return mysqli_query($db, $query);
 }
 
 // Fungsi untuk menghapus kategori berdasarkan id_kategori
-function deleteCategory($id, $conn)
+function deleteCategory($id, $db)
 {
     $query = "DELETE FROM tbl_kat_pos WHERE id_kategori='$id'";
-    return mysqli_query($conn, $query);
+    return mysqli_query($db, $query);
 }
 
 // Mengambil daftar kategori (GET request)
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     // Mendapatkan semua kategori
-    $categories = getAllCategories($conn);
+    $categories = getAllCategories($db);
 
     if (count($categories) > 0) {
         echo json_encode([
@@ -61,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (isset($data['nama'])) {
         $name = $data['nama'];
-        $result = addCategory($name, $conn);
+        $result = addCategory($name, $db);
 
         if ($result) {
             echo json_encode([
@@ -88,7 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'DELETE') {
     $id = isset($_GET['id']) ? $_GET['id'] : null;
 
     if ($id) {
-        $result = deleteCategory($id, $conn);
+        $result = deleteCategory($id, $db);
 
         if ($result) {
             echo json_encode([

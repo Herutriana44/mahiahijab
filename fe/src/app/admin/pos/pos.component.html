@@ -3,7 +3,18 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <h5>Daftar Postingan</h5>
+                    <app-sidebar></app-sidebar>
+
+                    <!-- Tombol Tambah Produk di pojok kanan -->
+                    <div class="d-flex justify-content-end mb-3">
+                        <a (click)="onCategory()" class="btn btn-danger text-white btn-sm">
+                            <i class="mdi mdi-plus"></i> Kategori
+                        </a>
+                        <a (click)="onAddProduct()" class="btn btn-danger text-white btn-sm">
+                            <i class="mdi mdi-plus"></i> Tambah Pos
+                        </a>
+                    </div>
+
                     <table class="table table-striped">
                         <thead>
                             <tr>

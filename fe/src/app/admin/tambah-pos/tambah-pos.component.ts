@@ -3,10 +3,11 @@ import { PosService } from './post.service';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { SidebarComponent } from '../left-sidebar/left-sidebar.component';
 
 @Component({
   selector: 'admin-app-tambah-pos',
-  imports: [CommonModule, FormsModule, RouterModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, RouterModule, ReactiveFormsModule, SidebarComponent],
   templateUrl: './tambah-pos.component.html',
   styleUrl: './tambah-pos.component.css',
   standalone: true,

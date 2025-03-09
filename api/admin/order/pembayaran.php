@@ -4,7 +4,6 @@ header('Content-Type: application/json');
 
 // Memulai sesi dan menghubungkan ke database
 session_start();
-include('../includes/config.php');  // Pastikan Anda sudah menyiapkan koneksi ke DB dengan benar
 
 // Fungsi untuk mendapatkan data pembayaran berdasarkan id_order
 function getPaymentDetails($id_order, $conn)

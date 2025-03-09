@@ -4,7 +4,6 @@ session_start();
 
 header('Content-Type: application/json');
 // Membuat koneksi ke database
-include('../includes/config.php'); // Pastikan Anda sudah memiliki koneksi yang benar
 
 // Mendapatkan semua order
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {

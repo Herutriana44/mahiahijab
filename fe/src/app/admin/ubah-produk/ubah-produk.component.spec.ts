@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UbahProdukComponent } from './ubah-produk.component';
+import { AdminUbahProdukComponent } from './ubah-produk.component';
 
 describe('UbahProdukComponent', () => {
-  let component: UbahProdukComponent;
-  let fixture: ComponentFixture<UbahProdukComponent>;
+  let component: AdminUbahProdukComponent;
+  let fixture: ComponentFixture<AdminUbahProdukComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [UbahProdukComponent]
+      imports: [AdminUbahProdukComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(UbahProdukComponent);
+    fixture = TestBed.createComponent(AdminUbahProdukComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

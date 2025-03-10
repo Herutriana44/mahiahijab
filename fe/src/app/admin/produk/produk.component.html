@@ -47,7 +47,8 @@
                                 <td>Rp. {{ product.harga | number }}</td>
                                 <td>{{ product.stok }}</td>
                                 <td>
-                                    <a [routerLink]="['/edit-product', product.id_produk]" class="btn btn-warning btn-sm">
+                                    <a [routerLink]="['/edit-product', product.id_produk]"
+                                        class="btn btn-warning btn-sm">
                                         <i class="mdi mdi-pencil"></i> Edit
                                     </a>
                                     <button class="btn btn-danger btn-sm" (click)="deleteProduct(product.id_produk)">

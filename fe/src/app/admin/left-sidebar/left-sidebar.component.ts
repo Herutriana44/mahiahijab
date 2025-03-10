@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 export class SidebarComponent {
     activePage: string = '';
 
-    constructor(private router: Router) { }
+    constructor(public router: Router) { }
 
     onNavigate(route: string): void {
         this.activePage = route.split('/').pop() || '';

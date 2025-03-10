@@ -8,7 +8,7 @@ import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'admin-app-produk',
-  imports: [CommonModule, SidebarComponent,RouterModule],
+  imports: [CommonModule, SidebarComponent, RouterModule],
   templateUrl: './produk.component.html',
   styleUrl: './produk.component.css',
   standalone: true
@@ -17,7 +17,7 @@ export class AdminProdukComponent implements OnInit {
   productList: any[] = [];
   apiUrl = 'http://localhost/mahiahijab/api/admin/product/Product.php';
 
-  constructor(public http: HttpClient, private router: Router) { }
+  constructor(public http: HttpClient, public router: Router) { }
 
   ngOnInit(): void {
     this.getProducts();
@@ -72,6 +72,13 @@ export class AdminProdukComponent implements OnInit {
 
   onCategory(): void {
     this.router.navigate(['/admin/category']).then(() => {
+      console.log('Navigasi ke halaman pos');
+      window.location.reload();
+    });
+  }
+
+  onEdit(): void {
+    this.router.navigate(['/admin/edit-product']).then(() => {
       console.log('Navigasi ke halaman pos');
       window.location.reload();
     });

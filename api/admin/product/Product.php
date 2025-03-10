@@ -4,11 +4,22 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, DELETE, PUT, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
+// Handling OPTIONS request (for CORS preflight)
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit();
+}
+
 require "../../koneksi.php";
 
 // Fungsi untuk membuat produk baru
 function create_product($db, $data)
 {
+    if (!isset($data['id_kategori'], $data['nama'], $data['berat'], $data['harga'], $data['stok'], $data['deskripsi'], $data['img'])) {
+        echo json_encode(["status" => "error", "message" => "Data tidak lengkap"]);
+        return;
+    }
+
     $kategori = $data['id_kategori'];
     $nmProduk = $data['nama'];
     $berat = $data['berat'];
@@ -19,26 +30,19 @@ function create_product($db, $data)
     $namaFile = $data['img']['name'];
 
     if (!empty($gambar)) {
-        // Direktori penyimpanan gambar
         $folder = "../../../fe/src/assets/admin/assets/images/foto_produk/";
-        $filename = time() . "_" . $namaFile;
+        $filename = time() . "_" . basename($namaFile);
         $path = $folder . $filename;
 
-        // Decode Base64 ke file gambar
-        $decodedImage = base64_decode($gambar);
-        if (file_put_contents($path, $decodedImage)) {
-            // Simpan data produk ke database
+        if (file_put_contents($path, base64_decode($gambar))) {
             $query = "INSERT INTO tbl_produk (id_kategori, nm_produk, berat, harga, stok, gambar, deskripsi) 
                       VALUES (?, ?, ?, ?, ?, ?, ?)";
             $stmt = mysqli_prepare($db, $query);
             mysqli_stmt_bind_param($stmt, "isssiss", $kategori, $nmProduk, $berat, $harga, $stok, $filename, $deskripsi);
             $exec = mysqli_stmt_execute($stmt);
 
-            if ($exec) {
-                echo json_encode(["status" => "success", "message" => "Produk berhasil ditambahkan"]);
-            } else {
-                echo json_encode(["status" => "error", "message" => "Gagal menambahkan produk"]);
-            }
+            echo json_encode($exec ? ["status" => "success", "message" => "Produk berhasil ditambahkan"]
+                : ["status" => "error", "message" => "Gagal menambahkan produk"]);
         } else {
             echo json_encode(["status" => "error", "message" => "Gagal menyimpan gambar"]);
         }
@@ -48,8 +52,14 @@ function create_product($db, $data)
 }
 
 // Fungsi untuk memperbarui produk
-function update_product($db, $id, $data)
+function update_product($db, $data)
 {
+    if (!isset($data['id_produk'], $data['id_kategori'], $data['nama'], $data['berat'], $data['harga'], $data['stok'], $data['deskripsi'])) {
+        echo json_encode(["status" => "error", "message" => "Data tidak lengkap"]);
+        return;
+    }
+
+    $id = $data['id_produk'];
     $kategori = $data['id_kategori'];
     $nmProduk = $data['nama'];
     $berat = $data['berat'];
@@ -60,36 +70,28 @@ function update_product($db, $id, $data)
     $namaFile = isset($data['img']['name']) ? $data['img']['name'] : null;
 
     if ($gambar) {
-        // Simpan gambar baru
         $folder = "../../../fe/src/assets/admin/assets/images/foto_produk/";
-        $filename = time() . "_" . $namaFile;
+        $filename = time() . "_" . basename($namaFile);
         $path = $folder . $filename;
         file_put_contents($path, base64_decode($gambar));
 
-        // Update database dengan gambar baru
         $query = "UPDATE tbl_produk SET id_kategori=?, nm_produk=?, berat=?, harga=?, stok=?, gambar=?, deskripsi=? WHERE id_produk=?";
         $stmt = mysqli_prepare($db, $query);
         mysqli_stmt_bind_param($stmt, "isssissi", $kategori, $nmProduk, $berat, $harga, $stok, $filename, $deskripsi, $id);
     } else {
-        // Update database tanpa mengubah gambar
         $query = "UPDATE tbl_produk SET id_kategori=?, nm_produk=?, berat=?, harga=?, stok=?, deskripsi=? WHERE id_produk=?";
         $stmt = mysqli_prepare($db, $query);
         mysqli_stmt_bind_param($stmt, "isssisi", $kategori, $nmProduk, $berat, $harga, $stok, $deskripsi, $id);
     }
 
     $exec = mysqli_stmt_execute($stmt);
-
-    if ($exec) {
-        echo json_encode(["status" => "success", "message" => "Produk berhasil diperbarui"]);
-    } else {
-        echo json_encode(["status" => "error", "message" => "Gagal memperbarui produk"]);
-    }
+    echo json_encode($exec ? ["status" => "success", "message" => "Produk berhasil diperbarui"]
+        : ["status" => "error", "message" => "Gagal memperbarui produk"]);
 }
 
 // Fungsi untuk menghapus produk
 function delete_product($db, $id)
 {
-    // Ambil informasi gambar produk
     $query = "SELECT gambar FROM tbl_produk WHERE id_produk=?";
     $stmt = mysqli_prepare($db, $query);
     mysqli_stmt_bind_param($stmt, "i", $id);
@@ -98,22 +100,20 @@ function delete_product($db, $id)
     $produk = mysqli_fetch_assoc($result);
 
     if ($produk) {
-        // Hapus gambar dari folder jika ada
-        if (!empty($produk['gambar']) && file_exists($produk['gambar'])) {
-            unlink($produk['gambar']);
+        if (!empty($produk['gambar'])) {
+            $imagePath = "../../../fe/src/assets/admin/assets/images/foto_produk/" . $produk['gambar'];
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
         }
 
-        // Hapus produk dari database
         $query = "DELETE FROM tbl_produk WHERE id_produk=?";
         $stmt = mysqli_prepare($db, $query);
         mysqli_stmt_bind_param($stmt, "i", $id);
         $exec = mysqli_stmt_execute($stmt);
 
-        if ($exec) {
-            echo json_encode(["status" => "success", "message" => "Produk berhasil dihapus"]);
-        } else {
-            echo json_encode(["status" => "error", "message" => "Gagal menghapus produk"]);
-        }
+        echo json_encode($exec ? ["status" => "success", "message" => "Produk berhasil dihapus"]
+            : ["status" => "error", "message" => "Gagal menghapus produk"]);
     } else {
         echo json_encode(["status" => "error", "message" => "Produk tidak ditemukan"]);
     }
@@ -126,11 +126,8 @@ function get_all_products($db)
     $result = mysqli_query($db, $query);
     $products = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
-    if ($products) {
-        echo json_encode(["status" => "success", "products" => $products]);
-    } else {
-        echo json_encode(["status" => "error", "message" => "Produk tidak ditemukan"]);
-    }
+    echo json_encode($products ? ["status" => "success", "products" => $products]
+        : ["status" => "error", "message" => "Produk tidak ditemukan"]);
 }
 
 // Fungsi untuk mendapatkan produk berdasarkan ID
@@ -143,16 +140,12 @@ function get_product($db, $id)
     $result = mysqli_stmt_get_result($stmt);
     $product = mysqli_fetch_assoc($result);
 
-    if ($product) {
-        echo json_encode(["status" => "success", "product" => $product]);
-    } else {
-        echo json_encode(["status" => "error", "message" => "Produk tidak ditemukan"]);
-    }
+    echo json_encode($product ? ["status" => "success", "product" => $product]
+        : ["status" => "error", "message" => "Produk tidak ditemukan"]);
 }
 
 // Menangani request
 $request_method = $_SERVER['REQUEST_METHOD'];
-$id = isset($_GET['id']) ? $_GET['id'] : null;
 
 switch ($request_method) {
     case 'POST':
@@ -161,15 +154,12 @@ switch ($request_method) {
         break;
 
     case 'PUT':
-        if ($id) {
-            $data = json_decode(file_get_contents('php://input'), true);
-            update_product($db, $id, $data);
-        } else {
-            echo json_encode(["status" => "error", "message" => "ID produk diperlukan"]);
-        }
+        $data = json_decode(file_get_contents('php://input'), true);
+        update_product($db, $data);
         break;
 
     case 'DELETE':
+        $id = $_GET['id'] ?? null;
         if ($id) {
             delete_product($db, $id);
         } else {
@@ -178,11 +168,8 @@ switch ($request_method) {
         break;
 
     case 'GET':
-        if ($id) {
-            get_product($db, $id);
-        } else {
-            get_all_products($db);
-        }
+        $id = $_GET['id'] ?? null;
+        $id ? get_product($db, $id) : get_all_products($db);
         break;
 
     default:

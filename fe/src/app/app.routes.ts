@@ -40,6 +40,8 @@ import { AdminTambahPosComponent } from './admin/tambah-pos/tambah-pos.component
 import { AdminDetailOrderComponent } from './admin/detail-order/detail-order.component';
 import { AdminPembayaranComponent } from './admin/pembayaran/pembayaran.component';
 import { AdminEditOrderComponent } from './admin/edit-order/edit-order.component';
+import { AdminUbahPosComponent } from './admin/ubah-pos/ubah-pos.component';
+import { AdminUbahProdukComponent } from './admin/ubah-produk/ubah-produk.component';
 
 export const routes: Routes = [
     { path: '', component: IndexComponent },
@@ -66,13 +68,14 @@ export const routes: Routes = [
     { path: 'admin/login', component: AdminLoginComponent },
     { path: 'admin/pelanggan', component: AdminPelangganComponent },
     { path: 'admin/product', component: AdminProdukComponent },
-    { path: 'admin/edit-product/:id', component: AdminEditProductComponent },
+    { path: 'admin/edit-product/:id', component: AdminUbahProdukComponent },
     { path: 'admin/add-product', component: AdminAddProductComponent },
     { path: 'admin/dashboard', component: DashboardComponent },
     { path: 'admin/category', component: AdminTambahKategoriComponent },
     { path: 'admin/kategori-pos', component: AdminKategoriPosComponent },
     { path: 'admin/order', component: OrderComponent },
     { path: 'admin/pos', component: PosComponent },
+    { path: 'admin/edit-pos/:id', component: AdminUbahPosComponent },
     { path: 'admin/tambah-pos', component: AdminTambahPosComponent },
     { path: 'admin/order/:id', component: AdminDetailOrderComponent },
     { path: 'admin/pembayaran/:id', component: AdminPembayaranComponent },

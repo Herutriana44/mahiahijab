@@ -2,11 +2,13 @@
     <nav>
         <h3>MAHIAHIJAB</h3>
         <ul>
-            <li (click)="onNavigate('/admin/dashboard')" [class.active]="activePage === 'dashboard'">Dashboard</li>
-            <li (click)="onNavigate('/admin/pos')" [class.active]="activePage === 'postingan'">Postingan</li>
-            <li (click)="onNavigate('/admin/product')" [class.active]="activePage === 'produk'">Produk</li>
-            <li (click)="onNavigate('/admin/pelanggan')" [class.active]="activePage === 'pelanggan'">Pelanggan</li>
-            <li (click)="onNavigate('/admin/order')" [class.active]="activePage === 'order'">Order</li>
+            <li (click)="router.navigate(['/admin/dashboard'])" [class.active]="activePage === 'dashboard'">Dashboard
+            </li>
+            <li (click)="router.navigate(['/admin/pos'])" [class.active]="activePage === 'postingan'">Postingan</li>
+            <li (click)="router.navigate(['/admin/product'])" [class.active]="activePage === 'produk'">Produk</li>
+            <li (click)="router.navigate(['/admin/pelanggan'])" [class.active]="activePage === 'pelanggan'">Pelanggan
+            </li>
+            <li (click)="router.navigate(['/admin/order'])" [class.active]="activePage === 'order'">Order</li>
             <li (click)="onLogout()" class="logout">Logout</li>
         </ul>
     </nav>

@@ -70,7 +70,7 @@ export class OrderComponent implements OnInit {
     }
 
     goToPaymentDetail(id: number): void {
-        this.router.navigate([`/admin/pembayaran/${id}`]).then(() => {
+        this.router.navigate([`/admin/edit-order/${id}`]).then(() => {
             console.log('Navigasi ke halaman detail order');
             window.location.reload();
         });

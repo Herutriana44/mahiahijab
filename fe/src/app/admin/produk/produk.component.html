@@ -47,7 +47,7 @@
                                 <td>Rp. {{ product.harga | number }}</td>
                                 <td>{{ product.stok }}</td>
                                 <td>
-                                    <a [routerLink]="['/edit-product', product.id_produk]"
+                                    <a (click)="router.navigate(['/admin/edit-product', product.id_produk])"
                                         class="btn btn-warning btn-sm">
                                         <i class="mdi mdi-pencil"></i> Edit
                                     </a>

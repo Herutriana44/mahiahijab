@@ -94,7 +94,7 @@ export class AdminUbahProdukComponent implements OnInit {
         response => {
           console.log(response);
           alert('Produk berhasil diperbarui!');
-          this.router.navigate(['/admin/product']);
+          // this.router.navigate(['/admin/product']);
         },
         error => console.error('Gagal mengupdate produk:', error)
       );

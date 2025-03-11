@@ -62,7 +62,7 @@ export class AdminAddProductComponent implements OnInit {
       const reader = new FileReader();
       reader.onload = (e: any) => {
         this.productForm.patchValue({
-          img: { name: file.name, data: e.target.result as string }
+          img: { name: file.name, data: reader.result as string }
         });
         this.previewImage = e.target.result; // Menampilkan preview
       };

@@ -50,7 +50,7 @@ $data = mysqli_fetch_assoc($result);
 $totalOrder = $data['total_order'];
 
 // Validasi jumlah transfer
-if ((int)$jml !== (int)$totalOrder) {
+if ((int) $jml !== (int) $totalOrder) {
     $response['status'] = 'error';
     $response['message'] = 'Jumlah yang Anda transfer tidak sesuai dengan total order.';
     echo json_encode($response);
@@ -59,7 +59,7 @@ if ((int)$jml !== (int)$totalOrder) {
 
 // Proses penyimpanan bukti transfer (base64 ke file)
 $fileName = uniqid('bukti_', true) . '.png';
-$uploadDir = '../assets/img/bukti-transfer/';
+$uploadDir = '../../fe/src/assets/img/bukti-transfer/';
 $filePath = $uploadDir . $fileName;
 
 // Pastikan folder tujuan ada

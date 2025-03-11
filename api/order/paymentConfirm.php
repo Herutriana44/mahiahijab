@@ -34,7 +34,7 @@ if ($jml != $data['total_order']) {
     $response['message'] = 'Jumlah Yang Anda Bayarkan Tidak Sesuai';
 } elseif (!empty($lokasi)) { // Jika file gambar tidak kosong
     // Memindah file gambar dari folder sementara ke folder tujuan
-    $uploadDir = "assets/img/bukti-transfer/";
+    $uploadDir = '../../fe/src/assets/img/bukti-transfer/';
     move_uploaded_file($lokasi, $uploadDir . $nmGambar);
 
     // Menyimpan data pembayaran ke tabel tbl_pembayaran

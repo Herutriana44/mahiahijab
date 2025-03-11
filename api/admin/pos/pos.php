@@ -27,12 +27,7 @@ function deletePost($id, $db)
     return mysqli_query($db, $query);
 }
 
-// Fungsi untuk menghapus kategori
-function deleteCategory($id, $db)
-{
-    $query = "DELETE FROM tbl_kat_pos WHERE id_kategori='$id'";
-    return mysqli_query($db, $query);
-}
+
 
 // Mengambil daftar postingan (GET request)
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {

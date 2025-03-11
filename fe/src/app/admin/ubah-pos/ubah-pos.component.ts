@@ -84,7 +84,7 @@ export class AdminUbahPosComponent implements OnInit {
       (response) => {
         console.log(response);
         alert('Postingan berhasil diubah!');
-        // this.router.navigate(['/admin/pos']);
+        this.router.navigate(['/admin/pos']);
       },
       (error) => console.error('Gagal mengubah postingan', error)
     );

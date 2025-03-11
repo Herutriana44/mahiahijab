@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common'; // Tambahkan CommonModule
 import { LogoutService } from '../logout/logout.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
     selector: 'app-sidebar',
@@ -11,10 +12,17 @@ import { LogoutService } from '../logout/logout.service';
     imports: [CommonModule], // Daftarkan modul CommonModule
     providers: [LogoutService], // Daftarkan LogoutService di sini
 })
-export class SidebarComponent {
+export class SidebarComponent implements OnInit, AfterViewInit {
     activePage: string = '';
 
-    constructor(public router: Router, private logoutService: LogoutService) {}
+    constructor(public router: Router, private logoutService: LogoutService, private http: HttpClient) { }
+    ngAfterViewInit(): void {
+        throw new Error('Method not implemented.');
+    }
+
+    ngOnInit(): void {
+        this.checkLogin();
+    }
 
     onNavigate(route: string): void {
         this.activePage = route.split('/').pop() || '';
@@ -28,5 +36,25 @@ export class SidebarComponent {
         if (confirm('Yakin ingin logout?')) {
             this.logoutService.logout();
         }
+    }
+
+    checkLogin(): void {
+        this.http.get<any>('http://localhost/mahiahijab/api/admin/auth/check.php', { withCredentials: true })
+            .subscribe({
+                next: (response) => {
+                    if (response.status != 'success') {
+                        this.redirectToLogin();
+                    }
+                },
+                error: (err) => {
+                    console.error('Gagal memeriksa sesi', err);
+                    this.redirectToLogin();
+                }
+            });
+    }
+
+    redirectToLogin(): void {
+        alert('Silakan login terlebih dahulu!');
+        this.router.navigate(['/admin/login']);
     }
 }

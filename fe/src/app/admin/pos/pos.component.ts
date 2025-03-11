@@ -14,7 +14,7 @@ import { SidebarComponent } from '../left-sidebar/left-sidebar.component';
 export class PosComponent implements OnInit {
   posts: any[] = [];
 
-  constructor(private postService: PostService, private router: Router) { }
+  constructor(private postService: PostService, public router: Router) { }
 
   ngOnInit() {
     this.loadPosts();

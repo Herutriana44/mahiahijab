@@ -39,7 +39,8 @@
                                 <td>{{ post.nm_kategori }}</td>
                                 <td>{{ post.tgl | date: 'dd/MM/yyyy' }}</td>
                                 <td>
-                                    <a [routerLink]="['/ubah-pos', post.id_pos]" class="btn btn-warning btn-sm">
+                                    <a (click)="router.navigate(['/admin/edit-pos', post.id_pos])"
+                                        class="btn btn-warning btn-sm">
                                         Edit
                                     </a>
                                     <button class="btn btn-danger btn-sm" (click)="deletePost(post.id_pos)">

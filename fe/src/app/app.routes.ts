@@ -10,7 +10,6 @@ import { IndexComponent } from './index/index.component';
 
 import { LoginComponent } from './login/login.component';
 
-import { GalleryComponent } from './gallery/gallery.component';
 import { NotaOrderComponent } from './nota-order/nota-order.component';
 import { BlogComponent } from './blog/blog.component';
 import { SignupComponent } from './signup/signup.component';
@@ -49,7 +48,6 @@ export const routes: Routes = [
     { path: 'login', component: LoginComponent },
     { path: 'lupa-password', component: LupaPasswordComponent },
 
-    { path: 'gallery', component: GalleryComponent },
     { path: 'blog', component: BlogComponent },
     { path: 'signup', component: SignupComponent },
     { path: 'index', component: IndexComponent },
